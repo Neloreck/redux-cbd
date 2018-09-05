@@ -2,7 +2,7 @@
   "name": "redux-cbd",
   "version": "1.0.0",
   "description": "Declarative class-based annotations for redux.",
-  "main": "./target/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "npm test",
     "build": "tsc -p ./src/tsconfig.json",
