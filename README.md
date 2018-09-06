@@ -20,30 +20,32 @@ npm install --save redux-cbd
 - Package uses expirementalDecorators features.
 
 ## Setup
+    
+    1) Install package.
+    2) Configure typescript. You should turn on "emitDecoratorMetadata" and "experimentalDecorators" for compiler(*1).
+    3) Create some actions (extend simple, complex, async) with @ActionWired annotation.
+    4) Create related reducer(extend ReflectiveReducer) with proper @ActionHandlers.
+    5) Create rootReducer, that includes reflectiveReducers. Declare storeState interface.
+    6) Create store, based on root reducer. Include cbdMiddleware there (*2).
+    6) Create @ReduxConnect decorator (optional).
+    7) Connect component and use props and actions.
+    
+    (*1) and (*2) are the most important steps.
 
-1) Install package.
-2) Configure typescript. You should turn on "emitDecoratorMetadata" and "experimentalDecorators" for compiler(*1).
-3) Create some actions (extend simple, complex, async) with @ActionWired annotation.
-4) Create related reducer(extend ReflectiveReducer) with proper @ActionHandlers.
-5) Create rootReducer, that includes reflectiveReducers. Declare storeState interface.
-6) Create store, based on root reducer. Include cbdMiddleware there (*2).
-6) Create @ReduxConnect decorator (optional).
-7) Connect component and use props and actions.
+tsconfig.json: <br/>
 
-(*1) and (*2) are the most important steps.
-
-tsconfig.json:
-{
-  "compilerOptions": {
-    ...
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    ...
-}
+    {
+        "compilerOptions": { 
+            ... 
+            "emitDecoratorMetadata": true, 
+            "experimentalDecorators": true, 
+            ... 
+        }
+    }
 
 <hr/>
 
-## Fast example:
+## Quick example:
 
 State:
 
