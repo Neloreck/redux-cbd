@@ -5,7 +5,7 @@ import {createReflectiveReducer} from "../utils";
 type actionFunc<T> = (s: T, a: SimpleAction) => T;
 type asFunctional<T> = (s: T, c: IReducerConfig) => ((prevState: T, action: SimpleAction) => T );
 
-export abstract class AbstractReducer<T> {
+export abstract class ReflectiveReducer<T> {
 
   [index: string]: actionFunc<T> | asFunctional<T>;
 

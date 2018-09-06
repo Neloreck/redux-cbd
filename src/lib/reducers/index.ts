@@ -1,2 +1,2 @@
-export {AbstractReducer} from "./AbstractReducer";
+export {ReflectiveReducer} from "./ReflectiveReducer";
 export {IReducerConfig} from "./IReducerConfig";

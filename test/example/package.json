@@ -2,7 +2,7 @@
   "name": "redux-cbd-example",
   "author": "Syrotenko Igor",
   "private": false,
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "src/index.tsx",
   "scripts": {
     "start": "npx webpack-dev-server",
