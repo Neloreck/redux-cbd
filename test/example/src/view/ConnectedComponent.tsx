@@ -41,8 +41,8 @@ export class ConnectedComponent extends Component<IConnectedComponentProps> {
 
         <div>
           <b>Test Reducer:</b> <br/>
-          [testLoading]: {testLoading} ; <br/>
-          [testValue]: {testValue} ; <br/>
+          [testLoading]: {testLoading.toString()} ; <br/>
+          [testValue]: {testValue.toString()} ; <br/>
         </div>
 
         <br/>

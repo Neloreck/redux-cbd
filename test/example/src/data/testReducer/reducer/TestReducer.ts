@@ -9,7 +9,7 @@ export class TestReducer extends AbstractReducer<TestState>  {
 
   @ActionHandler
   public changeTestNumberGot(state: TestState, action: SyncTestAction): TestState {
-    return { ...state, testNumber: action.payload.test, testLoading: true };
+    return { ...state, testNumber: action.payload.test, testLoading: false };
   }
 
   @ActionHandler

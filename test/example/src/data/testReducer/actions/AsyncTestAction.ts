@@ -7,7 +7,7 @@ import {SyncTestAction} from "./SyncTestAction";
 export class AsyncTestAction extends AsyncReduxAction {
 
   public readonly payload: { loading: boolean } = {
-    loading: false
+    loading: true
   };
 
   public constructor(delay: number) {
