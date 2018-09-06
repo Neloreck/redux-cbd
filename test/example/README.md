@@ -47,6 +47,7 @@ tsconfig.json: <br/>
 
 ## Quick example:
 
+<br/>
 State:
 
 ```
@@ -60,6 +61,7 @@ export class DemoReducerState {
 
 ```
 
+<br/>
 Reducer:
 
 ```
@@ -90,6 +92,7 @@ export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 
 ```
 
+<br/>
 Actions:
 
 ```
@@ -151,6 +154,8 @@ export class AsyncDemoAction extends AsyncAction {
 }
 
 ```
+
+<br/>
 
 ## Documentation:
 
