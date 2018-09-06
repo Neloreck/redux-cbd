@@ -1,4 +1,4 @@
-# <a href='http://redux.js.org'> 🗻 Redux CBD </a>
+# <a href='https://www.npmjs.com/package/redux-cbd'> 🗻 Redux CBD </a>
 
 <hr/>
 
