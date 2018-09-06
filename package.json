@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "reflect-metadata": "^0.1.9",
-    "redux": "^4.0.0",
+    "re dux": "^4.0.0",
     "react": "16.4.2",
     "react-redux": "^5.0.7"
   },

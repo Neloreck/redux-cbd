@@ -1,5 +1,6 @@
 import {ActionType} from "redux-cbd";
-import {AsyncReduxAction} from "../../lib";
+
+import {AsyncReduxAction} from "../../redux/AsyncReduxAction";
 import {SyncTestAction} from "./SyncTestAction";
 
 @ActionType("ASYNC_TEST_ACTION")
@@ -16,7 +17,7 @@ export class AsyncTestAction extends AsyncReduxAction {
     this.sendNewActionAsync(delay);
   }
 
-  private sendNewActionAsync(delay): void {
+  private sendNewActionAsync(delay: number): void {
     new Promise((resolve) => setTimeout(resolve, delay))
     .then(() => this.dispatch(new SyncTestAction(Math.random())));
   }
