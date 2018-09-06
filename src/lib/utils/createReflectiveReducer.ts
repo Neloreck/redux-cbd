@@ -1,5 +1,5 @@
 import {Action} from "redux";
-import {AbstractReducer, IReducerConfig} from "../";
+import {AbstractReducer, IReducerConfig} from "../../index";
 
 function getReducerMethods <Reducer extends AbstractReducer<State>, State>(reducerInstance: Reducer) {
   const prototype = Object.getPrototypeOf(reducerInstance);
@@ -22,20 +22,22 @@ interface IMethods<State> {
   [key: string]: (state: State, payload: any) => State;
 }
 
-export function createReflectiveReducer <Reducer extends AbstractReducer<State>, State>(
-  instance: Reducer, defaultState: State, options: IReducerConfig) {
+export function createReflectiveReducer <ReducerType extends AbstractReducer<StateType>, StateType>(
+  reducerInstance: ReducerType, defaultState: StateType, options: IReducerConfig) {
 
-  const reducers = getReducerMethods<Reducer, State>(instance);
+  const reducersMethods = getReducerMethods<ReducerType, StateType>(reducerInstance);
 
-  return (prevState: State = defaultState, action: Action): State => {
+  return (prevState: StateType = defaultState, action: Action): StateType => {
+
+    console.error(prevState, action);
 
     if (options.freezeState) {
       Object.freeze(prevState);
     }
 
-    const fn = reducers[action.type];
+    const fn = reducersMethods[action.type];
     const exists = fn && typeof fn === "function";
-    const reducer = exists ? (...args: Array<any>): State => fn.apply(instance, args) : undefined;
+    const reducer = exists ? (...args: Array<any>): StateType => fn.apply(reducerInstance, args) : undefined;
 
     return reducer ? reducer(prevState, action) : prevState;
   };

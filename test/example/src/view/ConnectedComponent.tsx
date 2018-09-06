@@ -1,55 +1,85 @@
 import * as React from "react";
 import {Component} from "react";
+import {Action} from "redux";
 
 import {ReduxConnect} from "../data/redux/ReduxConnect";
+import {IReduxStoreState} from "../data/redux/IReduxStoreState";
 
-import {AsyncTestAction} from "../data/testReducer/actions/AsyncTestAction";
-import {SyncTestAction} from "../data/testReducer/actions/SyncTestAction";
+import {AsyncDemoAction} from "../data/demo/actions/AsyncDemoAction";
+import {SimpleDemoAction} from "../data/demo/actions/SimpleDemoAction";
+import {ComplexDemoAction} from "../data/demo/actions/ComplexDemoAction";
+
+/*
+ * Connected component example.
+ * IConnectedComponentStoreProps --> Props, injected from store state.
+ * IConnectedComponentStoreProps --> Actions, based on second connect parameters.
+ * IConnectedComponentProps --> Composite props, can get some additional props from other components there.
+ *
+ * Second param of decorator is optional. If you need actions only, leave first param as empty arrow func.
+ */
 
 interface IConnectedComponentStoreProps {
-  testValue: number;
-  testLoading: boolean;
+  demoLoading: boolean;
+  demoNumber: number;
 }
 
 interface IConnectedComponentDispatchProps {
-  syncTestAction: (num: number) => any;
-  asyncTestAction: (num: number) => any;
+  simpleDemoAction: (num: number) => any;
+  asyncDemoAction: (num: number) => any;
+  complexDemoAction: (num: number) => any;
 }
 
 export interface IConnectedComponentProps extends IConnectedComponentStoreProps, IConnectedComponentDispatchProps {
 }
 
 @ReduxConnect<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentProps>(
-  (store) => {
+  // State is strict-typed there.
+  (store: IReduxStoreState) => {
     return {
-      testLoading: store.testReducer.testLoading,
-      testValue: store.testReducer.testNumber
+      demoLoading: store.demoReducer.loading,
+      demoNumber: store.demoReducer.storedNumber
     };
   }, {
-    syncTestAction: (num: number) => new SyncTestAction(num),
-    asyncTestAction: (num: number) => new AsyncTestAction(num)
+    // Returned value will be dispatched.
+    simpleDemoAction: (num: number) => new SimpleDemoAction(num),
+    complexDemoAction: (num: number) => new ComplexDemoAction(num),
+    asyncDemoAction: (num: number) => new AsyncDemoAction(num)
   })
 export class ConnectedComponent extends Component<IConnectedComponentProps> {
 
-  render(): JSX.Element {
-    const {testLoading, testValue, syncTestAction, asyncTestAction} = this.props;
+  public static readonly actionsLog: Array<Action> = [];
+
+  public renderLog(): JSX.Element[] {
+    return ConnectedComponent.actionsLog.map((item, idx) => <div key={idx}> {JSON.stringify(item)} </div>);
+  }
+
+  public render(): JSX.Element {
+    const {simpleDemoAction, asyncDemoAction, complexDemoAction, demoLoading, demoNumber} = this.props;
+    const paddingStyle = { padding: "10px" };
 
     return (
-      <div>
+      <div style={paddingStyle}>
 
         <h2> Simple demo: </h2>
 
-        <div>
-          <b>Test Reducer:</b> <br/>
-          [testLoading]: {testLoading.toString()} ; <br/>
-          [testValue]: {testValue.toString()} ; <br/>
+        <div style={paddingStyle}>
+          <b>Demo Reducer:</b> <br/> <br/>
+
+          [testLoading]: {demoLoading.toString()} ; <br/>
+          [testValue]: {demoNumber.toString()} ; <br/>
         </div>
 
         <br/>
 
+        <div style={paddingStyle}>
+          <button onClick={() => simpleDemoAction(Math.random())}>Send Sync Action</button>
+          <button onClick={() => asyncDemoAction(1000 + Math.random() * 1500)}>Send Async Action</button>
+          <button onClick={() => complexDemoAction(Math.random() * 10 + 1)}>Send Complex Action</button>
+        </div>
+
         <div>
-          <button onClick={() => syncTestAction(Math.random())}>Send Sync Action</button>
-          <button onClick={() => asyncTestAction(2000)}>Send Async Action</button>
+          <h2>Actions log:</h2>
+          {this.renderLog()}
         </div>
 
       </div>

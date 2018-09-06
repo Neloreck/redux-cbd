@@ -16,7 +16,7 @@ export class WebpackConfig {
   };
 
   entry = [
-    path.resolve(projectRoot, 'src/main.tsx')
+    path.resolve(projectRoot, 'src/main.ts')
   ];
 
   output = {

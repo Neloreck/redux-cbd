@@ -1,8 +1,9 @@
 {
   "name": "redux-cbd",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Declarative class-based annotations for redux.",
   "main": "./index.js",
+  "private": false,
   "scripts": {
     "test": "npm test",
     "build": "tsc -p ./src/tsconfig.json",
@@ -16,7 +17,7 @@
   "author": "Syrotenko Igor",
   "license": "MIT",
   "bugs": {
-    "url": "hhttps://github.com/neloreck/redux-cbd/issues"
+    "url": "https://github.com/neloreck/redux-cbd/issues"
   },
   "homepage": "https://github.com/neloreck/redux-cbd#readme",
   "peerDependencies": {
@@ -24,7 +25,7 @@
   },
   "dependencies": {
     "reflect-metadata": "^0.1.9",
-    "re dux": "^4.0.0",
+    "redux": "^4.0.0",
     "react": "16.4.2",
     "react-redux": "^5.0.7"
   },
