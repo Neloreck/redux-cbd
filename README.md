@@ -152,6 +152,8 @@ export class AsyncDemoAction extends AsyncAction {
 ```
 
 <br/>
+Store:
+<br/>
 
 ```
 import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware} from "redux";
