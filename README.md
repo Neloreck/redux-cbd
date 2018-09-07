@@ -3,9 +3,9 @@
 <hr/>
 
 Typescript decorators\annotations for <a href='https://github.com/reduxjs/redux'> redux</a>. <br/>
-Allows you to write more declarative code related to your data storage with strict and predictive typing. 
+Allows you to write class-based declarations of your data storage with strict and predictive typing. 
 
-Intended to be used with react, but can be mixed with any framework supporting typescript.
+Intended to be used with react, but can be mixed with any framework.
 
 <hr/>
 
