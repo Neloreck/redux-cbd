@@ -60,6 +60,7 @@ export class DemoReducerState {
 
 <br/>
 Reducer:
+<br/> <br/>
 
 ```
 import {ReflectiveReducer, ActionHandler} from "redux-cbd";
@@ -89,6 +90,7 @@ export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 
 <br/>
 Actions:
+<br/> <br/>
 
 ```
 import {ActionWired, AsyncAction, SimpleAction} from "redux-cbd";
