@@ -47,25 +47,21 @@ tsconfig.json: <br/>
 
 ## Quick example:
 
-<br/>
 State:
 
 ```
-
 export class DemoReducerState {
 
   public storedNumber: number = 0;
   public loading: boolean = false;
 
 }
-
 ```
 
 <br/>
 Reducer:
 
 ```
-
 import {ReflectiveReducer, ActionHandler} from "redux-cbd";
 
 import {AsyncDemoAction, AsyncDemoActionSuccess, SimpleDemoAction} from "../actions";
@@ -89,7 +85,6 @@ export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
   }
 
 }
-
 ```
 
 <br/>
@@ -152,9 +147,7 @@ export class AsyncDemoAction extends AsyncAction {
   /*  public afterError(error: Error) { return new .......... } */
 
 }
-
 ```
-
 <br/>
 
 ## Documentation:
