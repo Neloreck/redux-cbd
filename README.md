@@ -150,7 +150,45 @@ export class AsyncDemoAction extends AsyncAction {
 
 }
 ```
+
 <br/>
+
+```
+import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware} from "redux";
+import {cbdMiddleware} from "redux-cbd";
+
+import {IReduxStoreState} from "./IReduxStoreState";
+
+import {DemoReducerState} from "../demo/state/DemoReducerState";
+import {DemoReducer} from "../demo/reducer/DemoReducer";
+
+export class ReduxStoreManager {
+
+  private static store: Store<IReduxStoreState, Action<any>> & { dispatch: () => {} };
+
+  private static createStore(): Store<IReduxStoreState, Action<any>> & { dispatch: () => {} } {
+    const middlewares: Array<Middleware> = [cbdMiddleware, logInConnectedComponentMiddleware];
+    return createStore(ReduxStoreManager.createRootReducer(), applyMiddleware(...middlewares));
+  }
+
+  private static createRootReducer() {
+    return combineReducers( {
+      demoReducer: new DemoReducer().asFunctional(new DemoReducerState(), { freezeState: true }),
+    });
+  }
+
+  public getStore(): Store<IReduxStoreState, Action<any>> & { dispatch: () => {} } {
+
+    if (!ReduxStoreManager.store) {
+      ReduxStoreManager.store = ReduxStoreManager.createStore();
+    }
+
+    return ReduxStoreManager.store;
+  }
+
+}
+
+```
 
 ## Documentation:
 
