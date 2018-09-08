@@ -5,9 +5,7 @@ import {Action} from "redux";
 import {ReduxConnect} from "../data/redux/ReduxConnect";
 import {IReduxStoreState} from "../data/redux/IReduxStoreState";
 
-import {AsyncDemoAction} from "../data/demo/actions/AsyncDemoAction";
-import {SimpleDemoAction} from "../data/demo/actions/SimpleDemoAction";
-import {ComplexDemoAction} from "../data/demo/actions/ComplexDemoAction";
+import {AsyncDemoAction, SimpleDemoAction, ComplexDemoAction} from "../data/demo/actions";
 
 /*
  * Connected component example.

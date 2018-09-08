@@ -12,7 +12,7 @@ export abstract class AsyncAction extends SimpleAction {
   }
 
   // Do some complex things after dispatch based on own params.
-  public async abstract act(): Promise<any>;
+  public abstract act(): Promise<any>;
 
   public abstract afterSuccess(result: any): SimpleAction;
 

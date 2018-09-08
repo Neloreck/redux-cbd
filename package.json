@@ -1,19 +1,20 @@
 {
   "name": "redux-cbd",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Declarative class-based annotations for redux.",
   "main": "./index.js",
   "private": false,
   "scripts": {
     "test": "npm test",
-    "build": "tsc -p ./src/tsconfig.json",
+    "build": "tsc -p ./src@bundled/tsconfig.json",
     "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/neloreck/redux-cbd.git"
   },
-  "keywords": [],
+  "keywords": ["redux", "typescript", "reflection", "metadata", "declarative", "redux-cbd", "reflect-metadata",
+  "class-based", "reducers", "actions"],
   "author": "Syrotenko Igor",
   "license": "MIT",
   "bugs": {

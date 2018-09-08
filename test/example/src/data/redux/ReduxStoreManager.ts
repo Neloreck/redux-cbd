@@ -1,5 +1,4 @@
-import {Action, combineReducers, Store} from "redux";
-import {applyMiddleware, createStore, Middleware} from "redux";
+import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware} from "redux";
 import {cbdMiddleware} from "redux-cbd";
 
 // Whole store bundle interface.
