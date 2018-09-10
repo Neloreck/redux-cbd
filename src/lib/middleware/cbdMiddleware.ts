@@ -1,7 +1,7 @@
-import {Dispatch, Store} from "redux";
+import {Dispatch, MiddlewareAPI} from "redux";
 import {SimpleAction, EActionType, AsyncAction, ComplexAction} from "../actions";
 
-export const cbdMiddleware = (store: Store) => (next: Dispatch) => (action: SimpleAction & AsyncAction
+export const cbdMiddleware = (middlewareAPI: MiddlewareAPI) => (next: Dispatch) => (action: SimpleAction & AsyncAction
   & ComplexAction) => {
 
   const actionType: EActionType = (Object.getPrototypeOf(action).constructor.getInternalType &&
@@ -17,7 +17,7 @@ export const cbdMiddleware = (store: Store) => (next: Dispatch) => (action: Simp
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
     case EActionType.ASYNC_ACTION:
-      setTimeout(() => action.act().then(action.afterSuccess).catch(action.afterError).then(store.dispatch));
+      setTimeout(() => action.act().then(action.afterSuccess).catch(action.afterError).then(middlewareAPI.dispatch));
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
     default:

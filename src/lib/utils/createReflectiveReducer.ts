@@ -1,7 +1,8 @@
-import {Action} from "redux";
-import {ReflectiveReducer, IReducerConfig} from "../../index";
+import {Action, Reducer} from "redux";
+import {ReflectiveReducer, IReducerConfig} from "../reducers";
+import {reducerMap} from "../reducers/ReflectiveReducer";
 
-function getReducerMethods <Reducer extends ReflectiveReducer<State>, State>(reducerInstance: Reducer) {
+function getReducerMethods <Reducer extends ReflectiveReducer<State>, State>(reducerInstance: Reducer): reducerMap<State> {
   const prototype = Object.getPrototypeOf(reducerInstance);
   const methods = Object.getOwnPropertyNames(prototype);
 
@@ -23,7 +24,7 @@ interface IMethods<State> {
 }
 
 export function createReflectiveReducer <ReducerType extends ReflectiveReducer<StateType>, StateType>(
-  reducerInstance: ReducerType, defaultState: StateType, options: IReducerConfig) {
+  reducerInstance: ReducerType, defaultState: StateType, options: IReducerConfig): Reducer<StateType, Action> {
 
   const reducersMethods = getReducerMethods<ReducerType, StateType>(reducerInstance);
 

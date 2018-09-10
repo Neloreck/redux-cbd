@@ -31,7 +31,7 @@ export class ReduxStoreManager {
     // reducers created in a default way are supposed to work as intended
 
     return combineReducers( {
-      demoReducer: new DemoReducer().asFunctional(new DemoReducerState(), { freezeState: true }),
+      demoReducer: new DemoReducer().asFunctional(new DemoReducerState(), { freezeState: true })
     });
   }
 

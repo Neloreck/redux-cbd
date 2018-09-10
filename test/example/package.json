@@ -2,7 +2,7 @@
   "name": "redux-cbd-example",
   "author": "Syrotenko Igor",
   "private": false,
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "src/index.tsx",
   "scripts": {
     "start": "npx webpack-dev-server",
@@ -36,7 +36,7 @@
     "react-dom": "^16.4.2",
     "redux": "^4.0.0",
     "react-redux": "^5.0.7",
-    "redux-cbd": "^1.2.2"
+    "redux-cbd": "^1.2.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

@@ -1,9 +1,8 @@
 import "reflect-metadata";
 
+import {Action, Dispatch, Store, Reducer} from "redux";
 import * as React from "react";
 import {connect as originalConnect, MapDispatchToPropsParam, MapStateToPropsParam, MergeProps, Options} from "react-redux";
-
-import {Action, Dispatch, Store} from "redux";
 
 // === Annotations ===
 
@@ -116,14 +115,17 @@ export interface IReducerConfig {
   freezeState: boolean;
 }
 
-type actionHandlerFunc<T> = (s: T, a: SimpleAction) => T;
-type asFunctional<T> = (s: T, c: IReducerConfig) => ((prevState: T, action: SimpleAction) => T );
+export type actionHandlerFunc<T> = (s: T, a: SimpleAction) => T;
+export type asFunctional<T> = (s: T, c: IReducerConfig) => ((prevState: T, action: SimpleAction) => T );
+export type reducerMap<T> = {
+  [index: string]: actionHandlerFunc<T> | asFunctional<T>
+}
 
 export abstract class ReflectiveReducer<T> {
 
   [index: string]: actionHandlerFunc<T> | asFunctional<T>;
 
-  public asFunctional(defaultState: T, config: IReducerConfig): (prevState: T, action: SimpleAction) => T {
+  public asFunctional(defaultState: T, config: IReducerConfig): Reducer<T, Action> {
     return createReflectiveReducer(this, defaultState, config);
   }
 
@@ -131,7 +133,7 @@ export abstract class ReflectiveReducer<T> {
 
 // === Reducers ===
 
-function getReducerMethods <Reducer extends ReflectiveReducer<State>, State>(reducerInstance: Reducer) {
+function getReducerMethods <Reducer extends ReflectiveReducer<State>, State>(reducerInstance: Reducer): reducerMap<State> {
   const prototype = Object.getPrototypeOf(reducerInstance);
   const methods = Object.getOwnPropertyNames(prototype);
 
@@ -149,7 +151,7 @@ function getReducerMethods <Reducer extends ReflectiveReducer<State>, State>(red
 }
 
 export function createReflectiveReducer <ReducerType extends ReflectiveReducer<StateType>, StateType>(
-  reducerInstance: ReducerType, defaultState: StateType, options: IReducerConfig) {
+  reducerInstance: ReducerType, defaultState: StateType, options: IReducerConfig): Reducer<StateType, Action> {
 
   const reducersMethods = getReducerMethods<ReducerType, StateType>(reducerInstance);
 
