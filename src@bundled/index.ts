@@ -1,6 +1,6 @@
 import "reflect-metadata";
 
-import {Action, Dispatch, Store, Reducer} from "redux";
+import {Action, Dispatch, Store, Reducer, MiddlewareAPI} from "redux";
 import * as React from "react";
 import {connect as originalConnect, MapDispatchToPropsParam, MapStateToPropsParam, MergeProps, Options} from "react-redux";
 
@@ -85,7 +85,7 @@ export abstract class ComplexAction extends SimpleAction {
 
 // === Middlewares ===
 
-export const cbdMiddleware = (store: Store) => (next: Dispatch) => (action: SimpleAction & AsyncAction
+export const cbdMiddleware = (middlewareApi: MiddlewareAPI) => (next: Dispatch) => (action: SimpleAction & AsyncAction
   & ComplexAction) => {
 
   const actionType: EActionType = (Object.getPrototypeOf(action).constructor.getInternalType &&
@@ -101,7 +101,7 @@ export const cbdMiddleware = (store: Store) => (next: Dispatch) => (action: Simp
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
     case EActionType.ASYNC_ACTION:
-      setTimeout(() => action.act().then(action.afterSuccess).catch(action.afterError).then(store.dispatch));
+      setTimeout(() => action.act().then(action.afterSuccess).catch(action.afterError).then(middlewareApi.dispatch));
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
     default:
