@@ -1,6 +1,6 @@
 {
   "name": "redux-cbd",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Declarative class-based annotations for redux.",
   "main": "./index.js",
   "private": false,

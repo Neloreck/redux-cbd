@@ -1,13 +1,21 @@
 import "reflect-metadata";
 
-import {Action, Dispatch, Store, Reducer, MiddlewareAPI} from "redux";
+import {Action, Dispatch, Reducer, MiddlewareAPI} from "redux";
 import * as React from "react";
 import {connect as originalConnect, MapDispatchToPropsParam, MapStateToPropsParam, MergeProps, Options} from "react-redux";
 
 // === Annotations ===
 
 export const ActionHandler = <T>(instance: T, method: string, descriptor: PropertyDescriptor) => {
-  // Just to mark action. Also we can define metainfo there.
+  // Runtime assertion.
+  const secondParam = Reflect.getMetadata("design:paramtypes", instance, method)[1];
+
+
+  if (!secondParam.getInternalType || typeof secondParam.getInternalType !== 'function') {
+    throw new Error(`Wrong second action handler param provided for handling. Reducer: ${instance.constructor.name}, ` +
+      `method: ${method}, paramType: ${secondParam && secondParam.name || secondParam}.`);
+  }
+
 };
 
 export const ActionWired = (actionType: string): ((target: any) => any) => {
@@ -115,10 +123,10 @@ export interface IReducerConfig {
   freezeState: boolean;
 }
 
-export type actionHandlerFunc<T> = (s: T, a: SimpleAction) => T;
+export type actionHandlerFunc<T> = (s: T, a: any) => T;
 export type asFunctional<T> = (s: T, c: IReducerConfig) => ((prevState: T, action: SimpleAction) => T );
 export type reducerMap<T> = {
-  [index: string]: actionHandlerFunc<T> | asFunctional<T>
+  [index: string]: (<A> (s: T, a: A) => T ) | asFunctional<T>;
 }
 
 export abstract class ReflectiveReducer<T> {

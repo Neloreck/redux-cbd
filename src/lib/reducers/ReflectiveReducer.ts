@@ -4,10 +4,10 @@ import {IReducerConfig} from "./IReducerConfig";
 import {SimpleAction} from "../actions";
 import {createReflectiveReducer} from "../utils";
 
-export type actionHandlerFunc<T> = (s: T, a: SimpleAction) => T;
+export type actionHandlerFunc<T> = (s: T, a: any) => T;
 export type asFunctional<T> = (s: T, c: IReducerConfig) => ((prevState: T, action: SimpleAction) => T );
 export type reducerMap<T> = {
-  [index: string]: actionHandlerFunc<T> | asFunctional<T>
+  [index: string]: (<A> (s: T, a: A) => T ) | asFunctional<T>;
 }
 
 export abstract class ReflectiveReducer<T> {

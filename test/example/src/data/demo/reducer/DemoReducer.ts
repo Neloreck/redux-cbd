@@ -1,4 +1,4 @@
-import {ReflectiveReducer, ActionHandler} from "redux-cbd";
+import {ActionHandler, ReflectiveReducer} from "redux-cbd";
 
 import {AsyncDemoAction, AsyncDemoActionSuccess, ComplexDemoAction, SimpleDemoAction} from "../actions";
 import {DemoReducerState} from "../state/DemoReducerState";
