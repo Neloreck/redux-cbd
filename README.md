@@ -23,9 +23,8 @@ Intended to be used with react, but can be mixed with any framework.
 
 ## Installation
 
-```
-npm install --save redux-cbd
-```
+`npm install --save redux-cbd`
+
 
 <b>Important:</b>
 - Package uses <a href='https://github.com/rbuckton/reflect-metadata'>reflect-metadata</a> api, so I'd advice to get acknowledged with its usage.
@@ -45,23 +44,23 @@ npm install --save redux-cbd
     (*1) and (*2) are the most important steps.
 
 tsconfig.json: <br/>
-
-    {
-        "compilerOptions": { 
-            ... 
-            "emitDecoratorMetadata": true, 
-            "experimentalDecorators": true, 
-            ... 
-        }
+```typescript
+{
+    "compilerOptions": { 
+        ... 
+        "emitDecoratorMetadata": true, 
+        "experimentalDecorators": true, 
+        ... 
     }
-
+}
+```
 <hr/>
 
 ## Quick example:
 
 State:
 
-```
+```typescript
 export class DemoReducerState {
 
   public storedNumber: number = 0;
@@ -74,7 +73,7 @@ export class DemoReducerState {
 Reducer:
 <br/> <br/>
 
-```
+```typescript
 import {ReflectiveReducer, ActionHandler} from "redux-cbd";
 
 import {AsyncDemoAction, AsyncDemoActionSuccess, SimpleDemoAction} from "../actions";
@@ -104,7 +103,7 @@ export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 Actions:
 <br/> <br/>
 
-```
+```typescript
 import {ActionWired, AsyncAction, SimpleAction} from "redux-cbd";
 
 @ActionWired("SIMPLE_ACTION")
@@ -162,12 +161,11 @@ export class AsyncDemoAction extends AsyncAction {
 
 }
 ```
-
 <br/>
 Store:
 <br/>
 
-```
+```typescript
 import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware} from "redux";
 import {cbdMiddleware} from "redux-cbd";
 
