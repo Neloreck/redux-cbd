@@ -16,7 +16,7 @@ module.exports = {
   moduleNameMapper: {
   },
 
-  coverageDirectory: "<rootDir>/coverage/",
+  coverageDirectory: "<rootDir>/target/coverage/",
 
   collectCoverage: true,
 
