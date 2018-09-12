@@ -42,7 +42,7 @@ export abstract class SimpleAction implements Action {
     return this._internalType;
   }
 
-  public readonly type: string;
+  public readonly type: string = null as any;
   protected payload: object = {};
 
   public constructor() {
@@ -54,7 +54,7 @@ export abstract class SimpleAction implements Action {
   }
 
   public getActionType(): string {
-    return Object.getPrototypeOf(this).type;
+    return Object.getPrototypeOf(this).type || this.type;
   }
 
 }

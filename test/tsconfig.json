@@ -1,0 +1,17 @@
+{
+  "extends": "../src/tsconfig.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es3",
+    "sourceMap": false,
+    "module": "commonjs",
+    "lib": ["es5", "es6", "dom", "es2015"],
+    "types": ["node"],
+    "outDir": "./",
+    "baseUrl": "./"
+  },
+  "include": [
+    "./jest.config.ts"
+  ]
+}

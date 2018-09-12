@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "strict": true,
-    "outDir": "../ts-target/",
+    "outDir": "./ts-target/",
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -9,7 +9,7 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "module": "esnext",
+    "module": "commonjs",
     "target": "esnext",
     "moduleResolution": "node",
     "jsx": "react",
@@ -17,7 +17,7 @@
       "es2017",
       "dom"
     ],
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
     }
   },

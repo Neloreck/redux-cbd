@@ -1,4 +1,4 @@
-import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware} from "redux";
+import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware, Reducer} from "redux";
 import {cbdMiddleware} from "redux-cbd";
 
 // Whole store bundle interface.
@@ -23,7 +23,7 @@ export class ReduxStoreManager {
 
   // Creating root reducer, based on our application global state.
   // Strongly recommend to create model/module related ones instead of page-related. For example: auth, userSetting etc.
-  private static createRootReducer() {
+  private static createRootReducer(): Reducer<IReduxStoreState> {
     // new DemoReducer().asFunctional(new DemoReducerState(), { freezeState: true })
     // is same to
     // createReflectiveReducer(DemoReducer, new DemoReducerState(), { freezeState: true })

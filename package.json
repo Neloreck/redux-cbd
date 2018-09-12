@@ -1,11 +1,11 @@
 {
   "name": "redux-cbd",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Declarative class-based annotations for redux.",
   "main": "./index.js",
   "private": false,
   "scripts": {
-    "test": "npm test",
+    "test": "npx tsc -p ./test/tsconfig.json && npx jest --all --config ./test/jest.config.js --detectOpenHandles && npx rimraf ./test/jest.config.js",
     "build": "tsc -p ./src@bundled/tsconfig.json",
     "prepare": "npm run build"
   },
@@ -13,8 +13,18 @@
     "type": "git",
     "url": "git+https://github.com/neloreck/redux-cbd.git"
   },
-  "keywords": ["redux", "typescript", "reflection", "metadata", "declarative", "redux-cbd", "reflect-metadata",
-  "class-based", "reducers", "actions"],
+  "keywords": [
+    "redux",
+    "typescript",
+    "reflection",
+    "metadata",
+    "declarative",
+    "redux-cbd",
+    "reflect-metadata",
+    "class-based",
+    "reducers",
+    "actions"
+  ],
   "author": "Syrotenko Igor",
   "license": "MIT",
   "bugs": {
@@ -27,12 +37,16 @@
   "dependencies": {
     "reflect-metadata": "^0.1.9",
     "redux": "^4.0.0",
-    "react": "16.4.2",
+    "react": "^16.5.0",
     "react-redux": "^5.0.7"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.9.4",
     "@types/react": "^16.4.13",
     "@types/react-redux": "^6.0.6",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.1.4",
     "typescript": "^3.0.3"
   }
 }

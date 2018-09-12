@@ -14,7 +14,7 @@ export abstract class SimpleAction implements Action {
   protected payload: object = {};
 
   public constructor() {
-      this.type = this.getActionType();
+    this.type = this.getActionType();
   }
 
   public getActionPayload(): object {
@@ -22,7 +22,7 @@ export abstract class SimpleAction implements Action {
   }
 
   public getActionType(): string {
-    return Object.getPrototypeOf(this).type;
+    return Object.getPrototypeOf(this).type || this.type;
   }
 
 }
