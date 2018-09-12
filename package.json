@@ -5,7 +5,7 @@
   "main": "./index.js",
   "private": false,
   "scripts": {
-    "test": "npx tsc -p ./test/tsconfig.json && npx jest --all --config ./test/jest.config.js --detectOpenHandles && npx rimraf ./test/jest.config.js",
+    "test": "npx tsc -p ./test/tsconfig.json && npx jest --all --collectCoverageFrom=src@bundled/**/*.ts --config ./test/jest.config.js --detectOpenHandles && npx rimraf ./test/jest.config.js",
     "build": "tsc -p ./src@bundled/tsconfig.json",
     "prepare": "npm run build"
   },
@@ -45,6 +45,7 @@
     "@types/node": "^10.9.4",
     "@types/react": "^16.4.13",
     "@types/react-redux": "^6.0.6",
+    "codecov": "^3.1.0",
     "jest": "^23.6.0",
     "ts-jest": "^23.1.4",
     "typescript": "^3.0.3"

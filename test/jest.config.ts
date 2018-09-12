@@ -4,8 +4,6 @@ module.exports = {
 
   clearMocks: true,
 
-  coverageDirectory: path.resolve("test/coverage"),
-
   moduleFileExtensions: [
     "ts",
     "tsx",
@@ -17,6 +15,12 @@ module.exports = {
 
   moduleNameMapper: {
   },
+
+  coverageDirectory: "<rootDir>/coverage/",
+
+  collectCoverage: true,
+
+  coverageReporters: ["json", "html"],
 
   rootDir: path.resolve(__dirname, "../"),
 

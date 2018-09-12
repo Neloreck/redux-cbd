@@ -1,4 +1,5 @@
 src/
 test/
+coverage/
 target/
 src@bundled/
