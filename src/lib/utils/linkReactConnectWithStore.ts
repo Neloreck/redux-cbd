@@ -4,13 +4,13 @@ import {
 
 import {IReactComponentConnect} from "./IReactComponentConnect";
 
+export function linkReactConnectWithStore<T>(storeKey: string = "store"): IReactComponentConnect<T>  {
 
-export function linkReactConnectWithStore<T>(storeKey: string): IReactComponentConnect<T>  {
-
-  const newConnect = (mapStateToProps: MapStateToPropsParam<any, any, any>,
+    // Don't really care about typing there because we cast it anyway.
+    const newConnect = (mapStateToProps: MapStateToPropsParam<any, any, any>,
                       mapDispatchToProps: MapDispatchToPropsParam<any, any>,
                       mergeProps: MergeProps<any, any, any, any>,
-                      options: ConnectOptions) => {
+                      options: ConnectOptions = {}) => {
 
     options.storeKey = storeKey;
 
