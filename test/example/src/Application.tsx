@@ -1,9 +1,8 @@
 import * as React from "react";
-import {Provider} from "react-redux";
 import {render} from "react-dom";
 
-import {ReduxStoreManager} from "./data/redux/ReduxStoreManager";
-import {ConnectedComponent, IConnectedComponentProps} from "./view/ConnectedComponent";
+import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
+import {GlobalReduxProvider, reduxGlobalStoreManager} from "./data/redux";
 
 export class Application {
 
@@ -14,9 +13,9 @@ export class Application {
 
     // Creating one root element is better solution. Also, you can extend pureComponent there and move render to main.ts
 
-    render(<Provider store={new ReduxStoreManager().getStore()}>
-      <ConnectedComponent { ...{} as IConnectedComponentProps }/>
-    </Provider>, document.getElementById("application-root"));
+    render(<GlobalReduxProvider store={reduxGlobalStoreManager.getStore()}>
+      <ConnectedComponent { ...{} as IConnectedComponentExternalProps }/>
+    </GlobalReduxProvider>, document.getElementById("application-root"));
   }
 
 }

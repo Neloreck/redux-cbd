@@ -2,7 +2,14 @@ import "reflect-metadata";
 
 import {Action, Dispatch, Reducer, MiddlewareAPI} from "redux";
 import * as React from "react";
-import {connect as originalConnect, MapDispatchToPropsParam, MapStateToPropsParam, MergeProps, Options} from "react-redux";
+import {
+  connect as originalConnect,
+  ConnectOptions, createProvider,
+  MapDispatchToPropsParam,
+  MapStateToPropsParam,
+  MergeProps,
+  Options, Provider
+} from "react-redux";
 
 // === Annotations ===
 
@@ -176,6 +183,18 @@ export function createReflectiveReducer <ReducerType extends ReflectiveReducer<S
   };
 }
 
+export abstract class CBDStoreManager {
+
+  public abstract getStoreKey(): string;
+
+  public abstract getStore(): void;
+
+  public getProvider(): typeof Provider {
+    return createProvider(this.getStoreKey())
+  };
+
+}
+
 // === @Connect ===
 
 export type InferableComponentEnhancerWithProps<IInjectedProps, INeedsProps> =
@@ -195,6 +214,18 @@ export interface IReactComponentConnect<T> {
   ): InferableComponentEnhancerWithProps<IMergedProps, IOwnProps>;
 }
 
-export function linkReactConnectWithStore<T>() {
-  return originalConnect as IReactComponentConnect<T>;
+export function linkReactConnectWithStore<T>(storeKey: string): IReactComponentConnect<T>  {
+
+  const newConnect = (mapStateToProps: MapStateToPropsParam<any, any, any>,
+                      mapDispatchToProps: MapDispatchToPropsParam<any, any>,
+                      mergeProps: MergeProps<any, any, any, any>,
+                      options: ConnectOptions) => {
+
+    options.storeKey = storeKey;
+
+    return originalConnect(mapStateToProps, mapDispatchToProps, mergeProps, options);
+  };
+
+  return newConnect as IReactComponentConnect<T>;
+
 }

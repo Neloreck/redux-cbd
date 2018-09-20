@@ -1,4 +1,4 @@
-import {ActionWired, SimpleAction, ComplexAction, AsyncAction} from "../../../src@bundled/index";
+import {ActionWired, SimpleAction, ComplexAction, AsyncAction} from "../../../src@bundled";
 
 // Simple actions.
 

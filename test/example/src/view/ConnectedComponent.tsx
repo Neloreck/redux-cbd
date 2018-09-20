@@ -2,7 +2,7 @@ import * as React from "react";
 import {Component} from "react";
 import {Action} from "redux";
 
-import {ReduxConnect} from "../data/redux/ReduxConnect";
+import {GlobalReduxConnect} from "../data/redux/ReduxConnect";
 import {IReduxStoreState} from "../data/redux/IReduxStoreState";
 
 import {AsyncDemoAction, SimpleDemoAction, ComplexDemoAction} from "../data/demo/actions";
@@ -27,10 +27,16 @@ interface IConnectedComponentDispatchProps {
   complexDemoAction: (num: number) => any;
 }
 
-export interface IConnectedComponentProps extends IConnectedComponentStoreProps, IConnectedComponentDispatchProps {
+export interface IConnectedComponentExternalProps extends IConnectedComponentStoreProps, IConnectedComponentDispatchProps {
 }
 
-@ReduxConnect<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentProps>(
+export interface IConnectedComponentInternalProps {
+}
+
+export interface IConnectedComponentProps extends IConnectedComponentInternalProps, IConnectedComponentExternalProps {
+}
+
+@GlobalReduxConnect<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentProps>(
   // State is strict-typed there.
   (store: IReduxStoreState) => {
     return {

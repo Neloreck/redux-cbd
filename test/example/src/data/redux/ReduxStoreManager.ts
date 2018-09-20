@@ -11,8 +11,11 @@ import {DemoReducer} from "../demo/reducer/DemoReducer";
 // Custom push-into-static-array middleware.
 import {logInConnectedComponentMiddleware} from "./logInConnectedComponentMiddleware";
 
-export class ReduxStoreManager {
+import {CBDStoreManager} from "../../../../../src/lib/reducers/CBDStoreManager";
 
+export class ReduxStoreManager extends CBDStoreManager {
+
+  private static STORE_KEY: string = "GLOBAL_STORE";
   private static store: Store<IReduxStoreState, Action<any>> & { dispatch: () => {} };
 
   // Creating store. Signgleton instance for whole app. Also, we can use @Single decorator there. (if we will iml it)
@@ -33,6 +36,10 @@ export class ReduxStoreManager {
     return combineReducers( {
       demoReducer: new DemoReducer().asFunctional(new DemoReducerState(), { freezeState: true })
     });
+  }
+
+  public getStoreKey(): string {
+    return ReduxStoreManager.STORE_KEY;
   }
 
   // Singleton store getter.
