@@ -1,5 +1,5 @@
 import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware, Reducer} from "redux";
-import {cbdMiddleware} from "redux-cbd";
+import {CBDStoreManager, cbdMiddleware} from "redux-cbd";
 
 // Whole store bundle interface.
 import {IReduxStoreState} from "./IReduxStoreState";
@@ -10,8 +10,6 @@ import {DemoReducer} from "../demo/reducer/DemoReducer";
 
 // Custom push-into-static-array middleware.
 import {logInConnectedComponentMiddleware} from "./logInConnectedComponentMiddleware";
-
-import {CBDStoreManager} from "../../../../../src/lib/reducers/CBDStoreManager";
 
 export class ReduxStoreManager extends CBDStoreManager {
 
