@@ -18,9 +18,10 @@
 <hr/>
 
 Typescript decorators\annotations for <a href='https://github.com/reduxjs/redux'> redux</a>. <br/>
-Allows you to write class-based declarations of your data storage with strict and predictive typing. 
+Allows you to write class-based declarations of your data storage with strict and predictive typing. <br/>
+Enforces some oop mixed with functional style (all key features and implementation of redux remains the same).
 
-Intended to be used with react, but can be mixed with any framework.
+Intended to be used with react.
 
 <hr/>
 
@@ -30,19 +31,20 @@ Intended to be used with react, but can be mixed with any framework.
 
 
 <b>Important:</b>
-- Package uses <a href='https://github.com/rbuckton/reflect-metadata'>reflect-metadata</a> api, so I'd advice to get acknowledged with its usage.
-- Package uses expirementalDecorators features.
+- Package uses <a href='https://github.com/rbuckton/reflect-metadata'>reflect-metadata</a> api, so I'd advice to get acknowledged with its usage and include it in your bundle.
+- Package uses expirementalDecorators features (disabled by default for TypeScript).
 
 ## Setup
     
     1) Install package.
-    2) Configure typescript. You should turn on "emitDecoratorMetadata" and "experimentalDecorators" for compiler(*1).
-    3) Create some actions (extend simple, complex, async) with @ActionWired annotation.
-    4) Create related reducer(extend ReflectiveReducer) with proper @ActionHandlers.
-    5) Create rootReducer, that includes reflectiveReducers. Declare storeState interface.
-    6) Create store, based on root reducer. Include cbdMiddleware there (*2).
-    6) Create @ReduxConnect decorator (optional).
-    7) Connect component and use props and actions.
+    2) Inject reflect-metadata into your bundle (webpack entry or import inside your entryfile).
+    3) Configure typescript. You should turn on "emitDecoratorMetadata" and "experimentalDecorators" for compiler(*1).
+    4) Create some actions (extend simple, complex, async) with @ActionWired annotation.
+    5) Create related reducer(extend ReflectiveReducer) with proper @ActionHandlers.
+    6) Create rootReducer, that includes reflectiveReducers. Declare storeState interface.
+    7) Create store, based on root reducer. Include cbdMiddleware there (*2).
+    8) Create @ReduxConnect decorator (optional).
+    9) Connect component and use props and actions.
     
     (*1) and (*2) are the most important steps.
 
@@ -170,16 +172,19 @@ Store:
 
 ```typescript
 import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware} from "redux";
-import {cbdMiddleware} from "redux-cbd";
+import {cbdMiddleware, CBDStoreManager} from "redux-cbd";
 
 import {IReduxStoreState} from "./IReduxStoreState";
 
 import {DemoReducerState} from "../demo/state/DemoReducerState";
 import {DemoReducer} from "../demo/reducer/DemoReducer";
 
-export class ReduxStoreManager {
+// Singleton instance stored in the class static. You can also decorate it with @Single there if you wish.
+// Extending of this class allows you to get linked @Connect decorator related to store instance.
+export class ReduxStoreManager extends CBDStoreManager {
 
-  private static store: Store<IReduxStoreState, Action<any>> & { dispatch: () => {} };
+  private static STORE_KEY: string = "MY_STORE";
+  private static STORE: Store<IReduxStoreState, Action<any>> & { dispatch: () => {} };
 
   private static createStore(): Store<IReduxStoreState, Action<any>> & { dispatch: () => {} } {
     const middlewares: Array<Middleware> = [cbdMiddleware, logInConnectedComponentMiddleware];
@@ -192,13 +197,17 @@ export class ReduxStoreManager {
     });
   }
 
+  public getStoreKey(): string {
+    return ReduxStoreManager.STORE_KEY;
+  }
+
   public getStore(): Store<IReduxStoreState, Action<any>> & { dispatch: () => {} } {
 
-    if (!ReduxStoreManager.store) {
-      ReduxStoreManager.store = ReduxStoreManager.createStore();
+    if (!ReduxStoreManager.STORE) {
+      ReduxStoreManager.STORE = ReduxStoreManager.createStore();
     }
 
-    return ReduxStoreManager.store;
+    return ReduxStoreManager.STORE;
   }
 
 }
