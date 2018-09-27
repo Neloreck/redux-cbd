@@ -169,6 +169,7 @@ export class AsyncDemoAction extends AsyncAction {
     return Math.random();
   }
 
+  // Handles 'act' resolved value.
   public afterSuccess(num: number): AsyncDemoActionSuccess {
     return new AsyncDemoActionSuccess(num);
   }
