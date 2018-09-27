@@ -103,7 +103,7 @@ export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
   }
 
   @ActionHandler
-  public startLoadingAfterAsyncAction(state: DemoReducerState, action: AsyncDemoAction): DemoReducerState {
+  public startLoadingOnAsyncRequestAction(state: DemoReducerState, action: AsyncDemoAction): DemoReducerState {
     return { ...state, loading: action.payload.loading };
   }
 
