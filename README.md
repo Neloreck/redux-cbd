@@ -63,7 +63,17 @@ tsconfig.json: <br/>
 
 ## Quick example:
 
-State:
+Global state for combined reducers:
+
+```typescript
+export interface IGlobalStoreState {
+
+  demoReducer: DemoReducerState;
+
+}
+```
+
+Demo reducer state:
 
 ```typescript
 export class DemoReducerState {
@@ -74,8 +84,9 @@ export class DemoReducerState {
 }
 ```
 
+
 <br/>
-Reducer:
+Demo reducer:
 <br/> <br/>
 
 ```typescript
@@ -105,7 +116,7 @@ export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 ```
 
 <br/>
-Actions:
+Actions (considered to be separate files for each one):
 <br/> <br/>
 
 ```typescript
@@ -171,27 +182,25 @@ Store:
 <br/>
 
 ```typescript
-import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware} from "redux";
+import {Action, combineReducers, Store, applyMiddleware, createStore, Reducer, Middleware} from "redux";
 import {cbdMiddleware, CBDStoreManager} from "redux-cbd";
 
-import {IReduxStoreState} from "./IReduxStoreState";
+import {IGlobalStoreState} from "./IGlobalStoreState";
 
 import {DemoReducerState} from "../demo/state/DemoReducerState";
 import {DemoReducer} from "../demo/reducer/DemoReducer";
 
-// Singleton instance stored in the class static. You can also decorate it with @Single there if you wish.
-// Extending of this class allows you to get linked @Connect decorator related to store instance.
 export class ReduxStoreManager extends CBDStoreManager {
 
-  private static STORE_KEY: string = "MY_STORE";
-  private static STORE: Store<IReduxStoreState, Action<any>> & { dispatch: () => {} };
+  private static STORE_KEY: string = "MY_CUSTOM_STORE_KEY_FOR_CONNECT_DECORATORS_LINKED_WITH_IT";
+  private static STORE: Store<IGlobalStoreState, Action<any>>;
 
-  private static createStore(): Store<IReduxStoreState, Action<any>> & { dispatch: () => {} } {
-    const middlewares: Array<Middleware> = [cbdMiddleware, logInConnectedComponentMiddleware];
+  private static createStore(): Store<IGlobalStoreState, Action<any>> {
+    const middlewares: Array<Middleware> = [cbdMiddleware];
     return createStore(ReduxStoreManager.createRootReducer(), applyMiddleware(...middlewares));
   }
 
-  private static createRootReducer() {
+  private static createRootReducer(): Reducer<IGlobalStoreState> {
     return combineReducers( {
       demoReducer: new DemoReducer().asFunctional(new DemoReducerState(), { freezeState: true }),
     });
@@ -201,7 +210,7 @@ export class ReduxStoreManager extends CBDStoreManager {
     return ReduxStoreManager.STORE_KEY;
   }
 
-  public getStore(): Store<IReduxStoreState, Action<any>> & { dispatch: () => {} } {
+  public getStore(): Store<IGlobalStoreState, Action<any>> {
 
     if (!ReduxStoreManager.STORE) {
       ReduxStoreManager.STORE = ReduxStoreManager.createStore();

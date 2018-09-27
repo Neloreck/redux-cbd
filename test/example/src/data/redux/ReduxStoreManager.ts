@@ -14,10 +14,10 @@ import {logInConnectedComponentMiddleware} from "./logInConnectedComponentMiddle
 export class ReduxStoreManager extends CBDStoreManager {
 
   private static STORE_KEY: string = "GLOBAL_STORE";
-  private static store: Store<IReduxStoreState, Action<any>> & { dispatch: () => {} };
+  private static store: Store<IReduxStoreState, Action<any>>;
 
   // Creating store. Signgleton instance for whole app. Also, we can use @Single decorator there. (if we will iml it)
-  private static createStore(): Store<IReduxStoreState, Action<any>> & { dispatch: () => {} } {
+  private static createStore(): Store<IReduxStoreState, Action<any>> {
     const middlewares: Array<Middleware> = [cbdMiddleware, logInConnectedComponentMiddleware];
     return createStore(ReduxStoreManager.createRootReducer(), applyMiddleware(...middlewares));
   }
@@ -36,12 +36,13 @@ export class ReduxStoreManager extends CBDStoreManager {
     });
   }
 
+  // Unique store key for provider, default is 'store'.
   public getStoreKey(): string {
     return ReduxStoreManager.STORE_KEY;
   }
 
   // Singleton store getter.
-  public getStore(): Store<IReduxStoreState, Action<any>> & { dispatch: () => {} } {
+  public getStore(): Store<IReduxStoreState, Action<any>> {
 
     if (!ReduxStoreManager.store) {
       ReduxStoreManager.store = ReduxStoreManager.createStore();
