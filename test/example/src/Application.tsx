@@ -1,21 +1,34 @@
 import * as React from "react";
 import {render} from "react-dom";
 
-import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
-import {GlobalReduxProvider, reduxGlobalStoreManager} from "./data/redux";
+// Check doc for proper reducers and store creation guide.
+import {GlobalStoreProvider, globalStoreManager} from "./data/redux";
 
+// Our simple connected component.
+import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
+
+// @Single
 export class Application {
 
   public render(): void {
 
-    // We can set params as optional, but this will cause many troubles for most of use-cases.
-    // Most of containers will be created by router, so we will not care (only higher order layouts are tricky).
+    // { ...{} as IConnectedComponentExternalProps } is the trick for correct types handling.
+    // Actually, connected component is different from the one we exported with 'export class'.
+    // We should use default export with separate props cast or make such mock trick.
+    // (I prefer second style with single class declaration and DIRECTLY NAMED imports, which are better).
 
-    // Creating one root element is better solution. Also, you can extend pureComponent there and move render to main.ts
+    // Actual JSX markup for rendering.
+    const rootElement: JSX.Element = (
+      <GlobalStoreProvider store={globalStoreManager.getStore()}>
+        <ConnectedComponent someLabelFromExternalProps={ "Demo prop" } { ...{} as IConnectedComponentExternalProps }/>
+      </GlobalStoreProvider>
+    );
 
-    render(<GlobalReduxProvider store={reduxGlobalStoreManager.getStore()}>
-      <ConnectedComponent { ...{} as IConnectedComponentExternalProps }/>
-    </GlobalReduxProvider>, document.getElementById("application-root"));
+    // DOM target element.
+    const targetElement: HTMLElement | null = document.getElementById("application-root");
+
+    // Render into DOM.
+    render(rootElement, targetElement);
   }
 
 }
