@@ -22,6 +22,7 @@ Allows you to write class-based declarations of your data storage with strict an
 Enforces some oop mixed with functional style (all key features and implementation of redux remains the same).
 
 Intended to be used with react.
+For the ones, who prefer OOP style with strict typings and verbosity with self-documentation.
 
 <hr/>
 
