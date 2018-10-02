@@ -21,8 +21,7 @@ Typescript decorators\annotations for <a href='https://github.com/reduxjs/redux'
 Allows you to write class-based declarations of your data storage with strict and predictive typing. <br/>
 Enforces some oop mixed with functional style (all key features and implementation of redux remains the same).
 
-Intended to be used with react. <br/>
-For the ones, who prefer OOP style with strict typings and verbosity with self-documentation.
+Intended to be used with react.
 
 <hr/>
 
@@ -387,7 +386,7 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
     return (
       <div style={paddingStyle}>
 
-        <h2> Simple demo [{ someLabelFromExternalProps }]: </h2>
+        <span> Simple demo [{ someLabelFromExternalProps }]: </span>
 
         <div style={paddingStyle}>
           <b>Demo Reducer:</b> <br/> <br/>
