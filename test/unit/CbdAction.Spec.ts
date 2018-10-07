@@ -1,7 +1,8 @@
 import {ASYNC_SUCCESS, COMPLEX_MANUAL, ASYNC_MANUAL, COMPLEX_WIRED, SIMPLE_MANUAL, ASYNC_WIRED,
   SIMPLE_WIRED, SimpleWired, SimpleManual, AsyncWired, AsyncManual, ComplexWired, ComplexManual} from "./mocks/actionMocks";
 
-import {EActionType} from "../../src@bundled";
+import {EActionClass} from "../../src@bundled";
+import {EMetaData} from "../../src/lib/general/type";
 
 describe("CBD Actions.", () => {
 
@@ -15,8 +16,8 @@ describe("CBD Actions.", () => {
     expect(simpleWired.getActionType()).toBe(SIMPLE_WIRED);
     expect(simpleManual.getActionType()).toBe(SIMPLE_MANUAL);
 
-    expect(SimpleWired.getInternalType()).toBe(EActionType.SIMPLE_ACTION);
-    expect(SimpleManual.getInternalType()).toBe(EActionType.SIMPLE_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, SimpleWired)).toBe(EActionClass.SIMPLE_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, SimpleManual)).toBe(EActionClass.SIMPLE_ACTION);
 
     // Complex.
 
@@ -26,8 +27,8 @@ describe("CBD Actions.", () => {
     expect(complexWired.getActionType()).toBe(COMPLEX_WIRED);
     expect(complexManual.getActionType()).toBe(COMPLEX_MANUAL);
 
-    expect(ComplexWired.getInternalType()).toBe(EActionType.COMPLEX_ACTION);
-    expect(ComplexWired.getInternalType()).toBe(EActionType.COMPLEX_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, ComplexWired)).toBe(EActionClass.COMPLEX_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, ComplexManual)).toBe(EActionClass.COMPLEX_ACTION);
 
     // Async.
 
@@ -37,8 +38,8 @@ describe("CBD Actions.", () => {
     expect(asyncWired.getActionType()).toBe(ASYNC_WIRED);
     expect(asyncManual.getActionType()).toBe(ASYNC_MANUAL);
 
-    expect(AsyncWired.getInternalType()).toBe(EActionType.ASYNC_ACTION);
-    expect(AsyncManual.getInternalType()).toBe(EActionType.ASYNC_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, AsyncWired)).toBe(EActionClass.ASYNC_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, AsyncManual)).toBe(EActionClass.ASYNC_ACTION);
 
   });
 

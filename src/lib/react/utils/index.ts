@@ -1,0 +1,1 @@
+export {LazyLoadComponentFactory} from "./LazyLoadComponentFactory";

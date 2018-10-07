@@ -1,15 +1,11 @@
 import {SimpleAction} from "./SimpleAction";
-import {EActionType} from "./EActionType";
+import {EActionClass} from "./EActionClass";
+import {EMetaData} from "../../general/type";
 
 // Todo: Unify act and afterSuccess methods.
 
+@Reflect.metadata(EMetaData.ACTION_CLASS, EActionClass.ASYNC_ACTION)
 export abstract class AsyncAction extends SimpleAction {
-
-  public static readonly _internalType: EActionType = EActionType.ASYNC_ACTION;
-
-  public constructor() {
-      super();
-  }
 
   // Do some complex things after dispatch based on own params.
   public abstract act(): Promise<any>;

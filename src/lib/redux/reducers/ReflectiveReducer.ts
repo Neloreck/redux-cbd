@@ -1,8 +1,8 @@
 import {Action, Reducer} from "redux";
 
 import {IReducerConfig} from "./IReducerConfig";
-import {SimpleAction} from "../actions";
-import {createReflectiveReducer} from "../utils";
+import {SimpleAction} from "../actions/index";
+import {createReflectiveReducer} from "../utils/index";
 
 export type actionHandlerFunc<T> = (s: T, a: any) => T;
 export type asFunctional<T> = (s: T, c: IReducerConfig) => ((prevState: T, action: SimpleAction) => T );

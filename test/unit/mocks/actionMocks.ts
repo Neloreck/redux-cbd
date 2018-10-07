@@ -1,4 +1,4 @@
-import {ActionWired, SimpleAction, ComplexAction, AsyncAction} from "../../../src@bundled";
+import {ActionWired, SimpleAction, ComplexAction, AsyncAction} from "../../../src@bundled/index";
 
 // Simple actions.
 
@@ -19,7 +19,11 @@ export class SimpleWired extends SimpleAction {
 }
 
 export class SimpleManual extends SimpleAction {
-  public readonly type: string = SIMPLE_MANUAL;
+
+  public getActionType(): string {
+    return SIMPLE_MANUAL;
+  }
+
 }
 
 // Complex actions.
@@ -46,9 +50,11 @@ export class ComplexWired extends ComplexAction {
 
 }
 
-export class ComplexManual extends SimpleAction {
+export class ComplexManual extends ComplexAction {
 
-  public readonly type: string = COMPLEX_MANUAL;
+  public getActionType(): string {
+    return COMPLEX_MANUAL;
+  }
 
   public act(): void {};
 
@@ -75,7 +81,9 @@ export class AsyncWired extends AsyncAction {
 
 export class AsyncManual extends AsyncAction {
 
-  public readonly type: string = ASYNC_MANUAL;
+  public getActionType(): string {
+    return ASYNC_MANUAL;
+  }
 
   public async act(): Promise<string> {
 

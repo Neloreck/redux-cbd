@@ -417,7 +417,7 @@ Repository [wiki](https://github.com/Neloreck/redux-cbd/wiki) includes descripti
 
 ## Full examples
 
-Repository includes example project with commentaries: <a href='https://github.com/Neloreck/redux-cbd/tree/master/test/example'>link</a>.
+Repository includes example project with commentaries: <a href='https://github.com/Neloreck/redux-cbd/tree/master/test/examples'>link</a>.
 
 ## Licence
 

@@ -10,6 +10,7 @@
     "outDir": "../target/ts-declarations",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "jsx": "react",
     "typeRoots": [
       "node_modules/@types"
     ],

@@ -1,21 +1,22 @@
 import {Action, Reducer} from "redux";
 import {ReflectiveReducer, IReducerConfig} from "../reducers";
 import {reducerMap} from "../reducers/ReflectiveReducer";
+import {EMetaData} from "../../general/type";
 
 function getReducerMethods <Reducer extends ReflectiveReducer<State>, State>(reducerInstance: Reducer): reducerMap<State> {
   const prototype = Object.getPrototypeOf(reducerInstance);
   const methods = Object.getOwnPropertyNames(prototype);
 
-  const getWithRequiredAction = (method: string) => {
-  const meta = Reflect.getMetadata("design:paramtypes", prototype, method);
-  const action = meta && meta[1];
-  return action ? action.prototype.type : undefined;
+  const getWithRequiredAction = (method: string): string => {
+    const meta = Reflect.getMetadata(EMetaData.PARAM_TYPES, prototype, method);
+    const action = meta && meta[1];
+
+    return action ? Reflect.getMetadata(EMetaData.ACTION_TYPE, action) : undefined;
   };
 
   return methods
-    .filter(getWithRequiredAction)
     .map((method: string) => ({ [getWithRequiredAction(method)]: reducerInstance[method] }))
-    .filter((item) => item)
+    .filter((item) => !item["undefined"])
     .reduce((acc: object, current: object) => ({...acc, ...current}), {});
 }
 

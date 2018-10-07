@@ -1,7 +1,7 @@
 import {Action, applyMiddleware, combineReducers, createStore, Reducer, Store} from "redux";
 
 import {MockReducer, MockReducerState} from "./reducerMocks";
-import {cbdMiddleware} from "../../../src/lib/middleware";
+import {cbdMiddleware} from "../../../src@bundled";
 
 export interface IStoreState {
   mockReducer: MockReducerState;

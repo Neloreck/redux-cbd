@@ -1,4 +1,4 @@
-export enum EActionType {
+export enum EActionClass {
   OBJECT_ACTION = "OBJECT_ACTION",
   SIMPLE_ACTION = "SIMPLE_ACTION",
   COMPLEX_ACTION = "COMPLEX_ACTION",

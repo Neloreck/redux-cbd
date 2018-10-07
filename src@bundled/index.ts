@@ -1,7 +1,9 @@
 import "reflect-metadata";
 
-import {Action, Dispatch, Reducer, MiddlewareAPI} from "redux";
 import * as React from "react";
+import {ComponentType, Component, PureComponent, ReactNode} from "react";
+
+import {Action, Dispatch, Reducer, MiddlewareAPI} from "redux";
 import {
   connect as originalConnect,
   ConnectOptions, createProvider,
@@ -11,13 +13,209 @@ import {
   Options, Provider
 } from "react-redux";
 
+// General related.
+
+// === Types ===
+
+export type Constructor<T> = new(...args: Array<any>) => T;
+
+export enum EMetaData {
+  TYPE = "design:type",
+  PARAM_TYPES = "design:paramtypes",
+  RETURN_TYPE = "design:returntype",
+  ACTION_CLASS = "cbd:actionclass",
+  ACTION_TYPE = "cbd:actiontype"
+}
+
 // === Annotations ===
 
+export { default as AutoBind } from "autobind-decorator";
+
+export function Single<T extends Constructor<{}>>(target: T): any {
+
+  const originalConstructor: T = target;
+
+  const newConstructor = function (...args: Array<any>) {
+
+    if (!originalConstructor.prototype.__INSTANCE__) {
+      originalConstructor.prototype.__INSTANCE__ = new originalConstructor(...args);
+    }
+
+    return originalConstructor.prototype.__INSTANCE__;
+  };
+
+  newConstructor.prototype = originalConstructor.prototype;
+
+  return newConstructor;
+}
+
+// === Utils ===
+
+export class ReflectUtils {
+
+  public static getClassPropertyType(instance: any, key: string): string {
+    return Reflect.getMetadata(EMetaData.TYPE, instance, key);
+  }
+
+  public static getClassMethodReturnType(instance: any, key: string): string {
+    return Reflect.getMetadata(EMetaData.RETURN_TYPE, instance, key);
+  }
+
+  public static getClassMethodParamTypes(instance: any, key: string): { [idx: number]: any } {
+    return Reflect.getMetadata(EMetaData.PARAM_TYPES, instance, key);
+  }
+
+}
+
+export class TypeUtils {
+
+  // Runtime type check.
+
+  public static isString(value: any): boolean {
+    return (Object.prototype.toString.call(value) === "[object String]");
+  }
+
+  public static isArray(value: any): boolean {
+    return (Object.prototype.toString.call(value) === "[object Array]");
+  }
+
+  public static isBoolean(value: any): boolean {
+    return (Object.prototype.toString.call(value) === "[object Boolean]");
+  }
+
+  public static isNumber(value: any): boolean {
+    return ((Object.prototype.toString.call(value) === "[object Number]") && Number.isFinite(value));
+  }
+
+  public static isInteger(value: any): boolean {
+    return ((Object.prototype.toString.call(value) === "[object Number]") && Number.isFinite(value) && !(value % 1));
+  }
+
+  public static isFunction(value: any): boolean {
+    return (value && Object.prototype.toString.call(value) == '[object Function]');
+  }
+
+  public static isObject(value: any): boolean {
+    return (value === Object(value));
+  }
+
+  // Reflect isType.
+
+  public static isArrayType(target: any): boolean {
+    return (target === Array);
+  }
+
+  public static isBooleanType(target: any): boolean {
+    return (target === Boolean);
+  }
+
+  public static isNumberType(target: any): boolean {
+    return (target === Number);
+  }
+
+  public static isStringType(target: any): boolean {
+    return (target === String);
+  }
+
+  public static isVoidType(target: any): boolean {
+    return (target === undefined);
+  }
+
+  public static isAnyType(target: any): boolean {
+    return (target === Object(target));
+  }
+
+}
+
+// React related.
+
+// === Annotations ===
+
+export function Wrapped<ComponentProps1, ComponentProps2>(
+  WrapComponent: ComponentType<ComponentProps1>, wrapProps?: ComponentProps1) {
+
+  return (Target: ComponentType<ComponentProps2>): any => class extends PureComponent {
+
+    public render(): ReactNode {
+      return React.createElement(WrapComponent, wrapProps, [React.createElement(Target, this.props as ComponentProps2)]);
+    }
+
+  };
+
+}
+
+// === Utils ===
+
+export interface ILazyComponentState {
+  component: ComponentType;
+}
+
+export class LazyLoadComponentFactory {
+
+  public static getLazyComponent(importFunc: () => Promise<any>, loadingMarkup?: JSX.Element, componentNamedExport?: string): ComponentType {
+
+    // tslint:disable-next-line
+    class LazyComponent extends Component<any, ILazyComponentState, any> {
+
+      private static __COMPONENT_INSTANCE__: ComponentType;
+
+      public state: ILazyComponentState = {
+        component: LazyComponent.__COMPONENT_INSTANCE__
+      };
+
+      private mounted: boolean = false;
+
+      public async componentWillMount(): Promise<void> {
+
+        const RenderComponent: ComponentType = this.state.component;
+
+        if (!RenderComponent) {
+          const module: any = await importFunc();
+          const ImportedRenderComponent: ComponentType = module[componentNamedExport || Object.keys(module)[0]];
+
+          LazyComponent.__COMPONENT_INSTANCE__ = ImportedRenderComponent;
+
+          if (this.mounted) {
+            this.setState({component: ImportedRenderComponent});
+          }
+        }
+      }
+
+      public componentDidMount(): void {
+        this.mounted = true;
+
+        if (!this.state.component) {
+          this.setState({component: LazyComponent.__COMPONENT_INSTANCE__});
+        }
+      }
+
+      public componentWillUnmount(): void {
+        this.mounted = false;
+      }
+
+      public render(): ReactNode | null {
+        return this.state.component
+          ? React.createElement(this.state.component, this.props)
+          : loadingMarkup;
+      }
+
+    }
+
+    return LazyComponent;
+  }
+
+}
+
+// Redux related.
+
+// === Annotations ===
+
+// Runtime assertion.
 export const ActionHandler = <T>(instance: T, method: string, descriptor: PropertyDescriptor) => {
-  // Runtime assertion.
+
   const secondParam = Reflect.getMetadata("design:paramtypes", instance, method)[1];
 
-  if (!secondParam.getInternalType || typeof secondParam.getInternalType !== 'function') {
+  if (!secondParam || !Reflect.getMetadata(EMetaData.ACTION_CLASS, secondParam)) {
     throw new Error(`Wrong second action handler param provided for handling. Reducer: ${instance.constructor.name}, ` +
       `method: ${method}, paramType: ${secondParam && secondParam.name || secondParam}.`);
   }
@@ -26,52 +224,38 @@ export const ActionHandler = <T>(instance: T, method: string, descriptor: Proper
 
 export const ActionWired = (actionType: string): ((target: any) => any) => {
   return (constructor: (...args: Array<any>) => any ) => {
-    constructor.prototype.type = actionType;
+    Reflect.defineMetadata(EMetaData.ACTION_TYPE, actionType, constructor);
   };
 };
 
 // === Actions ===
 
-export enum EActionType {
+export enum EActionClass {
   OBJECT_ACTION = "OBJECT_ACTION",
   SIMPLE_ACTION = "SIMPLE_ACTION",
   COMPLEX_ACTION = "COMPLEX_ACTION",
   ASYNC_ACTION = "ASYNC_ACTION"
 }
 
+@Reflect.metadata(EMetaData.ACTION_CLASS, EActionClass.SIMPLE_ACTION)
 export abstract class SimpleAction implements Action {
 
-  public static readonly _internalType: EActionType = EActionType.SIMPLE_ACTION;
-  public static readonly type: string;
+  public type!: string;
 
-  public static getInternalType(): EActionType {
-    return this._internalType;
-  }
-
-  public readonly type: string = null as any;
   protected payload: object = {};
-
-  public constructor() {
-    this.type = this.getActionType();
-  }
 
   public getActionPayload(): object {
     return this.payload;
   }
 
   public getActionType(): string {
-    return Object.getPrototypeOf(this).type || this.type;
+    return Reflect.getMetadata(EMetaData.ACTION_TYPE, this.constructor);
   }
 
 }
 
+@Reflect.metadata(EMetaData.ACTION_CLASS, EActionClass.ASYNC_ACTION)
 export abstract class AsyncAction extends SimpleAction {
-
-  public static readonly _internalType: EActionType = EActionType.ASYNC_ACTION;
-
-  public constructor() {
-    super();
-  }
 
   // Do some complex things after dispatch based on own params.
   public abstract act(): Promise<any>;
@@ -84,13 +268,10 @@ export abstract class AsyncAction extends SimpleAction {
 
 }
 
+@Reflect.metadata(EMetaData.ACTION_CLASS, EActionClass.COMPLEX_ACTION)
 export abstract class ComplexAction extends SimpleAction {
 
-  public static readonly _internalType: EActionType = EActionType.COMPLEX_ACTION;
-
-  public constructor() {
-    super();
-  }
+  public static readonly _internalType: EActionClass = EActionClass.COMPLEX_ACTION;
 
   // Do some complex things after dispatch based on own params.
   public abstract act(): void;
@@ -102,19 +283,18 @@ export abstract class ComplexAction extends SimpleAction {
 export const cbdMiddleware = (middlewareApi: MiddlewareAPI) => (next: Dispatch) => (action: SimpleAction & AsyncAction
   & ComplexAction) => {
 
-  const actionType: EActionType = (Object.getPrototypeOf(action).constructor.getInternalType &&
-    Object.getPrototypeOf(action).constructor.getInternalType()) || EActionType.OBJECT_ACTION;
+  const actionType: EActionClass = Reflect.getMetadata(EMetaData.ACTION_CLASS, action.constructor) || EActionClass.OBJECT_ACTION;
 
   switch (actionType) {
 
-    case EActionType.SIMPLE_ACTION:
+    case EActionClass.SIMPLE_ACTION:
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
-    case EActionType.COMPLEX_ACTION:
+    case EActionClass.COMPLEX_ACTION:
       action.act();
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
-    case EActionType.ASYNC_ACTION:
+    case EActionClass.ASYNC_ACTION:
       setTimeout(() => action.act().then(action.afterSuccess).catch(action.afterError).then(middlewareApi.dispatch));
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
@@ -151,16 +331,16 @@ function getReducerMethods <Reducer extends ReflectiveReducer<State>, State>(red
   const prototype = Object.getPrototypeOf(reducerInstance);
   const methods = Object.getOwnPropertyNames(prototype);
 
-  const getWithRequiredAction = (method: string) => {
-    const meta = Reflect.getMetadata("design:paramtypes", prototype, method);
+  const getWithRequiredAction = (method: string): string => {
+    const meta = Reflect.getMetadata(EMetaData.PARAM_TYPES, prototype, method);
     const action = meta && meta[1];
-    return action ? action.prototype.type : undefined;
+
+    return action ? Reflect.getMetadata(EMetaData.ACTION_TYPE, action) : undefined;
   };
 
   return methods
-    .filter(getWithRequiredAction)
     .map((method: string) => ({ [getWithRequiredAction(method)]: reducerInstance[method] }))
-    .filter((item) => item)
+    .filter((item) => !item["undefined"])
     .reduce((acc: object, current: object) => ({...acc, ...current}), {});
 }
 
