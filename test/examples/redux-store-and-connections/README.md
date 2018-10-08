@@ -17,11 +17,12 @@
 
 <hr/>
 
-Typescript decorators\annotations for <a href='https://github.com/reduxjs/redux'> redux</a>. <br/>
+Typescript decorators\annotations and abstract classes for <a href='https://github.com/reduxjs/redux'> redux</a>. <br/>
+Adds various utility annotations such as @Single, @EntryPoint, @Connect or @Wrapped. <br/>
 Allows you to write class-based declarations of your data storage with strict and predictive typing. <br/>
-Enforces some oop mixed with functional style (all key features and implementation of redux remains the same).
+Enforces oop mixed with functional style (all key features and implementation of redux remains the same).
 
-Intended to be used with react.
+Intended to be used with react-redux.
 
 <hr/>
 
@@ -49,7 +50,7 @@ Intended to be used with react.
 tsconfig.json: <br/>
 ```typescript
 {
-    "compilerOptions": { 
+    "compilerOptions": {
         ... 
         "emitDecoratorMetadata": true, 
         "experimentalDecorators": true, 
@@ -60,25 +61,13 @@ tsconfig.json: <br/>
 <hr/>
 
 
-## Example (repo example contains more explanations and structure):
+## Example (wiki contains more explanations):
 
-### Entry point:
-```typescript jsx
-/*
- * This file is entry point instead of 'public static void main(String[] args)'.
- */
- 
-import {Application} from "./Application";
-
-new Application().render();
-
-```
-
-### Application:
+### Application entrypoint:
 ```typescript jsx
 import * as React from "react";
 import {render} from "react-dom";
-import {Single} from "redux-cbd";
+import {EntryPoint} from "redux-cbd";
 
 /* Store provider. Injects store for @Connect consumers. */
 import {GlobalStoreProvider} from "./data/redux";
@@ -86,7 +75,7 @@ import {GlobalStoreProvider} from "./data/redux";
 /* Demo component with its external props. No need to import props if component is not decorated with injection. */
 import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
 
-@Single
+@EntryPoint
 export class Application {
 
   /*
@@ -95,7 +84,7 @@ export class Application {
    * We should use default export with separate props cast or make such mock trick.
    * (I prefer second style with single class declaration and DIRECTLY NAMED imports, which are better).
    */
-  public render(): void {
+  public static main(): void {
     render( <GlobalStoreProvider>
       <ConnectedComponent someLabelFromExternalProps={ "Demo prop" } { ...{} as IConnectedComponentExternalProps }/>
     </GlobalStoreProvider>, document.getElementById("application-root"));
@@ -123,9 +112,11 @@ export const GlobalStoreConnect = globalStoreManager.getConsumerAnnotation();
 ```
 
 
-### Global state interface declaration:
+### State declarations:
 
 ```typescript jsx
+/* State for demo reducer store. */
+/* Class over interface for default init. Will transform to simple object after redux processing. */
 export class DemoReducerState {
 
   public storedNumber: number = 0;
@@ -133,17 +124,9 @@ export class DemoReducerState {
 
 }
 
-```
-
-### Our demo reducer state:
-
-```typescript jsx
-// Class over interface for default init. Will transform to simple object after redux processing.
-export class DemoReducerState {
-
-  public storedNumber: number = 0;
-  public loading: boolean = false;
-
+/* State for global store. */
+export interface IGlobalStoreState {
+  demoReducer: DemoReducerState;
 }
 
 ```

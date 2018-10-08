@@ -17,11 +17,12 @@
 
 <hr/>
 
-Typescript decorators\annotations for <a href='https://github.com/reduxjs/redux'> redux</a>. <br/>
+Typescript decorators\annotations and abstract classes for <a href='https://github.com/reduxjs/redux'> redux</a>. <br/>
+Adds various utility annotations such as @Single, @EntryPoint, @Connect or @Wrapped. <br/>
 Allows you to write class-based declarations of your data storage with strict and predictive typing. <br/>
-Enforces some oop mixed with functional style (all key features and implementation of redux remains the same).
+Enforces oop mixed with functional style (all key features and implementation of redux remains the same).
 
-Intended to be used with react.
+Intended to be used with react-redux.
 
 <hr/>
 
@@ -60,9 +61,9 @@ tsconfig.json: <br/>
 <hr/>
 
 
-## Example (repo example contains more explanations and structure):
+## Example (wiki contains more explanations):
 
-### Application and entrypoint:
+### Application entrypoint:
 ```typescript jsx
 import * as React from "react";
 import {render} from "react-dom";
@@ -111,9 +112,11 @@ export const GlobalStoreConnect = globalStoreManager.getConsumerAnnotation();
 ```
 
 
-### Global state interface declaration:
+### State declarations:
 
 ```typescript jsx
+/* State for demo reducer store. */
+/* Class over interface for default init. Will transform to simple object after redux processing. */
 export class DemoReducerState {
 
   public storedNumber: number = 0;
@@ -121,17 +124,9 @@ export class DemoReducerState {
 
 }
 
-```
-
-### Our demo reducer state:
-
-```typescript jsx
-// Class over interface for default init. Will transform to simple object after redux processing.
-export class DemoReducerState {
-
-  public storedNumber: number = 0;
-  public loading: boolean = false;
-
+/* State for global store. */
+export interface IGlobalStoreState {
+  demoReducer: DemoReducerState;
 }
 
 ```
