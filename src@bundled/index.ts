@@ -404,7 +404,7 @@ export abstract class CBDStoreManager<T> {
     return this.store;
   }
 
-  public getProvider(): React.ComponentType {
+  public getProviderComponent(): React.ComponentType {
     return (props: any) =>  React.createElement(Fragment, {},
       React.createElement(createProvider(this.getStoreKey()), { store: this.getStore() }, props.children));
   };
