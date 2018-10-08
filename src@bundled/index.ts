@@ -139,7 +139,7 @@ export function Wrapped<ComponentProps1, ComponentProps2>(
   return (Target: ComponentType<ComponentProps2>): any => class extends PureComponent {
 
     public render(): ReactNode {
-      return React.createElement(WrapComponent, wrapProps, [React.createElement(Target, this.props as ComponentProps2)]);
+      return React.createElement(WrapComponent, wrapProps, React.createElement(Target, this.props as ComponentProps2));
     }
 
   };
