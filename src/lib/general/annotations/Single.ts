@@ -1,4 +1,4 @@
-import {Constructor} from "../../general/type";
+import {Constructor} from "../type";
 
 export function Single<T extends Constructor<{}>>(target: T): any {
 

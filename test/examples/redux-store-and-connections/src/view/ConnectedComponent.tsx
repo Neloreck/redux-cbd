@@ -3,13 +3,8 @@ import {PureComponent} from "react";
 import {Action} from "redux";
 
 // Store related things.
-import {withGlobalStoreConnection, IGlobalStoreState} from "../data/redux";
+import {GlobalStoreConnect, IGlobalStoreState} from "../data/redux";
 import {AsyncDemoAction, SimpleDemoAction, ComplexDemoAction} from "../data/demo/actions";
-
-/*
- * Connected component example.
- * Second param of decorator is optional. If you need actions only, leave first param as empty arrow func.
- */
 
 // Props, that are injected from connect store.
 interface IConnectedComponentStoreProps {
@@ -39,28 +34,22 @@ export interface IConnectedComponentExternalProps extends IConnectedComponentSto
 export interface IConnectedComponentProps extends IConnectedComponentOwnProps, IConnectedComponentExternalProps {}
 
 // Link global store provider with component. This props will be injected automatically and should be type safe.
-@withGlobalStoreConnection<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentProps>(
-  // State is strict-typed there. Props are injected directly from state. We can use selectors there.
-  // Also, we can add some types of simple selectors into this lib (PRs and ideas are welcome, just follow the style).
+@GlobalStoreConnect<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentProps>(
   (store: IGlobalStoreState) => {
     return {
       demoLoading: store.demoReducer.loading,
       demoNumber: store.demoReducer.storedNumber
     };
   }, {
-    // Returned values will be dispatched. Mapping params to actions creation and store dispatch.
     simpleDemoAction: (num: number) => new SimpleDemoAction(num),
     complexDemoAction: (num: number) => new ComplexDemoAction(num),
     asyncDemoAction: (num: number) => new AsyncDemoAction(num)
   })
-// Stateless component, but second template param can be supplied for stateful ones. Third type is context.
 export class ConnectedComponent extends PureComponent<IConnectedComponentProps> {
 
-  // Array for logging of redux actions. Just for demo purposes. Static is not best solutions for prod.
   public static readonly actionsLog: Array<Action> = [];
 
-  // Rendering array of log messages.
-  public renderLog(): JSX.Element[] {
+  public renderLogMessages(): JSX.Element[] {
     return ConnectedComponent.actionsLog.map((item, idx) => <div key={idx}> {JSON.stringify(item)} </div>);
   }
 
@@ -94,7 +83,7 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
 
         <div>
           <h2>Actions log:</h2>
-          {this.renderLog()}
+          {this.renderLogMessages()}
         </div>
 
       </div>

@@ -12,3 +12,8 @@ export const logInConnectedComponentMiddleware: Middleware = (api: MiddlewareAPI
   ConnectedComponent.actionsLog.push(action);
   next(action);
 };
+
+export const logInConsoleMiddleware: Middleware = (api: MiddlewareAPI) => (next: Dispatch) => (action: Action) => {
+  console.info("[REDUX ACTION]:", action);
+  next(action);
+};

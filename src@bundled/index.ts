@@ -1,9 +1,9 @@
 import "reflect-metadata";
 
 import * as React from "react";
-import {ComponentType, Component, PureComponent, ReactNode} from "react";
+import {ComponentType, Component, PureComponent, ReactNode, Fragment} from "react";
 
-import {Action, Dispatch, Reducer, MiddlewareAPI} from "redux";
+import {Action, Dispatch, Reducer, MiddlewareAPI, Store} from "redux";
 import {
   connect as originalConnect,
   ConnectOptions, createProvider,
@@ -24,7 +24,9 @@ export enum EMetaData {
   PARAM_TYPES = "design:paramtypes",
   RETURN_TYPE = "design:returntype",
   ACTION_CLASS = "cbd:actionclass",
-  ACTION_TYPE = "cbd:actiontype"
+  ACTION_TYPE = "cbd:actiontype",
+  STORE_MANAGED = "cbd:storemanaged",
+  STORE_KEY = "cbd:storekey"
 }
 
 // === Annotations ===
@@ -228,6 +230,18 @@ export const ActionWired = (actionType: string): ((target: any) => any) => {
   };
 };
 
+export const StoreManaged = (storeKey?: string): ((constructor: any) => any) => {
+
+  return function StoreManaged<T extends Constructor<{}>>(constructor: T): any {
+
+    Reflect.defineMetadata(EMetaData.STORE_MANAGED, true, constructor);
+    Reflect.defineMetadata(EMetaData.STORE_KEY, storeKey, constructor);
+
+    return Single(constructor);
+  };
+};
+
+
 // === Actions ===
 
 export enum EActionClass {
@@ -363,14 +377,36 @@ export function createReflectiveReducer <ReducerType extends ReflectiveReducer<S
   };
 }
 
-export abstract class CBDStoreManager {
+export abstract class CBDStoreManager<T> {
 
-  public abstract getStoreKey(): string;
+  protected store?: Store<T, Action<any>>;
 
-  public abstract getStore(): void;
+  public constructor() {
+    const isStoreManaged: boolean = Reflect.getMetadata(EMetaData.STORE_MANAGED, this.constructor);
 
-  public getProvider(): typeof Provider {
-    return createProvider(this.getStoreKey())
+    if (!isStoreManaged) {
+      throw new Error("You should decorate your store manager with @StoreManaged to provide store key and signleton pattern.");
+    }
+  }
+
+  public getStoreKey(): string {
+    return Reflect.getMetadata(EMetaData.STORE_KEY, this.constructor) || "store";
+  };
+
+  protected abstract createStore(): Store<T, Action<any>>;
+
+  public getStore(): Store<T, Action<any>> {
+
+    if (!this.store) {
+      this.store = this.createStore();
+    }
+
+    return this.store;
+  }
+
+  public getProvider(): React.ComponentType {
+    return (props: any) =>  React.createElement(Fragment, {},
+      React.createElement(createProvider(this.getStoreKey()), { store: this.getStore() }, props.children));
   };
 
 }

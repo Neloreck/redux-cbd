@@ -1,34 +1,26 @@
 import * as React from "react";
 import {render} from "react-dom";
+import {Single} from "redux-cbd";
 
-// Check doc for proper reducers and store creation guide.
-import {GlobalStoreProvider, globalStoreManager} from "./data/redux";
+/* Store provider. Injects store for @Connect consumers. */
+import {GlobalStoreProvider} from "./data/redux";
 
-// Our simple connected component.
+/* Demo component with its external props. No need to import props if component is not decorated with injection. */
 import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
 
-// @Single
+@Single
 export class Application {
 
+  /*
+   * { ...{} as IConnectedComponentExternalProps } is the trick for correct types handling.
+   * Actually, connected component is different from the one we exported with 'export class'.
+   * We should use default export with separate props cast or make such mock trick.
+   * (I prefer second style with single class declaration and DIRECTLY NAMED imports, which are better).
+   */
   public render(): void {
-
-    // { ...{} as IConnectedComponentExternalProps } is the trick for correct types handling.
-    // Actually, connected component is different from the one we exported with 'export class'.
-    // We should use default export with separate props cast or make such mock trick.
-    // (I prefer second style with single class declaration and DIRECTLY NAMED imports, which are better).
-
-    // Actual JSX markup for rendering.
-    const rootElement: JSX.Element = (
-      <GlobalStoreProvider store={globalStoreManager.getStore()}>
-        <ConnectedComponent someLabelFromExternalProps={ "Demo prop" } { ...{} as IConnectedComponentExternalProps }/>
-      </GlobalStoreProvider>
-    );
-
-    // DOM target element.
-    const targetElement: HTMLElement | null = document.getElementById("application-root");
-
-    // Render into DOM.
-    render(rootElement, targetElement);
+    render( <GlobalStoreProvider>
+      <ConnectedComponent someLabelFromExternalProps={ "Demo prop" } { ...{} as IConnectedComponentExternalProps }/>
+    </GlobalStoreProvider>, document.getElementById("application-root"));
   }
 
 }

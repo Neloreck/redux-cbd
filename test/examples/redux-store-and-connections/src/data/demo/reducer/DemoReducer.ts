@@ -4,9 +4,7 @@ import {AsyncDemoAction, AsyncDemoActionSuccess, ComplexDemoAction, SimpleDemoAc
 import {DemoReducerState} from "../state/DemoReducerState";
 
 // Reducer class. Typing allows you to create ONLY methods with two params - <genericState, actionType>.
-// Looks for method with same action type and executes it. Just like functional reducer with switch but better.
-// @ActionHandler is not required. Method name does not influence on behaviour.
-// Same action handlers are not allowed inside one class.
+// Looks for method with same action type and executes it. Just like functional reducer with switch, but better.
 export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 
   @ActionHandler
@@ -15,7 +13,7 @@ export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
   }
 
   @ActionHandler
-  public startLoadingAfterAsyncAction(state: DemoReducerState, action: AsyncDemoAction): DemoReducerState {
+  public startLoadingOnAsyncActionReceived(state: DemoReducerState, action: AsyncDemoAction): DemoReducerState {
     return { ...state, loading: action.payload.loading };
   }
 
