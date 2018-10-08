@@ -75,6 +75,8 @@ import {GlobalStoreProvider} from "./data/redux";
 /* Demo component with its external props. No need to import props if component is not decorated with injection. */
 import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
 
+import "reflect-metadata";
+
 @EntryPoint
 export class Application {
 
