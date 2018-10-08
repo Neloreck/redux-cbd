@@ -17,7 +17,7 @@
 
 <hr/>
 
-Typescript decorators\annotations, utils and abstract classes for <a href='https://github.com/reduxjs/redux'> redux</a>. <br/>
+Typescript decorators\annotations, utils and abstract classes for <a href='https://github.com/facebook/react'>react</a>-<a href='https://github.com/reduxjs/redux'>redux</a> application. <br/>
 Adds various utility annotations such as @Single, @EntryPoint, @Connect or @Wrapped. <br/>
 Allows you to write class-based declarations of your data storage with strict and predictive typing. <br/>
 Enforces oop mixed with functional style (all key features and implementation of redux remains the same). <br/>
