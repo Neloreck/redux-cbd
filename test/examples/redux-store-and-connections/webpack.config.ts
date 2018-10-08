@@ -17,7 +17,7 @@ export class WebpackConfig implements webpack.Configuration {
   };
 
   entry = [
-    path.resolve(projectRoot, "src/main.ts")
+    path.resolve(projectRoot, "src/Application.tsx")
   ];
 
   output = {

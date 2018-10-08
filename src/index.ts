@@ -4,7 +4,7 @@ import "reflect-metadata";
 
 export {ReflectUtils, TypeUtils} from "./lib/general/utils/";
 export {Constructor, EMetaData} from "./lib/general/type";
-export {AutoBind, Single} from "./lib/general/annotations";
+export {AutoBind, Single, EntryPoint} from "./lib/general/annotations";
 
 // React.
 
