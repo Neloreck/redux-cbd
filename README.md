@@ -60,6 +60,17 @@ tsconfig.json: <br/>
 ```
 <hr/>
 
+## What is inside
+
+| [Annotations](https://github.com/Neloreck/redux-cbd/wiki/Annotations) | [Actions](https://github.com/Neloreck/redux-cbd/wiki/Actions) | [Reducers](https://github.com/Neloreck/redux-cbd/wiki/Reducers) | [Middleware](https://github.com/Neloreck/redux-cbd/wiki/Middleware) | [Utils](https://github.com/Neloreck/redux-cbd/wiki/Utils)|
+| :------------- | :------------- | :------------- | :------------- | :------------- |
+| [@Single](https://github.com/Neloreck/redux-cbd/wiki/@Single) | [SimpleAction](https://github.com/Neloreck/redux-cbd/wiki/SimpleAction) | [ReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/ReflectiveReducer) | [cbdMiddleware](https://github.com/Neloreck/redux-cbd/wiki/cbdMiddleware) | [createReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/createReflectiveReducer) |
+| [@EntryPoint](https://github.com/Neloreck/redux-cbd/wiki/@EntryPoint) | [ComplexAction](https://github.com/Neloreck/redux-cbd/wiki/ComplexAction) | [IReducerConfig](https://github.com/Neloreck/redux-cbd/wiki/IReducerConfig) | - | [linkReactConnectWithStore](https://github.com/Neloreck/redux-cbd/wiki/linkReactConnectWithStore) |
+| [@AutoBind](https://github.com/Neloreck/redux-cbd/wiki/@AutoBind) | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | [CBDStoreManager](https://github.com/Neloreck/redux-cbd/wiki/CBDStoreManager) | - | [LazyComponentFactory](https://github.com/Neloreck/redux-cbd/wiki/LazyComponentFactory) |
+| [@Wrapped](https://github.com/Neloreck/redux-cbd/wiki/@Wrapped) | - | - | - | [TypeUtils](https://github.com/Neloreck/redux-cbd/wiki/TypeUtils) |
+| [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | [ReflectUtils](https://github.com/Neloreck/redux-cbd/wiki/ReflectUtils) |
+| [@ActionWired](https://github.com/Neloreck/redux-cbd/wiki/@ActionWired) | - | - | - | - |
+| [@ActionHandler](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | - |
 
 ## Example (wiki contains more explanations):
 
