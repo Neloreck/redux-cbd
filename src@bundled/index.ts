@@ -12,6 +12,8 @@ import {
   MergeProps,
   Options, Provider
 } from "react-redux";
+import {globalStoreManager} from "../test/examples/redux-store-and-connections/src/data/redux";
+import {IGlobalStoreState} from "../test/examples/redux-store-and-connections/src/data/redux/IGlobalStoreState";
 
 // General related.
 
@@ -408,6 +410,10 @@ export abstract class CBDStoreManager<T> {
     return (props: any) =>  React.createElement(Fragment, {},
       React.createElement(createProvider(this.getStoreKey()), { store: this.getStore() }, props.children));
   };
+
+  public getConsumerAnnotation(): any {
+    return linkReactConnectWithStore<T>(this.getStoreKey())
+  }
 
 }
 

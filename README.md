@@ -38,15 +38,13 @@ Intended to be used with react.
     
     1) Install package.
     2) Inject reflect-metadata into your bundle (webpack entry or import inside your entryfile).
-    3) Configure typescript. You should turn on "emitDecoratorMetadata" and "experimentalDecorators" for compiler(*1).
+    3) Configure typescript. You should turn on "emitDecoratorMetadata" and "experimentalDecorators" for compiler.
     4) Create some actions (extend simple, complex, async) with @ActionWired annotation.
     5) Create related reducer(extend ReflectiveReducer) with proper @ActionHandlers.
-    6) Create rootReducer, that includes reflectiveReducers. Declare storeState interface.
-    7) Create store, based on root reducer. Include cbdMiddleware there (*2).
-    8) Create @ReduxConnect decorator (optional).
-    9) Connect component and use props and actions.
-    
-    (*1) and (*2) are the most important steps.
+    6) Create rootReducer that includes reflectiveReducers. Declare storeState interface.
+    7) Create store based on root reducer. Extend CBDStoreManager, annotate @StoreManaged. Include cbdMiddleware there.
+    8) Create @StoreConnect decorator.
+    9) Connect component => use props and actions from declarative storage.
 
 tsconfig.json: <br/>
 ```typescript
@@ -80,35 +78,27 @@ new Application().render();
 ```typescript jsx
 import * as React from "react";
 import {render} from "react-dom";
+import {Single} from "redux-cbd";
 
-// Check doc(wiki) for proper reducers and store creation guide.
-import {GlobalStoreProvider, globalStoreManager} from "./data/redux";
+/* Store provider. Injects store for @Connect consumers. */
+import {GlobalStoreProvider} from "./data/redux";
 
-// Our simple connected component.
+/* Demo component with its external props. No need to import props if component is not decorated with injection. */
 import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
 
-// @Single
+@Single
 export class Application {
 
+  /*
+   * { ...{} as IConnectedComponentExternalProps } is the trick for correct types handling.
+   * Actually, connected component is different from the one we exported with 'export class'.
+   * We should use default export with separate props cast or make such mock trick.
+   * (I prefer second style with single class declaration and DIRECTLY NAMED imports, which are better).
+   */
   public render(): void {
-
-    // { ...{} as IConnectedComponentExternalProps } is the trick for correct types handling.
-    // Actually, connected component is different from the one we exported with 'export class'.
-    // We should use default export with separate props cast or make such mock trick.
-    // (I prefer second style with single class declaration and DIRECTLY NAMED imports, which are better).
-
-    // Actual JSX markup for rendering.
-    const rootElement: JSX.Element = (
-      <GlobalStoreProvider store={globalStoreManager.getStore()}>
-        <ConnectedComponent someLabelFromExternalProps={ "Demo prop" } { ...{} as IConnectedComponentExternalProps }/>
-      </GlobalStoreProvider>
-    );
-
-    // DOM target element.
-    const targetElement: HTMLElement | null = document.getElementById("application-root");
-
-    // Render into DOM.
-    render(rootElement, targetElement);
+    render( <GlobalStoreProvider>
+      <ConnectedComponent someLabelFromExternalProps={ "Demo prop" } { ...{} as IConnectedComponentExternalProps }/>
+    </GlobalStoreProvider>, document.getElementById("application-root"));
   }
 
 }
@@ -118,22 +108,17 @@ export class Application {
 ### Store, provider and connect creations:
 
 ```typescript jsx
-import {Provider} from "react-redux";
-import {IReactComponentConnect, linkReactConnectWithStore} from "redux-cbd";
-
 import {GlobalStoreManager} from "./GlobalStoreManager";
 import {IGlobalStoreState} from "./IGlobalStoreState";
 
-// Global store state typing, includes reducers for this one (can exist multiple stores in our app).
+/* Global store state typing, includes reducers for this one (can exist multiple stores in our app). */
 export {IGlobalStoreState} from  "./IGlobalStoreState";
-// Global store manager. Creates store, providers, contains some info about store. Feel free to extend and modify.
+/* Singleton store manager. Creates store, providers, contains some info about store. */
 export const globalStoreManager: GlobalStoreManager = new GlobalStoreManager();
-// Global store provider.
-export const GlobalStoreProvider: typeof Provider = globalStoreManager.getProvider();
-// @Connect linked to global store, components can be wrapped in multiple connects.
-export const withGlobalStoreConnection: IReactComponentConnect<IGlobalStoreState> =
-  linkReactConnectWithStore<IGlobalStoreState>(globalStoreManager.getStoreKey());
-
+/* Global store provider wrapper, provides correct store and store key for connection. No need to manage store manually. */
+export const GlobalStoreProvider = globalStoreManager.getProvider();
+/* @Connect decorator annotation linked to global store, components can be wrapped in multiple connects with different stores. */
+export const GlobalStoreConnect = globalStoreManager.getConsumerAnnotation();
 
 ```
 
@@ -141,12 +126,10 @@ export const withGlobalStoreConnection: IReactComponentConnect<IGlobalStoreState
 ### Global state interface declaration:
 
 ```typescript jsx
-import {DemoReducerState} from "../demo/state/DemoReducerState";
+export class DemoReducerState {
 
-// Typing related. Interface, that includes ALL of your reducers. Other ones should be included there after creation.
-export interface IGlobalStoreState {
-
-  demoReducer: DemoReducerState;
+  public storedNumber: number = 0;
+  public loading: boolean = false;
 
 }
 
@@ -262,53 +245,33 @@ export class AsyncDemoAction extends AsyncAction {
 ### Global store manager:
 ```typescript jsx
 import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware, Reducer} from "redux";
-import {CBDStoreManager, cbdMiddleware} from "redux-cbd";
+import {StoreManaged, CBDStoreManager, cbdMiddleware} from "redux-cbd";
 
-// Whole store bundle interface.
+/* Custom middlewares. */
+import {logInConnectedComponentMiddleware, logInConsoleMiddleware} from "../../view/logInMiddlewares";
+
+/* Store state, that includes smaller reducers. */
 import {IGlobalStoreState} from "./IGlobalStoreState";
 
-// Demo reducer class and its state.
+/* Some Reducers declaration. */
 import {DemoReducerState} from "../demo/state/DemoReducerState";
 import {DemoReducer} from "../demo/reducer/DemoReducer";
 
-export class GlobalStoreManager extends CBDStoreManager {
+@StoreManaged("GLOBAL_STORE")
+export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {
 
-  private static STORE_KEY: string = "GLOBAL_STORE";
-  private static store: Store<IGlobalStoreState, Action<any>>;
-
-  // Creating store. Singleton instance for whole app. Also, we can use @Single decorator there. (if we will iml it)
-  private createStore(): Store<IGlobalStoreState, Action<any>> {
-    const middlewares: Array<Middleware> = [cbdMiddleware];
+  // Creating store. Singleton instance for whole app. cbdMiddleware is important there, logs are for demo.
+  protected createStore(): Store<IGlobalStoreState, Action<any>> {
+    const middlewares: Array<Middleware> = [cbdMiddleware, logInConnectedComponentMiddleware, logInConsoleMiddleware];
     return createStore(this.createRootReducer(), applyMiddleware(...middlewares));
   }
 
-  // Creating root reducer, based on our application global state.
+  // Creating root reducer based on our application global state.
   // Recommend to create model/module related ones instead of page-related. For example: auth, userSetting etc.
   private createRootReducer(): Reducer<IGlobalStoreState> {
-    // new DemoReducer().asFunctional(new DemoReducerState(), { freezeState: true })
-    // is same to
-    // createReflectiveReducer(DemoReducer, new DemoReducerState(), { freezeState: true })
-    //
-    // reducers created in a default way are supposed to work as intended
-
     return combineReducers( {
       demoReducer: new DemoReducer().asFunctional(new DemoReducerState(), { freezeState: true })
     });
-  }
-
-  // Unique store key for provider, default is 'store'.
-  public getStoreKey(): string {
-    return GlobalStoreManager.STORE_KEY;
-  }
-
-  // Singleton store getter.
-  public getStore(): Store<IGlobalStoreState, Action<any>> {
-
-    if (!GlobalStoreManager.store) {
-      GlobalStoreManager.store = this.createStore();
-    }
-
-    return GlobalStoreManager.store;
   }
 
 }

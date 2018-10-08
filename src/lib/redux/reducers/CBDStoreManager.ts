@@ -4,9 +4,10 @@ import {Fragment} from "react";
 import {Store} from "redux";
 import {createProvider} from "react-redux";
 
+import {linkReactConnectWithStore} from "../utils/linkReactConnectWithStore";
 import {EMetaData} from "../../general/type";
 
-export abstract class CBDStoreManager {
+export abstract class CBDStoreManager<T> {
 
   protected store?: Store;
 
@@ -22,8 +23,6 @@ export abstract class CBDStoreManager {
     return Reflect.getMetadata(EMetaData.STORE_KEY, this.constructor) || "store";
   };
 
-  public abstract createStore(): Store;
-
   public getStore(): Store {
     if (!this.store) {
       this.store = this.createStore();
@@ -36,5 +35,11 @@ export abstract class CBDStoreManager {
     return (props: any) =>  React.createElement(Fragment, {},
       React.createElement(createProvider(this.getStoreKey()), { store: this.getStore() }, props.children));
   };
+
+  public getConsumerAnnotation(): any {
+    return linkReactConnectWithStore<T>(this.getStoreKey())
+  }
+
+  protected abstract createStore(): Store;
 
 }
