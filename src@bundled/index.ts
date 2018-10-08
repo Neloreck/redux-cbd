@@ -10,7 +10,7 @@ import {
   MapDispatchToPropsParam,
   MapStateToPropsParam,
   MergeProps,
-  Options, Provider
+  Options
 } from "react-redux";
 
 // General related.
@@ -409,7 +409,7 @@ export abstract class CBDStoreManager<T> {
       React.createElement(createProvider(this.getStoreKey()), { store: this.getStore() }, props.children));
   };
 
-  public getConsumerAnnotation(): any {
+  public getConsumerAnnotation(): IReactComponentConnect<T> {
     return linkReactConnectWithStore<T>(this.getStoreKey())
   }
 
