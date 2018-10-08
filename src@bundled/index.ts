@@ -12,8 +12,6 @@ import {
   MergeProps,
   Options, Provider
 } from "react-redux";
-import {globalStoreManager} from "../test/examples/redux-store-and-connections/src/data/redux";
-import {IGlobalStoreState} from "../test/examples/redux-store-and-connections/src/data/redux/IGlobalStoreState";
 
 // General related.
 
