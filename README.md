@@ -153,7 +153,7 @@ import {DemoReducerState} from "../state/DemoReducerState";
 // Same action handlers are not allowed inside one class.
 export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 
-  @ActionHandler
+    @ActionHandler
     public changeStoredNumber(state: DemoState, action: SimpleDemoAction): DemoState {
       return { ...state, storedNumber: action.payload.storedNumber };
     }
