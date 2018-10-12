@@ -392,7 +392,7 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
         </div>
 
         <div>
-          <h2>Actions log:</h2>
+          <div>Actions log:</div>
           {this.renderLogMessages()}
         </div>
 

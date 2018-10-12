@@ -153,7 +153,7 @@ import {DemoReducerState} from "../state/DemoReducerState";
 // Same action handlers are not allowed inside one class.
 export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 
-  @ActionHandler
+    @ActionHandler
     public changeStoredNumber(state: DemoState, action: SimpleDemoAction): DemoState {
       return { ...state, storedNumber: action.payload.storedNumber };
     }
@@ -392,7 +392,7 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
         </div>
 
         <div>
-          <h2>Actions log:</h2>
+          <div>Actions log:</div>
           {this.renderLogMessages()}
         </div>
 
