@@ -8,14 +8,14 @@ export abstract class SimpleAction implements Action {
 
   public type!: string;
 
-  protected payload: object = {};
+  public readonly payload: object = {};
 
   public getActionPayload(): object {
     return this.payload;
   }
 
   public getActionType(): string {
-    return Reflect.getMetadata(EMetaData.ACTION_TYPE, this);
+    return Reflect.getMetadata(EMetaData.ACTION_TYPE, this.constructor);
   }
 
 }

@@ -3,8 +3,8 @@ import {PureComponent} from "react";
 import {Action} from "redux";
 
 // Store related things.
-import {GlobalStoreConnect, IGlobalStoreState} from "../data/redux";
-import {AsyncDemoAction, SimpleDemoAction, ComplexDemoAction} from "../data/demo/actions";
+import {GlobalStoreConnect, IGlobalStoreState} from "../data";
+import {AsyncDemoAction, SimpleDemoAction, ComplexDemoAction, DataExchangeDemoAction} from "../data/demo/actions";
 
 // Props, that are injected from connect store.
 interface IConnectedComponentStoreProps {
@@ -14,9 +14,10 @@ interface IConnectedComponentStoreProps {
 
 // Props, mapped and injected as actions creators.
 interface IConnectedComponentDispatchProps {
-  simpleDemoAction: (num: number) => any;
-  asyncDemoAction: (num: number) => any;
-  complexDemoAction: (num: number) => any;
+  simpleDemoAction: (num: number) => SimpleDemoAction;
+  asyncDemoAction: (num: number) => AsyncDemoAction;
+  complexDemoAction: (num: number) => ComplexDemoAction;
+  dataExchangeDemoAction: (num: number) => DataExchangeDemoAction;
 }
 
 // Own props, that are passed with manual component/container creations.
@@ -43,7 +44,8 @@ export interface IConnectedComponentProps extends IConnectedComponentOwnProps, I
   }, {
     simpleDemoAction: (num: number) => new SimpleDemoAction(num),
     complexDemoAction: (num: number) => new ComplexDemoAction(num),
-    asyncDemoAction: (num: number) => new AsyncDemoAction(num)
+    asyncDemoAction: (num: number) => new AsyncDemoAction(num),
+    dataExchangeDemoAction: (num) => new DataExchangeDemoAction({ storedNumber: num })
   })
 export class ConnectedComponent extends PureComponent<IConnectedComponentProps> {
 
@@ -56,7 +58,8 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
   public render(): JSX.Element {
 
     const {
-      someLabelFromExternalProps, simpleDemoAction, asyncDemoAction, complexDemoAction, demoLoading, demoNumber
+      someLabelFromExternalProps, simpleDemoAction, asyncDemoAction, complexDemoAction, demoLoading, demoNumber,
+      dataExchangeDemoAction
     } = this.props;
 
     const paddingStyle = { padding: "10px" };
@@ -77,6 +80,7 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
 
         <div style={paddingStyle}>
           <button onClick={() => simpleDemoAction(Math.random())}>Send Sync Action</button>
+          <button onClick={() => dataExchangeDemoAction(Math.sqrt(Math.random()))}>Send Data Exchange Action</button>
           <button onClick={() => asyncDemoAction(1000 + Math.random() * 1500)}>Send Async Action</button>
           <button onClick={() => complexDemoAction(Math.random() * 10 + 1)}>Send Complex Action</button>
         </div>

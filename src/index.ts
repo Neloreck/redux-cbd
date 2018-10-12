@@ -13,7 +13,7 @@ export {LazyLoadComponentFactory} from "./lib/react/utils";
 
 // Redux.
 
-export {SimpleAction, ComplexAction, AsyncAction} from "./lib/redux/actions";
+export {SimpleAction, DataExchangeAction, ComplexAction, AsyncAction} from "./lib/redux/actions";
 export {ActionHandler, ActionWired, StoreManaged} from "./lib/redux/annotations";
 export {cbdMiddleware} from "./lib/redux/middleware";
 export {CBDStoreManager, ReflectiveReducer, IReducerConfig} from "./lib/redux/reducers";

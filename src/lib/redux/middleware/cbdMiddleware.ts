@@ -1,4 +1,5 @@
 import {Dispatch, MiddlewareAPI} from "redux";
+
 import {SimpleAction, EActionClass, AsyncAction, ComplexAction} from "../actions";
 import {EMetaData} from "../../general/type";
 
@@ -11,6 +12,7 @@ export const cbdMiddleware = (middlewareAPI: MiddlewareAPI) => (next: Dispatch) 
   switch (actionType) {
 
     case EActionClass.SIMPLE_ACTION:
+    case EActionClass.EXCHANGE_ACTION:
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
     case EActionClass.COMPLEX_ACTION:

@@ -2,14 +2,10 @@ import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware
 import {StoreManaged, CBDStoreManager, cbdMiddleware} from "redux-cbd";
 
 /* Custom middlewares. */
-import {logInConnectedComponentMiddleware, logInConsoleMiddleware} from "../../view/logInMiddlewares";
+import {logInConnectedComponentMiddleware, logInConsoleMiddleware} from "../view/logInMiddlewares";
 
-/* Store state, that includes smaller reducers. */
 import {IGlobalStoreState} from "./IGlobalStoreState";
-
-/* Some Reducers declaration. */
-import {DemoReducerState} from "../demo/state/DemoReducerState";
-import {DemoReducer} from "../demo/reducer/DemoReducer";
+import {DemoReducer, DemoState} from "./demo";
 
 @StoreManaged("GLOBAL_STORE")
 export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {
@@ -24,7 +20,7 @@ export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {
   // Recommend to create model/module related ones instead of page-related. For example: auth, userSetting etc.
   private createRootReducer(): Reducer<IGlobalStoreState> {
     return combineReducers( {
-      demoReducer: new DemoReducer().asFunctional(new DemoReducerState(), { freezeState: true })
+      demoReducer: new DemoReducer().asFunctional(new DemoState(), { freezeState: true })
     });
   }
 

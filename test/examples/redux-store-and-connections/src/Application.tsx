@@ -3,9 +3,8 @@ import {render} from "react-dom";
 import {EntryPoint} from "redux-cbd";
 
 /* Store provider. Injects store for @Connect consumers. */
-import {GlobalStoreProvider} from "./data/redux";
+import {GlobalStoreProvider} from "./data";
 
-/* Demo component with its external props. No need to import props if component is not decorated with injection. */
 import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
 
 @EntryPoint

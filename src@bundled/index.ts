@@ -258,7 +258,8 @@ export enum EActionClass {
   OBJECT_ACTION = "OBJECT_ACTION",
   SIMPLE_ACTION = "SIMPLE_ACTION",
   COMPLEX_ACTION = "COMPLEX_ACTION",
-  ASYNC_ACTION = "ASYNC_ACTION"
+  ASYNC_ACTION = "ASYNC_ACTION",
+  EXCHANGE_ACTION = "EXCHANGE_ACTION"
 }
 
 @Reflect.metadata(EMetaData.ACTION_CLASS, EActionClass.SIMPLE_ACTION)
@@ -266,7 +267,7 @@ export abstract class SimpleAction implements Action {
 
   public type!: string;
 
-  protected payload: object = {};
+  public readonly payload: object = {};
 
   public getActionPayload(): object {
     return this.payload;
@@ -274,6 +275,19 @@ export abstract class SimpleAction implements Action {
 
   public getActionType(): string {
     return Reflect.getMetadata(EMetaData.ACTION_TYPE, this.constructor);
+  }
+
+}
+
+@Reflect.metadata(EMetaData.ACTION_CLASS, EActionClass.EXCHANGE_ACTION)
+export abstract class DataExchangeAction<PayloadType extends object> extends SimpleAction {
+
+  public readonly payload: PayloadType;
+
+  constructor(payload: PayloadType) {
+    super();
+
+    this.payload = payload;
   }
 
 }
@@ -312,6 +326,7 @@ export const cbdMiddleware = (middlewareApi: MiddlewareAPI) => (next: Dispatch) 
   switch (actionType) {
 
     case EActionClass.SIMPLE_ACTION:
+    case EActionClass.EXCHANGE_ACTION:
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
     case EActionClass.COMPLEX_ACTION:
