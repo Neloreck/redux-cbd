@@ -67,7 +67,7 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
     return (
       <div style={paddingStyle}>
 
-        <h2> Simple demo [{ someLabelFromExternalProps }]: </h2>
+        <div> Also, check console. External prop: [{ someLabelFromExternalProps }]: </div>
 
         <div style={paddingStyle}>
           <b>Demo Reducer:</b> <br/> <br/>
