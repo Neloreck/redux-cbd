@@ -321,6 +321,11 @@ export abstract class ComplexAction extends SimpleAction {
 export const cbdMiddleware = (middlewareApi: MiddlewareAPI) => (next: Dispatch) => (action: SimpleAction & AsyncAction
   & ComplexAction) => {
 
+  if (!action || !action.constructor) {
+    // We don't handle errors and other things there, let redux or other middlewares do it.
+    return next(action);
+  }
+
   const actionType: EActionClass = Reflect.getMetadata(EMetaData.ACTION_CLASS, action.constructor) || EActionClass.OBJECT_ACTION;
 
   switch (actionType) {
