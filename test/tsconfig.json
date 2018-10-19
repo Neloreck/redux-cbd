@@ -1,6 +1,7 @@
 {
   "extends": "../src/tsconfig.json",
   "compilerOptions": {
+    "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es3",

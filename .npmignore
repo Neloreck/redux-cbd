@@ -1,4 +1,7 @@
+.travis.yml
+
 .idea/
+.github/
 src/
 test/
 coverage/
