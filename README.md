@@ -64,7 +64,7 @@ tsconfig.json part: <br/>
 | :------------- | :------------- | :------------- | :------------- | :------------- |
 | [@Single](https://github.com/Neloreck/redux-cbd/wiki/@Single) | [SimpleAction](https://github.com/Neloreck/redux-cbd/wiki/SimpleAction) | [ReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/ReflectiveReducer) | [cbdMiddleware](https://github.com/Neloreck/redux-cbd/wiki/cbdMiddleware) | [createReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/createReflectiveReducer) |
 | [@EntryPoint](https://github.com/Neloreck/redux-cbd/wiki/@EntryPoint) | [DataExchangeAction](https://github.com/Neloreck/redux-cbd/wiki/DataExchangeAction) | [IReducerConfig](https://github.com/Neloreck/redux-cbd/wiki/IReducerConfig) | - | [linkReactConnectWithStore](https://github.com/Neloreck/redux-cbd/wiki/linkReactConnectWithStore) |
-| [@AutoBind](https://github.com/Neloreck/redux-cbd/wiki/@AutoBind) | [ComplexAction](https://github.com/Neloreck/redux-cbd/wiki/ComplexAction) | [CBDStoreManager](https://github.com/Neloreck/redux-cbd/wiki/CBDStoreManager) | - | [LazyComponentFactory](https://github.com/Neloreck/redux-cbd/wiki/LazyComponentFactory) |
+| [@Bind](https://github.com/Neloreck/redux-cbd/wiki/@Bind) | [ComplexAction](https://github.com/Neloreck/redux-cbd/wiki/ComplexAction) | [CBDStoreManager](https://github.com/Neloreck/redux-cbd/wiki/CBDStoreManager) | - | [LazyComponentFactory](https://github.com/Neloreck/redux-cbd/wiki/LazyComponentFactory) |
 | [@Wrapped](https://github.com/Neloreck/redux-cbd/wiki/@Wrapped) | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | - | - | [TypeUtils](https://github.com/Neloreck/redux-cbd/wiki/TypeUtils) |
 | [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | [ReflectUtils](https://github.com/Neloreck/redux-cbd/wiki/ReflectUtils) |
 | [@ActionWired](https://github.com/Neloreck/redux-cbd/wiki/@ActionWired) | - | - | - | - |
@@ -218,7 +218,7 @@ export class AsyncDemoActionSuccess extends SimpleAction {
 }
 
 @ActionWired("ASYNC_TEST_ACTION")
-export class AsyncDemoAction extends AsyncAction {
+export class AsyncDemoAction<DemoState> extends AsyncAction {
 
   public payload: { loading: boolean } = { loading: true };
 
@@ -247,7 +247,7 @@ export class AsyncDemoAction extends AsyncAction {
 }
 
 @ActionWired("COMPLEX_TEST_ACTION")
-export class ComplexDemoAction extends ComplexAction {
+export class ComplexDemoAction<DemoState> extends ComplexAction {
 
   public payload: { storedNumber: number } = { storedNumber: 0 };
 
@@ -307,6 +307,7 @@ export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {
 import * as React from "react";
 import {PureComponent} from "react";
 import {Action} from "redux";
+import {Bind} from "redux-cbd";
 
 // Store related things.
 import {GlobalStoreConnect, IGlobalStoreState} from "../data";
@@ -320,10 +321,10 @@ interface IConnectedComponentStoreProps {
 
 // Props, mapped and injected as actions creators.
 interface IConnectedComponentDispatchProps {
-  simpleDemoAction: (num: number) => SimpleDemoAction;
-  asyncDemoAction: (num: number) => AsyncDemoAction;
-  complexDemoAction: (num: number) => ComplexDemoAction;
-  dataExchangeDemoAction: (num: number) => DataExchangeDemoAction;
+  sendSimpleDemoAction: (num: number) => SimpleDemoAction;
+  sendAsyncDemoAction: (num: number) => AsyncDemoAction;
+  sendComplexDemoAction: (num: number) => ComplexDemoAction;
+  sendDataExchangeDemoAction: (num: number) => DataExchangeDemoAction;
 }
 
 // Own props, that are passed with manual component/container creations.
@@ -348,14 +349,14 @@ export interface IConnectedComponentProps extends IConnectedComponentOwnProps, I
       demoNumber: store.demoReducer.storedNumber
     };
   }, {
-    simpleDemoAction: (num: number) => new SimpleDemoAction(num),
-    complexDemoAction: (num: number) => new ComplexDemoAction(num),
-    asyncDemoAction: (num: number) => new AsyncDemoAction(num),
-    dataExchangeDemoAction: (num) => new DataExchangeDemoAction({ storedNumber: num })
+    sendSimpleDemoAction: (num: number) => new SimpleDemoAction(num),
+    sendComplexDemoAction: (num: number) => new ComplexDemoAction(num),
+    sendAsyncDemoAction: (num: number) => new AsyncDemoAction(num),
+    sendDataExchangeDemoAction: (num) => new DataExchangeDemoAction({ storedNumber: num })
   })
 export class ConnectedComponent extends PureComponent<IConnectedComponentProps> {
 
-  public static readonly actionsLog: Array<Action> = [];
+  public static actionsLog: Array<Action> = [];
 
   public renderLogMessages(): JSX.Element[] {
     return ConnectedComponent.actionsLog.map((item, idx) => <div key={idx}> {JSON.stringify(item)} </div>);
@@ -363,11 +364,7 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
 
   public render(): JSX.Element {
 
-    const {
-      someLabelFromExternalProps, simpleDemoAction, asyncDemoAction, complexDemoAction, demoLoading, demoNumber,
-      dataExchangeDemoAction
-    } = this.props;
-
+    const {someLabelFromExternalProps, demoLoading, demoNumber} = this.props;
     const paddingStyle = { padding: "10px" };
 
     return (
@@ -377,7 +374,6 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
 
         <div style={paddingStyle}>
           <b>Demo Reducer:</b> <br/> <br/>
-
           [testLoading]: {demoLoading.toString()} ; <br/>
           [testValue]: {demoNumber.toString()} ; <br/>
         </div>
@@ -385,10 +381,11 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
         <br/>
 
         <div style={paddingStyle}>
-          <button onClick={() => simpleDemoAction(Math.random())}>Send Sync Action</button>
-          <button onClick={() => dataExchangeDemoAction(Math.sqrt(Math.random()))}>Send Data Exchange Action</button>
-          <button onClick={() => asyncDemoAction(1000 + Math.random() * 1500)}>Send Async Action</button>
-          <button onClick={() => complexDemoAction(Math.random() * 10 + 1)}>Send Complex Action</button>
+          <button onClick={this.sendSimpleDemoAction}>Send Sync Action</button>
+          <button onClick={this.sendDataExchangeAction}>Send Data Exchange Action</button>
+          <button onClick={this.sendAsyncAction}>Send Async Action</button>
+          <button onClick={this.sendComplexAction}>Send Complex Action</button>
+          <button onClick={this.clearLogMessages}>Clean</button>
         </div>
 
         <div>
@@ -400,8 +397,33 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
     );
   }
 
-}
+  @Bind
+  public clearLogMessages(): void {
+    ConnectedComponent.actionsLog = [];
+    this.forceUpdate();
+  }
 
+  @Bind
+  private sendSimpleDemoAction(): void {
+    this.props.sendSimpleDemoAction(Math.random() * 999 + 1);
+  }
+
+  @Bind
+  private sendDataExchangeAction(): void {
+    this.props.sendDataExchangeDemoAction(Math.random() * 9999 + 1000)
+  }
+
+  @Bind
+  private sendComplexAction(): void {
+    this.props.sendComplexDemoAction(Math.random() * -9999 - 1)
+  }
+
+  @Bind
+  private sendAsyncAction(): void {
+    this.props.sendComplexDemoAction(Math.random() * -99999 - 10000)
+  }
+
+}
 ```
 
 ## Documentation:
