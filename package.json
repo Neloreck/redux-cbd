@@ -1,12 +1,12 @@
 {
   "name": "redux-cbd",
-  "version": "1.3.9",
+  "version": "1.3.10",
   "description": "Declarative class-based annotations for redux. OOP style for your typescript-react-redux app.",
   "main": "./index.js",
   "private": false,
   "scripts": {
     "test": "npx tsc -p ./test/tsconfig.json && npx jest --all --collectCoverageFrom=src@bundled/**/*.ts --config ./test/jest.config.js --detectOpenHandles && npx rimraf ./test/jest.config.js",
-    "build": "tsc -p ./src@bundled/tsconfig.json",
+    "build": "tsc -p ./src/tsconfig.json",
     "prepare": "npm run build"
   },
   "repository": {
