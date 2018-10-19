@@ -7,7 +7,7 @@
   "scripts": {
     "test": "npx tsc -p ./test/tsconfig.json && npx jest --all --collectCoverageFrom=src@bundled/**/*.ts --config ./test/jest.config.js --detectOpenHandles && npx rimraf ./test/jest.config.js",
     "build": "tsc -p ./src/tsconfig.json",
-    "prepare": "npm run build"
+    "prepare": "npm run test && npm run build"
   },
   "repository": {
     "type": "git",
