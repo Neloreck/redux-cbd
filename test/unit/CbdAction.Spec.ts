@@ -1,8 +1,7 @@
 import {ASYNC_SUCCESS, COMPLEX_MANUAL, ASYNC_MANUAL, COMPLEX_WIRED, SIMPLE_MANUAL, ASYNC_WIRED,
   SIMPLE_WIRED, SimpleWired, SimpleManual, AsyncWired, AsyncManual, ComplexWired, ComplexManual} from "./mocks/actionMocks";
 
-import {EActionClass} from "../../src@bundled";
-import {EMetaData} from "../../src/lib/general/type";
+import {EActionClass, EMetaData} from "../../src";
 
 describe("CBD Actions.", () => {
 

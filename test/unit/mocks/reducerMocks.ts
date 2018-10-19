@@ -1,6 +1,5 @@
-import {ReflectiveReducer} from "../../../src@bundled";
+import {ActionHandler, ReflectiveReducer} from "../../../src";
 import {AsyncWired, SimpleWired} from "./actionMocks";
-import {ActionHandler} from "../../../src/lib/redux/annotations";
 
 export class MockReducerState {
 
