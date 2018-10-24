@@ -114,7 +114,7 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
 
   @Bind
   private sendAsyncAction(): void {
-    this.props.sendComplexDemoAction(Math.random() * -99999 - 10000)
+    this.props.sendAsyncDemoAction(Math.random() * 3000 + 1000)
   }
 
 }
