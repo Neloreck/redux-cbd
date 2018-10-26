@@ -75,7 +75,9 @@ tsconfig.json part: <br/>
 
 ## Example (wiki contains more explanations):
 
-### Application entrypoint:
+<details><summary>Application entrypoint.</summary>
+<p>
+    
 ```typescript jsx
 import * as React from "react";
 import {render} from "react-dom";
@@ -102,11 +104,14 @@ export class Application {
   }
 
 }
-
 ```
 
-### Store, provider and connect creations:
+</p>
+</details>
 
+<details><summary>Store, provider and connect creations.</summary>
+<p>
+    
 ```typescript jsx
 import {GlobalStoreManager} from "./GlobalStoreManager";
 import {IGlobalStoreState} from "./IGlobalStoreState";
@@ -122,9 +127,12 @@ export const GlobalStoreConnect = globalStoreManager.getConsumerAnnotation();
 
 ```
 
+</p>
+</details>
 
-### State declarations:
-
+<details><summary>State declarations.</summary>
+<p>
+    
 ```typescript jsx
 /* State for demo reducer store. */
 /* Class over interface for default init. Will transform to simple object after redux processing. */
@@ -142,8 +150,12 @@ export interface IGlobalStoreState {
 
 ```
 
-### Our demo reducer:
+</p>
+</details>
 
+<details><summary>Demo reducer.</summary>
+<p>
+  
 ```typescript jsx
 import {ActionHandler, ReflectiveReducer} from "@redux-cbd/core";
 
@@ -185,7 +197,12 @@ export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 
 ```
 
-### Our actions for reducer methods (considered to be separate class-files, you know):
+</p>
+</details>
+
+<details><summary>Actions for reducer methods (considered to be separate class-files, you know).</summary>
+<p>
+    
 
 ```typescript jsx
 import {ActionWired, AsyncAction, SimpleAction, DataExchangeAction} from "@redux-cbd/core";
@@ -267,7 +284,12 @@ export class ComplexDemoAction<DemoState> extends ComplexAction {
 
 ```
 
-### Global store manager:
+</p>
+</details>
+
+<details><summary>Global store manager.</summary>
+<p>
+    
 ```typescript jsx
 import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware, Reducer} from "redux";
 import {StoreManaged, CBDStoreManager, cbdMiddleware} from "@redux-cbd/core";
@@ -303,8 +325,12 @@ export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {
 
 ```
 
-### Connected component
+</p>
+</details>
 
+<details><summary>Connected component.</summary>
+<p>
+  
 ```typescript jsx
 import * as React from "react";
 import {PureComponent} from "react";
@@ -427,6 +453,9 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
 
 }
 ```
+
+</p>
+</details>
 
 ## Documentation:
 
