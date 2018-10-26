@@ -1,4 +1,4 @@
-export function Single<T extends  new(...args: Array<any>) => {}>(target: T): any {
+export const Single = () => <T extends  new(...args: Array<any>) => {}>(target: T): any => {
 
   const originalConstructor: T = target;
 
@@ -14,4 +14,4 @@ export function Single<T extends  new(...args: Array<any>) => {}>(target: T): an
   newConstructor.prototype = originalConstructor.prototype;
 
   return newConstructor;
-}
+};

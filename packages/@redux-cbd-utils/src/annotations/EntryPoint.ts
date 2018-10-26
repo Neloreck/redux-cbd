@@ -1,4 +1,4 @@
-export const EntryPoint = (targetClass: { main: () => void } ): void  => {
+export const EntryPoint = () => (targetClass: { main: () => void } ): void  => {
 
   if (targetClass.main) {
     targetClass.main();
