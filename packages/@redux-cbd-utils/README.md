@@ -8,7 +8,7 @@
 [![dependencies Status](https://david-dm.org/neloreck/redux-cbd/status.svg)](https://david-dm.org/neloreck/redux-cbd)
 [![devDependencies Status](https://david-dm.org/neloreck/redux-cbd/dev-status.svg)](https://david-dm.org/neloreck/redux-cbd?type=dev)
 <br/>
-[![npm downloads](https://img.shields.io/npm/dm/@redux-cbd/utils.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/utils)
+[![npm downloads](https://img.shields.io/npm/dt/@redux-cbd/utils.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/utils)
 [![HitCount](http://hits.dwyl.com/neloreck/@redux-cbd/utils.svg)](http://hits.dwyl.com/neloreck/@redux-cbd/utils)
 
 <hr/>

@@ -5,10 +5,10 @@
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/blob/master/LICENSE)
 [![language-ts](https://img.shields.io/badge/language-typescript%3A%2099%25-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/search?l=typescript)
 <br/>
-[![dependencies Status](https://david-dm.org/neloreck/@redux-cbd/core/status.svg)](https://david-dm.org/neloreck/redux-cbd)
-[![devDependencies Status](https://david-dm.org/neloreck/@redux-cbd/core/dev-status.svg)](https://david-dm.org/neloreck/@redux-cbd/core?type=dev)
+[![dependencies Status](https://david-dm.org/neloreck/redux-cbd/status.svg)](https://david-dm.org/neloreck/redux-cbd)
+[![devDependencies Status](https://david-dm.org/neloreck/redux-cbd/dev-status.svg)](https://david-dm.org/neloreck/redux-cbd?type=dev)
 <br/>
-[![npm downloads](https://img.shields.io/npm/dm/@redux-cbd/core.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/core)
+[![npm downloads](https://img.shields.io/npm/dt/@redux-cbd/core.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/core)
 [![HitCount](http://hits.dwyl.com/neloreck/@redux-cbd/core.svg)](http://hits.dwyl.com/neloreck/@redux-cbd/core)
 
 <hr/>
