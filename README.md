@@ -437,7 +437,7 @@ Feel free to contibute or mail me with questions/proposals/issues (Neloreck@gmai
 
 Repository includes example project with commentaries: <a href='https://github.com/Neloreck/redux-cbd/tree/master/test/examples'>link</a>. <br/>
 My own 'redux-cbd' based project: <a href='https://github.com/Neloreck/x-core'>link</a>. <br/>
-Library unit tests also include some different examples of cbd usage: <a href='https://github.com/Neloreck/redux-cbd/tree/master/test/unit'> link </a>. <br/>
+Library unit tests also include some different examples of cbd usage: <a href='https://github.com/Neloreck/redux-cbd/tree/master/test/unit'> link</a>. <br/>
 
 ## Licence
 
