@@ -1,0 +1,59 @@
+{
+  "name": "@redux-cbd/utils",
+  "version": "1.0.0",
+  "description": "Declarative class-based annotations for redux. Utils package.",
+  "main": "./index.js",
+  "private": false,
+  "scripts": {
+    "test": "npx tsc -p ./test/tsconfig.json && npx jest --all --collectCoverageFrom=src/**/*.ts --config ./test/jest.config.js --detectOpenHandles && npx rimraf ./test/jest.config.js",
+    "build": "tsc -p ./src/tsconfig.json",
+    "prepare": "npm run test && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neloreck/redux-cbd.git"
+  },
+  "keywords": [
+    "action",
+    "class-based",
+    "connect",
+    "declarative",
+    "decorator",
+    "metadata",
+    "oop",
+    "react",
+    "reducer",
+    "redux",
+    "reflection",
+    "reflect-metadata",
+    "state",
+    "typescript",
+    "utility"
+  ],
+  "author": "Syrotenko Igor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neloreck/redux-cbd/issues"
+  },
+  "homepage": "https://github.com/neloreck/redux-cbd#readme",
+  "peerDependencies": {
+    "reflect-metadata": "^0.1.9"
+  },
+  "dependencies": {
+    "autobind-decorator": "^2.1.0",
+    "reflect-metadata": "^0.1.9",
+    "redux": "^4.0.0",
+    "react": "^16.4.16",
+    "react-redux": "^5.0.7"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.9.4",
+    "@types/react": "^16.4.16",
+    "@types/react-redux": "^6.0.9",
+    "codecov": "^3.1.0",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.1.4",
+    "typescript": "^3.1.3"
+  }
+}

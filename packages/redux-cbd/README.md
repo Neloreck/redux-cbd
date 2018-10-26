@@ -1,22 +1,23 @@
-# <a href='https://www.npmjs.com/package/redux-cbd'> 🗻 @redux-cbd </a>
+# <a href='https://www.npmjs.com/package/redux-cbd'> 🗻 Redux CBD </a>
 
 [![start with wiki](https://img.shields.io/badge/docs-wiki-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/wiki)
+[![npm version](https://img.shields.io/npm/v/redux-cbd.svg?style=flat-square)](https://www.npmjs.com/package/redux-cbd)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/blob/master/LICENSE)
+<br/>
 [![language-ts](https://img.shields.io/badge/language-typescript%3A%2099%25-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/search?l=typescript)
 <br/>
 [![dependencies Status](https://david-dm.org/neloreck/redux-cbd/status.svg)](https://david-dm.org/neloreck/redux-cbd)
 [![devDependencies Status](https://david-dm.org/neloreck/redux-cbd/dev-status.svg)](https://david-dm.org/neloreck/redux-cbd?type=dev)
 <br/>
-
-[![npm downloads](https://img.shields.io/npm/dm/redux-cbd.svg?style=flat-square)](https://www.npmjs.com/package/redux-cbd) 
-[![npm downloads](https://img.shields.io/npm/dm/@redux-cbd/core.svg?style=flat-square)](https://www.npmjs.com/package/redux-cbd) <br/>
+[![Build Status](https://travis-ci.org/Neloreck/redux-cbd.svg?branch=master)](https://travis-ci.org/Neloreck/redux-cbd)
+<br/>
+[![npm downloads](https://img.shields.io/npm/dm/redux-cbd.svg?style=flat-square)](https://www.npmjs.com/package/redux-cbd)
 [![HitCount](http://hits.dwyl.com/neloreck/redux-cbd.svg)](http://hits.dwyl.com/neloreck/redux-cbd)
-[![HitCount](http://hits.dwyl.com/neloreck/@redux-cbd/core.svg)](http://hits.dwyl.com/neloreck/@redux-cbd/core)
 
 <hr/>
 
 Typescript decorators\annotations, utils and abstract classes for <a href='https://github.com/facebook/react'>react</a>-<a href='https://github.com/reduxjs/redux'>redux</a> application. <br/>
-Adds various utility annotations such as @Single, @EntryPoint, @Connect or @Wrapped (utils package). <br/>
+Adds various utility annotations such as @Single, @EntryPoint, @Connect or @Wrapped. <br/>
 Allows you to write class-based declarations of your data storage with strict and predictive typing. <br/>
 Enforces typesafety and OOP mixed with functional style (all key features and implementation of redux remains the same). <br/>
 
@@ -24,14 +25,14 @@ Intended to be used with react-redux.
 
 <hr/>
 
+## Warning
+
+You are viewing old version of package without separation. <br/>
+For newest releases check '@redux-cbd/core'. 
+
 ## Installation
 
-For older stable version:
-- `npm install --save redux-cbd`
-
-For current ongoing packages (recommended):
-- `npm install --save @redux-cbd/core` - cbd core
-- `npm install --save @redux-cbd/utils` - additional utils and annotations
+`npm install --save redux-cbd`
 
 
 <b>Important:</b>
@@ -79,7 +80,7 @@ tsconfig.json part: <br/>
 ```typescript jsx
 import * as React from "react";
 import {render} from "react-dom";
-import {EntryPoint} from "@redux-cbd/utils";
+import {EntryPoint} from "redux-cbd";
 
 import {GlobalStoreProvider} from "./data/redux";
 import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
@@ -145,7 +146,7 @@ export interface IGlobalStoreState {
 ### Our demo reducer:
 
 ```typescript jsx
-import {ActionHandler, ReflectiveReducer} from "@redux-cbd/core";
+import {ActionHandler, ReflectiveReducer} from "redux-cbd";
 
 import {AsyncDemoAction, AsyncDemoActionSuccess, ComplexDemoAction, SimpleDemoAction, DataExchangeDemoAction} from "../actions";
 import {DemoReducerState} from "../state/DemoReducerState";
@@ -188,7 +189,8 @@ export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 ### Our actions for reducer methods (considered to be separate class-files, you know):
 
 ```typescript jsx
-import {ActionWired, AsyncAction, SimpleAction, DataExchangeAction} from "@redux-cbd/core";
+import {ActionWired, AsyncAction, SimpleAction, DataExchangeAction} from "redux-cbd";
+
 
 @ActionWired("DATA_EXCHANGE_TEST_ACTION")
 export class DataExchangeDemoAction extends DataExchangeAction<{ storedNumber: number }> {}
@@ -270,7 +272,7 @@ export class ComplexDemoAction<DemoState> extends ComplexAction {
 ### Global store manager:
 ```typescript jsx
 import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware, Reducer} from "redux";
-import {StoreManaged, CBDStoreManager, cbdMiddleware} from "@redux-cbd/core";
+import {StoreManaged, CBDStoreManager, cbdMiddleware} from "redux-cbd";
 
 /* Custom middlewares. */
 import {logInConnectedComponentMiddleware, logInConsoleMiddleware} from "../../view/logInMiddlewares";
@@ -309,7 +311,7 @@ export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {
 import * as React from "react";
 import {PureComponent} from "react";
 import {Action} from "redux";
-import {Bind} from "@redux-cbd/utils";
+import {Bind} from "redux-cbd";
 
 // Store related things.
 import {GlobalStoreConnect, IGlobalStoreState} from "../data";

@@ -1,23 +1,19 @@
-# <a href='https://www.npmjs.com/package/redux-cbd'> 🗻 Redux CBD </a>
+# <a href='https://www.npmjs.com/package/redux-cbd'> 🗻@redux-cbd/core </a>
 
 [![start with wiki](https://img.shields.io/badge/docs-wiki-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/wiki)
-[![npm version](https://img.shields.io/npm/v/redux-cbd.svg?style=flat-square)](https://www.npmjs.com/package/redux-cbd)
+[![npm version](https://img.shields.io/npm/v/@redux-cbd/core.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/core)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/blob/master/LICENSE)
-<br/>
 [![language-ts](https://img.shields.io/badge/language-typescript%3A%2099%25-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/search?l=typescript)
 <br/>
-[![dependencies Status](https://david-dm.org/neloreck/redux-cbd/status.svg)](https://david-dm.org/neloreck/redux-cbd)
-[![devDependencies Status](https://david-dm.org/neloreck/redux-cbd/dev-status.svg)](https://david-dm.org/neloreck/redux-cbd?type=dev)
+[![dependencies Status](https://david-dm.org/neloreck/@redux-cbd/core/status.svg)](https://david-dm.org/neloreck/redux-cbd)
+[![devDependencies Status](https://david-dm.org/neloreck/@redux-cbd/core/dev-status.svg)](https://david-dm.org/neloreck/@redux-cbd/core?type=dev)
 <br/>
-[![Build Status](https://travis-ci.org/Neloreck/redux-cbd.svg?branch=master)](https://travis-ci.org/Neloreck/redux-cbd)
-<br/>
-[![npm downloads](https://img.shields.io/npm/dm/redux-cbd.svg?style=flat-square)](https://www.npmjs.com/package/redux-cbd)
-[![HitCount](http://hits.dwyl.com/neloreck/redux-cbd.svg)](http://hits.dwyl.com/neloreck/redux-cbd)
+[![npm downloads](https://img.shields.io/npm/dm/@redux-cbd/core.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/core)
+[![HitCount](http://hits.dwyl.com/neloreck/@redux-cbd/core.svg)](http://hits.dwyl.com/neloreck/@redux-cbd/core)
 
 <hr/>
 
 Typescript decorators\annotations, utils and abstract classes for <a href='https://github.com/facebook/react'>react</a>-<a href='https://github.com/reduxjs/redux'>redux</a> application. <br/>
-Adds various utility annotations such as @Single, @EntryPoint, @Connect or @Wrapped. <br/>
 Allows you to write class-based declarations of your data storage with strict and predictive typing. <br/>
 Enforces typesafety and OOP mixed with functional style (all key features and implementation of redux remains the same). <br/>
 
@@ -27,8 +23,14 @@ Intended to be used with react-redux.
 
 ## Installation
 
-`npm install --save redux-cbd`
+For older stable version (includes core and utils itself):
+- `npm install --save redux-cbd`
 
+For current ongoing package (recommended):
+- `npm install --save @redux-cbd/core`
+
+<a href="https://www.npmjs.com/package/@redux-cbd/utils">Utils</a> package:
+- `npm install --save @redux-cbd/utils`
 
 <b>Important:</b>
 - Package uses proposal ES <a href='https://github.com/rbuckton/reflect-metadata'>reflect-metadata</a> api, so I would advice to get acknowledged with its usage.
@@ -61,13 +63,13 @@ tsconfig.json part: <br/>
 
 | [Annotations](https://github.com/Neloreck/redux-cbd/wiki/Annotations) | [Actions](https://github.com/Neloreck/redux-cbd/wiki/Actions) | [Reducers](https://github.com/Neloreck/redux-cbd/wiki/Reducers) | [Middleware](https://github.com/Neloreck/redux-cbd/wiki/Middleware) | [Utils](https://github.com/Neloreck/redux-cbd/wiki/Utils)|
 | :------------- | :------------- | :------------- | :------------- | :------------- |
-| [@Single](https://github.com/Neloreck/redux-cbd/wiki/@Single) | [SimpleAction](https://github.com/Neloreck/redux-cbd/wiki/SimpleAction) | [ReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/ReflectiveReducer) | [cbdMiddleware](https://github.com/Neloreck/redux-cbd/wiki/cbdMiddleware) | [createReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/createReflectiveReducer) |
-| [@EntryPoint](https://github.com/Neloreck/redux-cbd/wiki/@EntryPoint) | [DataExchangeAction](https://github.com/Neloreck/redux-cbd/wiki/DataExchangeAction) | [IReducerConfig](https://github.com/Neloreck/redux-cbd/wiki/IReducerConfig) | - | [linkReactConnectWithStore](https://github.com/Neloreck/redux-cbd/wiki/linkReactConnectWithStore) |
-| [@Bind](https://github.com/Neloreck/redux-cbd/wiki/@Bind) | [ComplexAction](https://github.com/Neloreck/redux-cbd/wiki/ComplexAction) | [CBDStoreManager](https://github.com/Neloreck/redux-cbd/wiki/CBDStoreManager) | - | [LazyComponentFactory](https://github.com/Neloreck/redux-cbd/wiki/LazyComponentFactory) |
-| [@Wrapped](https://github.com/Neloreck/redux-cbd/wiki/@Wrapped) | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | - | - | - |
-| [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | - |
-| [@ActionWired](https://github.com/Neloreck/redux-cbd/wiki/@ActionWired) | - | - | - | - |
-| [@ActionHandler](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | - |
+| [@ActionHandler](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | [SimpleAction](https://github.com/Neloreck/redux-cbd/wiki/SimpleAction) | [ReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/ReflectiveReducer) | [cbdMiddleware](https://github.com/Neloreck/redux-cbd/wiki/cbdMiddleware) | [createReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/createReflectiveReducer) |
+| [@ActionWired](https://github.com/Neloreck/redux-cbd/wiki/@ActionWired) | [DataExchangeAction](https://github.com/Neloreck/redux-cbd/wiki/DataExchangeAction) | [IReducerConfig](https://github.com/Neloreck/redux-cbd/wiki/IReducerConfig) | - | [linkReactConnectWithStore](https://github.com/Neloreck/redux-cbd/wiki/linkReactConnectWithStore) |
+| [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | [ComplexAction](https://github.com/Neloreck/redux-cbd/wiki/ComplexAction) | [CBDStoreManager](https://github.com/Neloreck/redux-cbd/wiki/CBDStoreManager) | - | - |
+| - | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | - | - | - |
+| - | - | - | - | - |
+| - | - | - | - | - |
+| - | - | - | - | - |
 
 ## Example (wiki contains more explanations):
 
@@ -75,7 +77,7 @@ tsconfig.json part: <br/>
 ```typescript jsx
 import * as React from "react";
 import {render} from "react-dom";
-import {EntryPoint} from "redux-cbd";
+import {EntryPoint} from "@redux-cbd/utils";
 
 import {GlobalStoreProvider} from "./data/redux";
 import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
@@ -141,7 +143,7 @@ export interface IGlobalStoreState {
 ### Our demo reducer:
 
 ```typescript jsx
-import {ActionHandler, ReflectiveReducer} from "redux-cbd";
+import {ActionHandler, ReflectiveReducer} from "@redux-cbd/core";
 
 import {AsyncDemoAction, AsyncDemoActionSuccess, ComplexDemoAction, SimpleDemoAction, DataExchangeDemoAction} from "../actions";
 import {DemoReducerState} from "../state/DemoReducerState";
@@ -184,7 +186,7 @@ export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 ### Our actions for reducer methods (considered to be separate class-files, you know):
 
 ```typescript jsx
-import {ActionWired, AsyncAction, SimpleAction, DataExchangeAction} from "redux-cbd";
+import {ActionWired, AsyncAction, SimpleAction, DataExchangeAction} from "@redux-cbd/core";
 
 
 @ActionWired("DATA_EXCHANGE_TEST_ACTION")
@@ -267,7 +269,7 @@ export class ComplexDemoAction<DemoState> extends ComplexAction {
 ### Global store manager:
 ```typescript jsx
 import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware, Reducer} from "redux";
-import {StoreManaged, CBDStoreManager, cbdMiddleware} from "redux-cbd";
+import {StoreManaged, CBDStoreManager, cbdMiddleware} from "@redux-cbd/core";
 
 /* Custom middlewares. */
 import {logInConnectedComponentMiddleware, logInConsoleMiddleware} from "../../view/logInMiddlewares";
@@ -306,7 +308,7 @@ export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {
 import * as React from "react";
 import {PureComponent} from "react";
 import {Action} from "redux";
-import {Bind} from "redux-cbd";
+import {Bind} from "@redux-cbd/utils";
 
 // Store related things.
 import {GlobalStoreConnect, IGlobalStoreState} from "../data";
@@ -437,7 +439,7 @@ Feel free to contibute or mail me with questions/proposals/issues (Neloreck@gmai
 
 Repository includes example project with commentaries: <a href='https://github.com/Neloreck/redux-cbd/tree/master/test/examples'>link</a>. <br/>
 My own 'redux-cbd' based project: <a href='https://github.com/Neloreck/x-core'>link</a>. <br/>
-Library unit tests also include some different examples of cbd usage: <a href='https://github.com/Neloreck/redux-cbd/tree/master/test/unit'> link </a>. <br/>
+Library unit tests also include some different examples of cbd usage: <a href='https://github.com/Neloreck/redux-cbd/tree/master/test/unit'> link</a>. <br/>
 
 ## Licence
 

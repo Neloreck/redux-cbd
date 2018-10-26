@@ -3,7 +3,7 @@ import {ActionHandler, ReflectiveReducer} from "redux-cbd";
 import {DemoState} from "./DemoState";
 import {
   AsyncDemoAction, AsyncDemoActionSuccess, ComplexDemoAction, DataExchangeDemoAction, SimpleDemoAction
-} from "./actions";
+} from "./actions/index";
 
 // Reducer class. Typing allows you to create ONLY methods with two params - <genericState, actionType>.
 // Looks for method with same action type and executes it. Just like functional reducer with switch, but better.
