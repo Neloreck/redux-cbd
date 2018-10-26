@@ -5,7 +5,7 @@ import {StoreManaged, CBDStoreManager, cbdMiddleware} from "redux-cbd";
 import {logInConnectedComponentMiddleware, logInConsoleMiddleware} from "../view/logInMiddlewares";
 
 import {IGlobalStoreState} from "./IGlobalStoreState";
-import {DemoReducer, DemoState} from "./demo";
+import {DemoReducer, DemoState} from "./demo/index";
 
 @StoreManaged("GLOBAL_STORE")
 export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {

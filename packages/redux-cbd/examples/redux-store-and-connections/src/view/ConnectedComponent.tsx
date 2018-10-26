@@ -4,8 +4,8 @@ import {Action} from "redux";
 import {Bind} from "redux-cbd";
 
 // Store related things.
-import {GlobalStoreConnect, IGlobalStoreState} from "../data";
-import {AsyncDemoAction, SimpleDemoAction, ComplexDemoAction, DataExchangeDemoAction} from "../data/demo/actions";
+import {GlobalStoreConnect, IGlobalStoreState} from "../data/index";
+import {AsyncDemoAction, SimpleDemoAction, ComplexDemoAction, DataExchangeDemoAction} from "../data/demo/actions/index";
 
 // Props, that are injected from connect store.
 interface IConnectedComponentStoreProps {

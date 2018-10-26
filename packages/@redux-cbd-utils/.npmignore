@@ -1,0 +1,9 @@
+.travis.yml
+
+.idea/
+.github/
+src/
+test/
+coverage/
+target/
+src@bundled/
