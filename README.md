@@ -459,6 +459,78 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
 </p>
 </details>
 
+<details><summary>Example build config.</summary>
+<p>
+    
+```typescript jsx
+import * as webpack from "webpack";
+import * as path from "path";
+
+const HtmlWebpackPlugin =  require("html-webpack-plugin");
+
+const mode = process.env.NODE_ENV;
+const projectRoot = path.resolve(__dirname, "./");
+
+// For development purposes only.
+// Extend and rewrite it properly with webpack documentation.
+// Use proper config for production builds.
+export class WebpackConfig implements webpack.Configuration {
+
+  mode: "development" = "development";
+
+  resolve = {
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
+  };
+
+  entry = [
+    path.resolve(projectRoot, "src/Application.tsx")
+  ];
+
+  output = {
+    path: path.resolve(projectRoot, "target/"),
+    filename: "js/[name].bundle.js",
+    sourceMapFilename: "js/map/[name].bundle.map"
+  };
+
+  devtool: "source-map" = "source-map";
+
+  // Add the loader for .ts files.
+  module = {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        loader: "awesome-typescript-loader",
+        query: {
+          configFileName: path.resolve(projectRoot, "./tsconfig.json")
+        }
+      }
+    ]
+  };
+
+  plugins = [
+    new HtmlWebpackPlugin({
+      inject: true,
+      filename: "index.html",
+      template: path.resolve(projectRoot, "src/index.html")
+    })
+  ];
+
+  devServer = {
+    contentBase: "target/",
+    historyApiFallback: true,
+    compress: true,
+    port: 3000,
+    host: "0.0.0.0"
+  }
+
+}
+
+export default new WebpackConfig();
+```
+
+</p>
+</details>
+
 ## Documentation:
 
 Repository [wiki](https://github.com/Neloreck/redux-cbd/wiki) includes doc and samples. <br/>
