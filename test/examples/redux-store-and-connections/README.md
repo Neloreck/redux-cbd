@@ -20,7 +20,6 @@ Typescript decorators\annotations, utils and abstract classes for <a href='https
 Adds various utility annotations such as @Single, @EntryPoint, @Connect or @Wrapped. <br/>
 Allows you to write class-based declarations of your data storage with strict and predictive typing. <br/>
 Enforces typesafety and OOP mixed with functional style (all key features and implementation of redux remains the same). <br/>
-Adds Reflection, Type/Reflect utils for runtime typechecking.
 
 Intended to be used with react-redux.
 
@@ -32,7 +31,7 @@ Intended to be used with react-redux.
 
 
 <b>Important:</b>
-- Package uses proposal ES <a href='https://github.com/rbuckton/reflect-metadata'>reflect-metadata</a> api, so I'd advice to get acknowledged with its usage.
+- Package uses proposal ES <a href='https://github.com/rbuckton/reflect-metadata'>reflect-metadata</a> api, so I would advice to get acknowledged with its usage.
 - Package uses 'expirementalDecorators' features (disabled by default for TypeScript transpiler).
 
 ## Setup
@@ -430,10 +429,15 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
 
 Repository [wiki](https://github.com/Neloreck/redux-cbd/wiki) includes doc and samples. <br/>
 
+## Proposals and contribution:
+
+Feel free to contibute or mail me with questions/proposals/issues (Neloreck@gmail.com). <br/>
+
 ## Full examples
 
 Repository includes example project with commentaries: <a href='https://github.com/Neloreck/redux-cbd/tree/master/test/examples'>link</a>. <br/>
 My own 'redux-cbd' based project: <a href='https://github.com/Neloreck/x-core'>link</a>. <br/>
+Library unit tests also include some different examples of cbd usage: <a href='https://github.com/Neloreck/redux-cbd/tree/master/test/unit'> link </a>. <br/>
 
 ## Licence
 

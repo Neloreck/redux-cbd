@@ -1,17 +1,26 @@
 import {Action, applyMiddleware, combineReducers, createStore, Reducer, Store} from "redux";
 
 import {MockReducer, MockReducerState} from "./reducerMocks";
-import {cbdMiddleware} from "../../../src";
+import {cbdMiddleware, CBDStoreManager, StoreManaged} from "../../../src";
+
+export const STORE_KEY: string = "TEST_STORE";
 
 export interface IStoreState {
   mockReducer: MockReducerState;
 }
 
-export const createReduxStore = (): Store<IStoreState, Action<any>> => {
+@StoreManaged(STORE_KEY)
+export class TestStoreManager extends CBDStoreManager<IStoreState> {
 
-  const rootReducer: Reducer<IStoreState> = combineReducers({
-    mockReducer: new MockReducer().asFunctional(new MockReducerState(), { freezeState: true })
-  });
+  public createStore(): Store<IStoreState, Action<any>> {
 
-  return createStore(rootReducer, applyMiddleware(...[cbdMiddleware]));
-};
+    const rootReducer: Reducer<IStoreState> = combineReducers({
+      mockReducer: new MockReducer().asFunctional(new MockReducerState(), { freezeState: true })
+    });
+
+    return createStore(rootReducer, applyMiddleware(...[cbdMiddleware]));
+  }
+
+}
+
+export const testStoreManager = new TestStoreManager();
