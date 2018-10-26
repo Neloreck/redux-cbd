@@ -7,7 +7,7 @@
     "target": "es3",
     "sourceMap": false,
     "module": "commonjs",
-    "lib": ["es5", "es6", "dom", "es2015"],
+    "lib": ["es5", "es6", "dom", "es2017"],
     "types": ["node"],
     "outDir": "./",
     "baseUrl": "./"

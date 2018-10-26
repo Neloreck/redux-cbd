@@ -1,74 +1,74 @@
-import {ASYNC_SUCCESS, COMPLEX_MANUAL, ASYNC_MANUAL, COMPLEX_WIRED, SIMPLE_MANUAL, ASYNC_WIRED,
-  SIMPLE_WIRED, SimpleWired, SimpleManual, AsyncWired, AsyncManual, ComplexWired, ComplexManual} from "./mocks/actionMocks";
-
 import {EActionClass, EMetaData} from "../../src";
+import {
+  ASYNC_ACTION,
+  AsyncActionExample,
+  COMPLEX_ACTION,
+  ComplexActionExample,
+  SIMPLE_ACTION,
+  SimpleActionExample
+} from "./mocks/actionMocks";
 
 describe("CBD Actions.", () => {
 
   it("Should properly handle action internal and wired types.", () => {
 
-    // Simple.
+    const simpleAction: SimpleActionExample = new SimpleActionExample("Anything.");
+    expect(simpleAction.getActionType()).toBe(SIMPLE_ACTION);
+    expect(simpleAction.getActionPayload()).toBe(simpleAction.payload);
 
-    const simpleWired: SimpleWired = new SimpleWired("anything");
-    const simpleManual: SimpleManual = new SimpleManual();
+    const complexAction: ComplexActionExample = new ComplexActionExample(5);
+    expect(complexAction.getActionType()).toBe(COMPLEX_ACTION);
+    expect(complexAction.getActionPayload()).toBe(complexAction.payload);
 
-    expect(simpleWired.getActionType()).toBe(SIMPLE_WIRED);
-    expect(simpleManual.getActionType()).toBe(SIMPLE_MANUAL);
+    const asyncAction: AsyncActionExample = new AsyncActionExample();
+    expect(asyncAction.getActionType()).toBe(ASYNC_ACTION);
+    expect(asyncAction.getActionPayload()).toBe(asyncAction.payload);
 
-    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, SimpleWired)).toBe(EActionClass.SIMPLE_ACTION);
-    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, SimpleManual)).toBe(EActionClass.SIMPLE_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, SimpleActionExample)).toBe(EActionClass.SIMPLE_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, ComplexActionExample)).toBe(EActionClass.COMPLEX_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, AsyncActionExample)).toBe(EActionClass.ASYNC_ACTION);
 
-    // Complex.
+    expect(Reflect.getMetadata(EMetaData.ACTION_TYPE, SimpleActionExample)).toBe(undefined);
+    expect(Reflect.getMetadata(EMetaData.ACTION_TYPE, ComplexActionExample)).toBe(COMPLEX_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_TYPE, AsyncActionExample)).toBe(ASYNC_ACTION);
 
-    const complexWired: ComplexWired = new ComplexWired("anything");
-    const complexManual: ComplexManual = new ComplexManual();
-
-    expect(complexWired.getActionType()).toBe(COMPLEX_WIRED);
-    expect(complexManual.getActionType()).toBe(COMPLEX_MANUAL);
-
-    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, ComplexWired)).toBe(EActionClass.COMPLEX_ACTION);
-    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, ComplexManual)).toBe(EActionClass.COMPLEX_ACTION);
-
-    // Async.
-
-    const asyncWired: AsyncWired = new AsyncWired();
-    const asyncManual: AsyncManual = new AsyncManual();
-
-    expect(asyncWired.getActionType()).toBe(ASYNC_WIRED);
-    expect(asyncManual.getActionType()).toBe(ASYNC_MANUAL);
-
-    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, AsyncWired)).toBe(EActionClass.ASYNC_ACTION);
-    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, AsyncManual)).toBe(EActionClass.ASYNC_ACTION);
-
+    expect(simpleAction.getActionType()).toBe(SIMPLE_ACTION);
+    expect(complexAction.getActionType()).toBe(Reflect.getMetadata(EMetaData.ACTION_TYPE, ComplexActionExample));
+    expect(asyncAction.getActionType()).toBe(Reflect.getMetadata(EMetaData.ACTION_TYPE, AsyncActionExample));
   });
 
-  it("Should properly handle complex actions execution", () => {
+  it("Should properly handle complex actions execution.", () => {
 
-    const VALUE_FOR_TEST: string = "VALUE_FOR_TEST";
+    const VALUE_FOR_TEST: number = 5;
+    const complexWiredAction: ComplexActionExample = new ComplexActionExample(VALUE_FOR_TEST);
 
-    const complexWiredAction: ComplexWired = new ComplexWired(VALUE_FOR_TEST);
+    expect(complexWiredAction.payload.value).not.toBe(VALUE_FOR_TEST);
+    expect(complexWiredAction.payload.value).not.toBe(VALUE_FOR_TEST * 2);
+
     complexWiredAction.act();
 
-    expect(complexWiredAction.payload.value).toBe(VALUE_FOR_TEST);
-
+    expect(complexWiredAction.payload.value).toBe(VALUE_FOR_TEST * 2);
   });
 
-  it("Should properly handle async actions execution", async () => {
+  it("Should properly handle async actions execution.", async () => {
 
-    const asyncManualAction: AsyncManual = new AsyncManual();
-    const asyncWiredAction: AsyncWired = new AsyncWired();
+    const asyncActionWithThrow: AsyncActionExample = new AsyncActionExample(true);
+    const exceptionInTryBlockMessage: string = "Manual exception in try.";
 
     try {
-      await asyncManualAction.act();
-      throw new Error("Manual error.");
+      await asyncActionWithThrow.act();
+      throw new Error(exceptionInTryBlockMessage);
     } catch (error) {
-      expect(error.message).not.toBe("Manual error.");
+      expect(error.message).not.toBe(exceptionInTryBlockMessage);
     }
 
-    const resultingValue: string = await asyncWiredAction.act();
-    const afterSuccessValue: string = asyncWiredAction.afterSuccess(resultingValue).payload.value;
+    const asyncActionWithoutThrow: AsyncActionExample = new AsyncActionExample(false);
 
-    expect(afterSuccessValue).toBe(ASYNC_SUCCESS);
+    // Like middleware does.
+    const resultingValue: string = await asyncActionWithoutThrow.act();
+    const afterSuccessValue: string = asyncActionWithoutThrow.afterSuccess(resultingValue).payload.value;
+
+    expect(afterSuccessValue).toBe("Success.");
   });
 
 });

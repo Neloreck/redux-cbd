@@ -1,7 +1,9 @@
 import {ActionHandler, ReflectiveReducer} from "../../../src";
-import {AsyncWired, SimpleWired} from "./actionMocks";
+import {ACTION_FROM_OUTSIDE, AsyncActionExample, ExchangeActionExample, SIMPLE_ACTION} from "./actionMocks";
 
 export class MockReducerState {
+
+  [index: string]: any;
 
   public asyncFired: boolean = false;
   public testNumber: number = -1;
@@ -11,14 +13,26 @@ export class MockReducerState {
 
 export class MockReducer extends ReflectiveReducer<MockReducerState> {
 
-  @ActionHandler
-  public handleSimpleAction(state: MockReducerState, action: SimpleWired): MockReducerState {
+  // Another way to declare action handler method. Intended to be used for library methods (redux-router, etc).
+  @ActionHandler(SIMPLE_ACTION)
+  public handleSimpleAction(state: MockReducerState, action: { payload: { value: string } }): MockReducerState {
     return { ...state, testString: action.payload.value};
   }
 
-  @ActionHandler
-  public handleAsyncAction(state: MockReducerState, action: AsyncWired): MockReducerState {
+  @ActionHandler()
+  public handleAsyncAction(state: MockReducerState, action: AsyncActionExample): MockReducerState {
     return { ...state, asyncFired: true };
+  }
+
+  // Kind of simple exchange actions with short declarations.
+  @ActionHandler()
+  public handleExchangeAction(state: MockReducerState, action: ExchangeActionExample): MockReducerState {
+    return { ...state, testString: action.payload.value };
+  }
+
+  @ActionHandler(ACTION_FROM_OUTSIDE)
+  public handleActionFromOutside(state: MockReducerState, action: { payload: { value: string } }): MockReducerState {
+    return { ... state, testString: action.payload.value };
   }
 
 }

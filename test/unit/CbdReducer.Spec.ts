@@ -1,6 +1,6 @@
-import {Action, Reducer} from "redux";
+import {Reducer} from "redux";
 import {MockReducer, MockReducerState} from "./mocks/reducerMocks";
-import {SimpleWired} from "./mocks/actionMocks";
+import {SimpleActionExample} from "./mocks/actionMocks";
 
 const mockReducer: MockReducer = new MockReducer();
 const mockReducerFunctional: Reducer<MockReducerState, { type: string, payload?: any }> = mockReducer.asFunctional(new MockReducerState(), { freezeState: true });
@@ -11,8 +11,7 @@ describe("CBD Reducer behaviour.", () => {
 
     const SIMPLE_TEST_VALUE: string = "test";
 
-    const action = new SimpleWired(SIMPLE_TEST_VALUE);
-
+    const action = new SimpleActionExample(SIMPLE_TEST_VALUE);
     const state = mockReducerFunctional(undefined, { type: action.getActionType(), payload: action.getActionPayload() });
 
     expect(state.testString).toBe(SIMPLE_TEST_VALUE);
@@ -28,9 +27,6 @@ describe("CBD Reducer behaviour.", () => {
     for (const key in defaultState) {
       expect(defaultState[key]).toBe(state[key]);
     }
-
   });
-
-
 
 });

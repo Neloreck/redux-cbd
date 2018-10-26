@@ -65,8 +65,8 @@ tsconfig.json part: <br/>
 | [@Single](https://github.com/Neloreck/redux-cbd/wiki/@Single) | [SimpleAction](https://github.com/Neloreck/redux-cbd/wiki/SimpleAction) | [ReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/ReflectiveReducer) | [cbdMiddleware](https://github.com/Neloreck/redux-cbd/wiki/cbdMiddleware) | [createReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/createReflectiveReducer) |
 | [@EntryPoint](https://github.com/Neloreck/redux-cbd/wiki/@EntryPoint) | [DataExchangeAction](https://github.com/Neloreck/redux-cbd/wiki/DataExchangeAction) | [IReducerConfig](https://github.com/Neloreck/redux-cbd/wiki/IReducerConfig) | - | [linkReactConnectWithStore](https://github.com/Neloreck/redux-cbd/wiki/linkReactConnectWithStore) |
 | [@Bind](https://github.com/Neloreck/redux-cbd/wiki/@Bind) | [ComplexAction](https://github.com/Neloreck/redux-cbd/wiki/ComplexAction) | [CBDStoreManager](https://github.com/Neloreck/redux-cbd/wiki/CBDStoreManager) | - | [LazyComponentFactory](https://github.com/Neloreck/redux-cbd/wiki/LazyComponentFactory) |
-| [@Wrapped](https://github.com/Neloreck/redux-cbd/wiki/@Wrapped) | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | - | - | [TypeUtils](https://github.com/Neloreck/redux-cbd/wiki/TypeUtils) |
-| [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | [ReflectUtils](https://github.com/Neloreck/redux-cbd/wiki/ReflectUtils) |
+| [@Wrapped](https://github.com/Neloreck/redux-cbd/wiki/@Wrapped) | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | - | - | - |
+| [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | - |
 | [@ActionWired](https://github.com/Neloreck/redux-cbd/wiki/@ActionWired) | - | - | - | - |
 | [@ActionHandler](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | - |
 
@@ -153,27 +153,27 @@ import {DemoReducerState} from "../state/DemoReducerState";
 // Same action handlers are not allowed inside one class.
 export class DemoReducer extends ReflectiveReducer<DemoReducerState>  {
 
-    @ActionHandler
+    @ActionHandler()
     public changeStoredNumber(state: DemoState, action: SimpleDemoAction): DemoState {
       return { ...state, storedNumber: action.payload.storedNumber };
     }
   
-    @ActionHandler
+    @ActionHandler()
     public exchangeSomeData(state: DemoState, action: DataExchangeDemoAction): DemoState {
       return { ...state, storedNumber: action.payload.storedNumber };
     }
   
-    @ActionHandler
+    @ActionHandler()
     public startLoadingOnAsyncActionReceived(state: DemoState, action: AsyncDemoAction): DemoState {
       return { ...state, loading: action.payload.loading };
     }
   
-    @ActionHandler
+    @ActionHandler()
     public finishFakeLoading(state: DemoState, action: AsyncDemoActionSuccess): DemoState {
       return { ...state, storedNumber: action.payload.storedNumber, loading: false };
     }
   
-    @ActionHandler
+    @ActionHandler()
     public handleComplexAction(state: DemoState, action: ComplexDemoAction): DemoState {
       return { ...state, storedNumber: action.payload.storedNumber };
     }

@@ -9,27 +9,27 @@ import {
 // Looks for method with same action type and executes it. Just like functional reducer with switch, but better.
 export class DemoReducer extends ReflectiveReducer<DemoState>  {
 
-  @ActionHandler
+  @ActionHandler()
   public changeStoredNumber(state: DemoState, action: SimpleDemoAction): DemoState {
     return { ...state, storedNumber: action.payload.storedNumber };
   }
 
-  @ActionHandler
+  @ActionHandler()
   public exchangeSomeData(state: DemoState, action: DataExchangeDemoAction): DemoState {
     return { ...state, storedNumber: action.payload.storedNumber };
   }
 
-  @ActionHandler
+  @ActionHandler()
   public startLoadingOnAsyncActionReceived(state: DemoState, action: AsyncDemoAction): DemoState {
     return { ...state, loading: action.payload.loading };
   }
 
-  @ActionHandler
+  @ActionHandler()
   public finishFakeLoading(state: DemoState, action: AsyncDemoActionSuccess): DemoState {
     return { ...state, storedNumber: action.payload.storedNumber, loading: false };
   }
 
-  @ActionHandler
+  @ActionHandler()
   public handleComplexAction(state: DemoState, action: ComplexDemoAction): DemoState {
     return { ...state, storedNumber: action.payload.storedNumber };
   }

@@ -1,98 +1,71 @@
-import {ActionWired, SimpleAction, ComplexAction, AsyncAction} from "../../../src";
-import {IStoreState} from "./storeMocks";
+import {ActionWired, SimpleAction, ComplexAction, AsyncAction, DataExchangeAction} from "../../../src";
 
-// Simple actions.
+export const SIMPLE_ACTION: string = "SIMPLE_ACTION";
+export const COMPLEX_ACTION: string = "COMPLEX_ACTION";
+export const ASYNC_ACTION: string = "ASYNC_WIRED";
+export const EXCHANGE_ACTION: string = "EXCHANGE_ACTION";
+export const ACTION_FROM_OUTSIDE: string = "ACTION_FROM_OUTSIDE";
 
-export const SIMPLE_WIRED: string = "SIMPLE_WIRED";
-export const SIMPLE_MANUAL: string = "SIMPLE_MANUAL";
-
-@ActionWired(SIMPLE_WIRED)
-export class SimpleWired extends SimpleAction {
+// Overloading method instead of decorator usage.
+export class SimpleActionExample extends SimpleAction {
 
   public payload: { value: string } = { value: "" };
 
   constructor(newValue: string) {
     super();
-
     this.payload.value = newValue;
   }
 
-}
-
-export class SimpleManual extends SimpleAction {
-
   public getActionType(): string {
-    return SIMPLE_MANUAL;
+    return SIMPLE_ACTION;
   }
 
 }
 
-// Complex actions.
+@ActionWired(ASYNC_ACTION)
+export class AsyncActionExample extends AsyncAction<never> {
 
-export const COMPLEX_WIRED: string = "COMPLEX_WIRED";
-export const COMPLEX_MANUAL: string = "COMPLEX_MANUAL";
+  private readonly throwException: boolean = false;
 
-@ActionWired(COMPLEX_WIRED)
-export class ComplexWired extends ComplexAction<IStoreState> {
+  constructor(throwException: boolean = false) {
+    super();
 
-  public readonly payload: { value: string } = { value: "" };
+    this.throwException = throwException;
+  }
 
-  private readonly receivedValue: string;
+  public async act(): Promise<string> {
 
-  public constructor(newValue: string) {
+    if (this.throwException) {
+      throw new Error("Error.");
+    }
+
+    return "Success.";
+  };
+
+  public afterSuccess(str: string): SimpleActionExample {
+    return new SimpleActionExample(str);
+  }
+
+}
+
+@ActionWired(COMPLEX_ACTION)
+export class ComplexActionExample extends ComplexAction<never> {
+
+  public readonly payload: { value: number } = { value: 0 };
+
+  private readonly receivedValue: number;
+
+  public constructor(newValue: number) {
     super();
 
     this.receivedValue = newValue;
   }
 
   public act(): void {
-    this.payload.value = this.receivedValue;
+    this.payload.value = this.receivedValue * 2;
   };
 
 }
 
-export class ComplexManual extends ComplexAction<IStoreState> {
-
-  public getActionType(): string {
-    return COMPLEX_MANUAL;
-  }
-
-  public act(): void {};
-
-}
-
-// Async actions.
-
-export const ASYNC_WIRED: string = "ASYNC_WIRED";
-export const ASYNC_MANUAL: string = "ASYNC_MANUAL";
-export const ASYNC_SUCCESS: string = "ASYNC_SUCCESS";
-
-@ActionWired(ASYNC_WIRED)
-export class AsyncWired extends AsyncAction<IStoreState> {
-
-  public async act(): Promise<string> {
-    return ASYNC_SUCCESS;
-  };
-
-  public afterSuccess(str: string): SimpleWired {
-    return new SimpleWired(str);
-  }
-
-}
-
-export class AsyncManual extends AsyncAction<IStoreState> {
-
-  public getActionType(): string {
-    return ASYNC_MANUAL;
-  }
-
-  public async act(): Promise<string> {
-
-    throw new Error("Synthetic error.");
-  };
-
-  public afterSuccess(str: string): SimpleWired {
-    return new SimpleWired(str);
-  }
-
-}
+@ActionWired(EXCHANGE_ACTION)
+export class ExchangeActionExample extends DataExchangeAction<{ value: string }> {}
