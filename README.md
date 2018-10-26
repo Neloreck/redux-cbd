@@ -9,9 +9,11 @@
 <br/>
 
 [![npm downloads](https://img.shields.io/npm/dm/redux-cbd.svg?style=flat-square)](https://www.npmjs.com/package/redux-cbd) 
-[![npm downloads](https://img.shields.io/npm/dm/@redux-cbd/core.svg?style=flat-square)](https://www.npmjs.com/package/redux-cbd) <br/>
+[![npm downloads](https://img.shields.io/npm/dm/@redux-cbd/core.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/core)
+[![npm downloads](https://img.shields.io/npm/dm/@redux-cbd/utils.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/utils) <br/>
 [![HitCount](http://hits.dwyl.com/neloreck/redux-cbd.svg)](http://hits.dwyl.com/neloreck/redux-cbd)
 [![HitCount](http://hits.dwyl.com/neloreck/@redux-cbd/core.svg)](http://hits.dwyl.com/neloreck/@redux-cbd/core)
+[![HitCount](http://hits.dwyl.com/neloreck/@redux-cbd/utils.svg)](http://hits.dwyl.com/neloreck/@redux-cbd/utils)
 
 <hr/>
 
@@ -30,8 +32,8 @@ For older stable version:
 - `npm install --save redux-cbd`
 
 For current ongoing packages (recommended):
-- `npm install --save @redux-cbd/core` - cbd core
-- `npm install --save @redux-cbd/utils` - additional utils and annotations
+- `npm install --save @redux-cbd/core`
+- `npm install --save @redux-cbd/utils`
 
 
 <b>Important:</b>
