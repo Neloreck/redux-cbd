@@ -6,7 +6,7 @@ import {
   ComplexActionExample,
   SIMPLE_ACTION,
   SimpleActionExample
-} from "./mocks/actionMocks";
+} from "../mocks/actionMocks";
 
 describe("CBD Actions.", () => {
 

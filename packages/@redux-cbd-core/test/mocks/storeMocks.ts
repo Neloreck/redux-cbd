@@ -1,7 +1,7 @@
 import {Action, applyMiddleware, combineReducers, createStore, Reducer, Store} from "redux";
 
 import {MockReducer, MockReducerState} from "./reducerMocks";
-import {cbdMiddleware, CBDStoreManager, StoreManaged} from "../../../src";
+import {cbdMiddleware, CBDStoreManager, StoreManaged} from "../../src";
 
 export const STORE_KEY: string = "TEST_STORE";
 

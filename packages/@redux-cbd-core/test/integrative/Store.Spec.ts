@@ -1,13 +1,14 @@
-import {Action, Store} from "redux";
-import {IStoreState, STORE_KEY, TestStoreManager, testStoreManager} from "./mocks/storeMocks";
-import {MockReducerState} from "./mocks/reducerMocks";
+import {Action, Store, createStore} from "redux";
+import {IStoreState, STORE_KEY, TestStoreManager, testStoreManager} from "../mocks/storeMocks";
+import {MockReducerState} from "../mocks/reducerMocks";
 import {
   ACTION_FROM_OUTSIDE,
   AsyncActionExample,
   ComplexActionExample,
   ExchangeActionExample,
   SimpleActionExample
-} from "./mocks/actionMocks";
+} from "../mocks/actionMocks";
+import {CBDStoreManager, EMetaData, StoreManaged} from "../../src";
 
 describe("CBD Store behaviour.", () => {
 
@@ -35,7 +36,7 @@ describe("CBD Store behaviour.", () => {
 
   it("Should create only one store for all manager instances.", () => {
 
-    const firstStore = new TestStoreManager().getStore();
+    const firstStore = testStoreManager.getStore();
     const secondStore = new TestStoreManager().getStore();
 
     const handler = () => {
@@ -100,5 +101,55 @@ describe("CBD Store behaviour.", () => {
     expect(store.getState().mockReducer.testString).toBe(SIMPLE_TEST_VALUE);
   });
 
+  it("Should work only with store managed decorated managers.", () => {
+
+   class Manager extends CBDStoreManager<{}> {
+
+      protected createStore() {
+        return createStore(() => ({}))
+      }
+
+    }
+
+    const preparedError = new Error("Prepared error.");
+
+    try {
+      const manager = new Manager();
+      throw preparedError;
+    } catch (error) {
+      expect(error).not.toBe(preparedError);
+      expect(error.message).toBe("You should annotate your store manager with @StoreManaged for usage.");
+    }
+
+    @StoreManaged()
+    class AnnotatedManager extends CBDStoreManager<{}> {
+
+      protected createStore() {
+        return createStore(() => ({}))
+      }
+
+    }
+
+    const manager = new AnnotatedManager();
+
+    expect(Reflect.getMetadata(EMetaData.STORE_KEY, AnnotatedManager)).toBe(undefined);
+    expect(manager.getStoreKey()).toBe("store");
+
+    const STORE_KEY = "STORE_KEY";
+
+    @StoreManaged(STORE_KEY)
+    class AnnotatedKeyManager extends CBDStoreManager<{}> {
+
+      protected createStore() {
+        return createStore(() => ({}))
+      }
+
+    }
+
+    const managerWithKey = new AnnotatedKeyManager();
+
+    expect(Reflect.getMetadata(EMetaData.STORE_KEY, managerWithKey.constructor)).toBe(STORE_KEY);
+    expect(managerWithKey.getStoreKey()).toBe(STORE_KEY);
+  });
 
 });

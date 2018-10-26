@@ -1,4 +1,4 @@
-import {ActionHandler, ReflectiveReducer} from "../../../src";
+import {ActionHandler, ReflectiveReducer} from "../../src/index";
 import {ACTION_FROM_OUTSIDE, AsyncActionExample, ExchangeActionExample, SIMPLE_ACTION} from "./actionMocks";
 
 export class MockReducerState {

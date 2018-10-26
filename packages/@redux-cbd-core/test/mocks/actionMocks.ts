@@ -1,4 +1,4 @@
-import {ActionWired, SimpleAction, ComplexAction, AsyncAction, DataExchangeAction} from "../../../src";
+import {ActionWired, SimpleAction, ComplexAction, AsyncAction, DataExchangeAction} from "../../src";
 
 export const SIMPLE_ACTION: string = "SIMPLE_ACTION";
 export const COMPLEX_ACTION: string = "COMPLEX_ACTION";

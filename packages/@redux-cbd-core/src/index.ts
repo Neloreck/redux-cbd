@@ -188,8 +188,8 @@ export abstract class ComplexAction<T> extends SimpleAction {
 
 // ================================================== | Middlewares |  =================================================
 
-export const cbdMiddleware = (middlewareApi: MiddlewareAPI) => (next: Dispatch) => (action: AnyAction &
-  DataExchangeAction<any> & SimpleAction & AsyncAction<any> & ComplexAction<any>) => {
+export const cbdMiddleware = (middlewareApi: MiddlewareAPI) => (next: Dispatch) => (action: AnyAction |
+  DataExchangeAction<any> | SimpleAction & AsyncAction<any> | ComplexAction<any>) => {
 
   if (!action || !action.constructor) {
     // We don't handle errors and other things there, let redux or other middlewares do it, also, not class-based items should be skipped.
@@ -209,14 +209,16 @@ export const cbdMiddleware = (middlewareApi: MiddlewareAPI) => (next: Dispatch) 
     case EActionClass.COMPLEX_ACTION:
       (action as ComplexAction<any>).dispatch = middlewareApi.dispatch;
       (action as ComplexAction<any>).getCurrentState = middlewareApi.getState;
-      action.act();
+      (action as ComplexAction<any>).act();
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
     case EActionClass.ASYNC_ACTION:
       (action as AsyncAction<any>).dispatch = middlewareApi.dispatch;
       (action as AsyncAction<any>).getCurrentState = middlewareApi.getState;
       // Async execution after return statement.
-      setTimeout(() => action.act().then(action.afterSuccess.bind(action)).catch(action.afterError.bind(action)).then(middlewareApi.dispatch));
+      setTimeout(() => (action as AsyncAction<any>).act()
+        .then((action as AsyncAction<any>).afterSuccess.bind(action))
+        .catch((action as AsyncAction<any>).afterError.bind(action)).then(middlewareApi.dispatch));
       return next({ type: action.getActionType(), payload: action.getActionPayload() });
 
     case EActionClass.OBJECT_ACTION:
