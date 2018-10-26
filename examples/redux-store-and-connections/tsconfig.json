@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "./ts-target/",
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "module": "commonjs",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "baseUrl": "./",
+    "paths": {
+    }
+  },
+  "types": [
+    "node",
+    "reflect-metadata"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
