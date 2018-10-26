@@ -1,11 +1,7 @@
-# <a href='https://www.npmjs.com/package/redux-cbd'> 🗻 @redux-cbd </a>
+# <a href='https://github.com/Neloreck/redux-cbd'> 🗻 @redux-cbd </a>
 
 [![start with wiki](https://img.shields.io/badge/docs-wiki-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/wiki)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/blob/master/LICENSE)
-[![language-ts](https://img.shields.io/badge/language-typescript%3A%2099%25-blue.svg?style=flat)](https://github.com/Neloreck/redux-cbd/search?l=typescript)
-<br/>
-[![dependencies Status](https://david-dm.org/neloreck/redux-cbd/status.svg)](https://david-dm.org/neloreck/redux-cbd)
-[![devDependencies Status](https://david-dm.org/neloreck/redux-cbd/dev-status.svg)](https://david-dm.org/neloreck/redux-cbd?type=dev)
 <br/>
 [![npm downloads](https://img.shields.io/npm/dt/redux-cbd.svg?style=flat-square)](https://www.npmjs.com/package/redux-cbd) 
 [![npm downloads](https://img.shields.io/npm/dt/@redux-cbd/core.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/core)
@@ -24,6 +20,12 @@ Enforces typesafety and OOP mixed with functional style (all key features and im
 Intended to be used with react-redux.
 
 <hr/>
+
+## NPM packages
+
+<a href='https://www.npmjs.com/package/redux-cbd'> redux-cbd </a> - old bundled library package.  <br/>
+<a href='https://www.npmjs.com/package/@redux-cbd/core'> @redux-cbd/core </a> - current library core package (preferred). <br/>
+<a href='https://www.npmjs.com/package/@redux-cbd/utils'> @redux-cbd/utils </a> - current library utils package (optional). <br/>
 
 ## Installation
 
