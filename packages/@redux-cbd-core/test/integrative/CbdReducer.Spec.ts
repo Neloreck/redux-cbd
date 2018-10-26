@@ -1,6 +1,6 @@
 import {Reducer} from "redux";
-import {MockReducer, MockReducerState} from "./mocks/reducerMocks";
-import {SimpleActionExample} from "./mocks/actionMocks";
+import {MockReducer, MockReducerState} from "../mocks/reducerMocks";
+import {SimpleActionExample} from "../mocks/actionMocks";
 
 const mockReducer: MockReducer = new MockReducer();
 const mockReducerFunctional: Reducer<MockReducerState, { type: string, payload?: any }> = mockReducer.asFunctional(new MockReducerState(), { freezeState: true });
