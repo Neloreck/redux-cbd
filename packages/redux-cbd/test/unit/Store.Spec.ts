@@ -77,7 +77,7 @@ describe("CBD Store behaviour.", () => {
 
   it("Should work properly with dispatch different from declared cbd actions.", () => {
 
-    const store: Store<IStoreState, Action<any>> = testStoreManager.createStore();
+    const store: Store<IStoreState, AnyAction> = testStoreManager.createStore();
 
     store.dispatch({ type: "Random action." });
     store.dispatch(new SimpleActionExample("Random string."));
@@ -90,7 +90,7 @@ describe("CBD Store behaviour.", () => {
   it("Should handle actions from other packages and modules.", () => {
 
     const SIMPLE_TEST_VALUE: string = "SIMPLE-TEST-VALUE";
-    const store: Store<IStoreState, Action<any>> = testStoreManager.createStore();
+    const store: Store<IStoreState, AnyAction> = testStoreManager.createStore();
 
     expect(store.getState().mockReducer.testString).toBe(new MockReducerState().testString);
 

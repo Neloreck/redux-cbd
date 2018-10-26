@@ -189,7 +189,7 @@ export abstract class ComplexAction<T> extends SimpleAction {
 // ================================================== | Middlewares |  =================================================
 
 export const cbdMiddleware = (middlewareApi: MiddlewareAPI) => (next: Dispatch) => (action: AnyAction |
-  DataExchangeAction<any> | SimpleAction & AsyncAction<any> | ComplexAction<any>) => {
+  DataExchangeAction<any> | SimpleAction | AsyncAction<any> | ComplexAction<any>) => {
 
   if (!action || !action.constructor) {
     // We don't handle errors and other things there, let redux or other middlewares do it, also, not class-based items should be skipped.
@@ -304,7 +304,7 @@ export function createReflectiveReducer <ReducerType extends ReflectiveReducer<S
 
 export abstract class CBDStoreManager<T> {
 
-  protected store?: Store<T, Action<any>>;
+  protected store?: Store<T, AnyAction>;
 
   public constructor() {
     const isStoreManaged: boolean = Reflect.getMetadata(EMetaData.STORE_MANAGED, this.constructor);
@@ -318,7 +318,7 @@ export abstract class CBDStoreManager<T> {
     return Reflect.getMetadata(EMetaData.STORE_KEY, this.constructor) || "store";
   };
 
-  public getStore(): Store<T, Action<any>> {
+  public getStore(): Store<T, AnyAction> {
 
     if (!this.store) {
       this.store = this.createStore();
@@ -335,6 +335,6 @@ export abstract class CBDStoreManager<T> {
     return linkReactConnectWithStore<T>(this.getStoreKey())
   }
 
-  protected abstract createStore(): Store<T, Action<any>>;
+  protected abstract createStore(): Store<T, AnyAction>;
 
 }

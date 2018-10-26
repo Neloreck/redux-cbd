@@ -1,4 +1,4 @@
-import {Action, applyMiddleware, combineReducers, createStore, Reducer, Store} from "redux";
+import {AnyAction, applyMiddleware, combineReducers, createStore, Reducer, Store} from "redux";
 
 import {MockReducer, MockReducerState} from "./reducerMocks";
 import {cbdMiddleware, CBDStoreManager, StoreManaged} from "../../src";
@@ -12,7 +12,7 @@ export interface IStoreState {
 @StoreManaged(STORE_KEY)
 export class TestStoreManager extends CBDStoreManager<IStoreState> {
 
-  public createStore(): Store<IStoreState, Action<any>> {
+  public createStore(): Store<IStoreState, AnyAction> {
 
     const rootReducer: Reducer<IStoreState> = combineReducers({
       mockReducer: new MockReducer().asFunctional(new MockReducerState(), { freezeState: true })
