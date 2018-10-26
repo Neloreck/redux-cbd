@@ -301,7 +301,7 @@ import {DemoReducer} from "../demo/reducer/DemoReducer";
 export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {
 
   // Creating store. Singleton instance for whole app. cbdMiddleware is important there, logs are for demo.
-  protected createStore(): Store<IGlobalStoreState, Action<any>> {
+  protected createStore(): Store<IGlobalStoreState, AnyAction> {
     const middlewares: Array<Middleware> = [cbdMiddleware, logInConnectedComponentMiddleware, logInConsoleMiddleware];
     return createStore(this.createRootReducer(), applyMiddleware(...middlewares));
   }

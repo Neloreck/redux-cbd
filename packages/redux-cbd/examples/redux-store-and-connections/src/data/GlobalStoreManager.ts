@@ -1,17 +1,17 @@
 import {Action, combineReducers, Store, applyMiddleware, createStore, Middleware, Reducer} from "redux";
-import {StoreManaged, CBDStoreManager, cbdMiddleware} from "redux-cbd";
+import {AnyAction, StoreManaged, CBDStoreManager, cbdMiddleware} from "redux-cbd";
 
 /* Custom middlewares. */
 import {logInConnectedComponentMiddleware, logInConsoleMiddleware} from "../view/logInMiddlewares";
 
 import {IGlobalStoreState} from "./IGlobalStoreState";
-import {DemoReducer, DemoState} from "./demo/index";
+import {DemoReducer, DemoState} from "./demo";
 
 @StoreManaged("GLOBAL_STORE")
 export class GlobalStoreManager extends CBDStoreManager<IGlobalStoreState> {
 
   // Creating store. Singleton instance for whole app. cbdMiddleware is important there, logs are for demo.
-  protected createStore(): Store<IGlobalStoreState, Action<any>> {
+  protected createStore(): Store<IGlobalStoreState, AnyAction> {
     const middlewares: Array<Middleware> = [cbdMiddleware, logInConnectedComponentMiddleware, logInConsoleMiddleware];
     return createStore(this.createRootReducer(), applyMiddleware(...middlewares));
   }
