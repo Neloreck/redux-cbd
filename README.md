@@ -71,8 +71,8 @@ tsconfig.json part: <br/>
 | [@Single](https://github.com/Neloreck/redux-cbd/wiki/@Single) | [SimpleAction](https://github.com/Neloreck/redux-cbd/wiki/SimpleAction) | [ReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/ReflectiveReducer) | [cbdMiddleware](https://github.com/Neloreck/redux-cbd/wiki/cbdMiddleware) | [createReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/createReflectiveReducer) |
 | [@EntryPoint](https://github.com/Neloreck/redux-cbd/wiki/@EntryPoint) | [DataExchangeAction](https://github.com/Neloreck/redux-cbd/wiki/DataExchangeAction) | [IReducerConfig](https://github.com/Neloreck/redux-cbd/wiki/IReducerConfig) | - | [linkReactConnectWithStore](https://github.com/Neloreck/redux-cbd/wiki/linkReactConnectWithStore) |
 | [@Bind](https://github.com/Neloreck/redux-cbd/wiki/@Bind) | [ComplexAction](https://github.com/Neloreck/redux-cbd/wiki/ComplexAction) | [CBDStoreManager](https://github.com/Neloreck/redux-cbd/wiki/CBDStoreManager) | - | [LazyComponentFactory](https://github.com/Neloreck/redux-cbd/wiki/LazyComponentFactory) |
-| [@Wrapped](https://github.com/Neloreck/redux-cbd/wiki/@Wrapped) | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | - | - | - |
-| [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | - |
+| [@Wrapped](https://github.com/Neloreck/redux-cbd/wiki/@Wrapped) | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | - | - | [getActionType](https://github.com/Neloreck/redux-cbd/wiki/getActionType) |
+| [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | [FunctionalAction](https://github.com/Neloreck/redux-cbd/wiki/FunctionalAction)  | - | - | [payloadValue](https://github.com/Neloreck/redux-cbd/wiki/payloadValue)  |
 | [@ActionWired](https://github.com/Neloreck/redux-cbd/wiki/@ActionWired) | - | - | - | - |
 | [@ActionHandler](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | - |
 
