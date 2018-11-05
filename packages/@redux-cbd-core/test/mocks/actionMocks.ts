@@ -1,10 +1,32 @@
-import {ActionWired, SimpleAction, ComplexAction, AsyncAction, DataExchangeAction} from "../../src";
+import {
+  ActionWired,
+  SimpleAction,
+  ComplexAction,
+  AsyncAction,
+  DataExchangeAction,
+  FunctionalAction
+} from "../../src";
 
+export const FUNCTIONAL_ACTION: string = "FUNCTIONAL_ACTION";
 export const SIMPLE_ACTION: string = "SIMPLE_ACTION";
 export const COMPLEX_ACTION: string = "COMPLEX_ACTION";
 export const ASYNC_ACTION: string = "ASYNC_WIRED";
 export const EXCHANGE_ACTION: string = "EXCHANGE_ACTION";
 export const ACTION_FROM_OUTSIDE: string = "ACTION_FROM_OUTSIDE";
+
+export class ActionsBundle {
+
+  @FunctionalAction(FUNCTIONAL_ACTION)
+  public static multiply(left: number, right: number): { value: number } {
+    return { value: left * right };
+  }
+
+  @FunctionalAction(FUNCTIONAL_ACTION)
+  public static substract(left: number, right: number): { value: number } {
+    return { value: left - right };
+  }
+
+}
 
 // Overloading method instead of decorator usage.
 export class SimpleActionExample extends SimpleAction {

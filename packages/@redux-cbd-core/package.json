@@ -1,6 +1,6 @@
 {
   "name": "@redux-cbd/core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Declarative class-based annotations for redux. OOP style for your typescript-react-redux app.",
   "main": "./index.js",
   "private": false,
@@ -41,9 +41,9 @@
   },
   "dependencies": {
     "reflect-metadata": "^0.1.9",
-    "redux": "^4.0.0",
-    "react": "^16.4.16",
-    "react-redux": "^5.0.7"
+    "redux": "^4.0.1",
+    "react": "^16.6.0",
+    "react-redux": "^5.1.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.2",

@@ -1,9 +1,10 @@
 import {EActionClass, EMetaData} from "../../src";
 import {
+  ActionsBundle,
   ASYNC_ACTION,
   AsyncActionExample,
   COMPLEX_ACTION,
-  ComplexActionExample,
+  ComplexActionExample, FUNCTIONAL_ACTION,
   SIMPLE_ACTION,
   SimpleActionExample
 } from "../mocks/actionMocks";
@@ -24,13 +25,17 @@ describe("CBD Actions.", () => {
     expect(asyncAction.getActionType()).toBe(ASYNC_ACTION);
     expect(asyncAction.getActionPayload()).toBe(asyncAction.payload);
 
+    const functionalAction = ActionsBundle.multiply;
+
     expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, SimpleActionExample)).toBe(EActionClass.SIMPLE_ACTION);
     expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, ComplexActionExample)).toBe(EActionClass.COMPLEX_ACTION);
     expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, AsyncActionExample)).toBe(EActionClass.ASYNC_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_CLASS, functionalAction)).toBe(EActionClass.FUNCTIONAL_ACTION);
 
     expect(Reflect.getMetadata(EMetaData.ACTION_TYPE, SimpleActionExample)).toBe(undefined);
     expect(Reflect.getMetadata(EMetaData.ACTION_TYPE, ComplexActionExample)).toBe(COMPLEX_ACTION);
     expect(Reflect.getMetadata(EMetaData.ACTION_TYPE, AsyncActionExample)).toBe(ASYNC_ACTION);
+    expect(Reflect.getMetadata(EMetaData.ACTION_TYPE, functionalAction)).toBe(FUNCTIONAL_ACTION);
 
     expect(simpleAction.getActionType()).toBe(SIMPLE_ACTION);
     expect(complexAction.getActionType()).toBe(Reflect.getMetadata(EMetaData.ACTION_TYPE, ComplexActionExample));

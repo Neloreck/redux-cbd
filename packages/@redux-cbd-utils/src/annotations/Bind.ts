@@ -1,1 +1,5 @@
-export {default as Bind} from "autobind-decorator";
+import BindAnnotation from "autobind-decorator";
+
+export const Bind = () => {
+  return BindAnnotation;
+};

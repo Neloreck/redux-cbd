@@ -14,6 +14,7 @@ export type HandlerBundle<T> = { action: string, handler: ActionHandlerFunc<T, a
 export type ReducerMap<T> = { [index: string]: ActionHandlerFunc<T, any> | AsFunctional<T, any>; }
 export type InferableComponentEnhancerWithProps<IInjectedProps, INeedsProps> =
   <IComponent extends React.ComponentType<IInjectedProps & INeedsProps>>(component: IComponent) => IComponent;
+export type payloadValue<T extends (...args: Array<any>) => any> = { payload: ReturnType<T> };
 
 export enum EMetaData {
   TYPE = "design:type",
@@ -26,6 +27,7 @@ export enum EMetaData {
 }
 
 export enum EActionClass {
+  FUNCTIONAL_ACTION = "FUNCTIONAL_ACTION",
   OBJECT_ACTION = "OBJECT_ACTION",
   SIMPLE_ACTION = "SIMPLE_ACTION",
   COMPLEX_ACTION = "COMPLEX_ACTION",
@@ -33,14 +35,30 @@ export enum EActionClass {
   EXCHANGE_ACTION = "EXCHANGE_ACTION"
 }
 
+export const getActionType = (action: SimpleAction | (<T extends SimpleAction>(...args: Array<any>) => T) | ((...args: any) => any) | Action) => {
+  if (action instanceof SimpleAction) {
+    return action.getActionType();
+  } else if (Object.prototype.toString.call(action) == '[object Function]') {
+    return Reflect.getMetadata(EMetaData.ACTION_TYPE, action);
+  } else {
+    return (action as Action).type;
+  }
+};
+
 // ================================================== | Annotations |  =================================================
 
 // @ActionHandler for runtime assertion of declared methods (Only first evaluation).
-export const ActionHandler = (customActionType?: string) => <T>(instance: T, method: string) => {
+export const ActionHandler = (customActionType?: string | ((...args: Array<any>) => any)) => <T>(instance: T, method: string) => {
 
   const secondParam = Reflect.getMetadata("design:paramtypes", instance, method)[1];
 
+  // If custom param is string and second handler param is object.
   if (customActionType && secondParam && secondParam.name === "Object") {
+    if (Object.prototype.toString.call(customActionType) == "[object Function]") {
+      Reflect.defineMetadata(EMetaData.ACTION_TYPE, Reflect.getMetadata(EMetaData.ACTION_TYPE, customActionType), instance, method)
+      return;
+    }
+
     Reflect.defineMetadata(EMetaData.ACTION_TYPE, customActionType, instance, method);
   } else if (customActionType && secondParam && secondParam.name !== "Object") {
     throw new Error("You should not provide action type for already declared action classes.");
@@ -129,6 +147,11 @@ export abstract class SimpleAction implements Action {
     return this.payload;
   }
 
+  // Get action from proto, if someone preferred overload instead of passing @ActionWired.
+  public static getActionType(): string {
+    return Reflect.getMetadata(EMetaData.ACTION_TYPE, this) || this.prototype.getActionType();
+  }
+
   public getActionType(): string {
     return Reflect.getMetadata(EMetaData.ACTION_TYPE, this.constructor);
   }
@@ -185,6 +208,59 @@ export abstract class ComplexAction<T> extends SimpleAction {
   }
 
 }
+
+export const FunctionalAction = (type: string) => {
+  return (target: any, method: string, descriptor: TypedPropertyDescriptor<any>) => {
+
+    let fn = descriptor.value;
+
+    if (typeof fn !== 'function') {
+      throw new Error(`@boundMethod decorator can only be applied to methods not: ${typeof fn}`);
+    }
+
+    // In IE11 calling Object.defineProperty has a side-effect of evaluating the
+    // getter for the property which is being replaced. This causes infinite
+    // recursion and an "Out of stack space" error.
+    let definingProperty = false;
+
+    return {
+      configurable: true,
+      get() {
+        if (definingProperty || typeof fn !== 'function') {
+          return fn;
+        }
+
+        let functionalAction = (...args: Array<any>) => {
+          return {
+            type: type,
+            payload: fn(...args)
+          }
+        };
+
+        Reflect.defineMetadata(EMetaData.ACTION_CLASS, EActionClass.FUNCTIONAL_ACTION, functionalAction);
+        Reflect.defineMetadata(EMetaData.ACTION_TYPE, type, functionalAction);
+
+        definingProperty = true;
+
+        Object.defineProperty(this, method, {
+          configurable: true,
+          get() {
+            return functionalAction;
+          },
+          set(value) {
+            fn = value;
+            delete this[method];
+          }
+        });
+        definingProperty = false;
+        return functionalAction;
+      },
+      set(value: (...args: Array<any>) => any) {
+        fn = value;
+      }
+    };
+  }
+};
 
 // ================================================== | Middlewares |  =================================================
 

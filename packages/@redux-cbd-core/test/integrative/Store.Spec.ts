@@ -1,8 +1,9 @@
-import {Action, Store, createStore} from "redux";
+import {Store, createStore, AnyAction} from "redux";
 import {IStoreState, STORE_KEY, TestStoreManager, testStoreManager} from "../mocks/storeMocks";
 import {MockReducerState} from "../mocks/reducerMocks";
 import {
   ACTION_FROM_OUTSIDE,
+  ActionsBundle,
   AsyncActionExample,
   ComplexActionExample,
   ExchangeActionExample,
@@ -86,6 +87,7 @@ describe("CBD Store behaviour.", () => {
     store.dispatch(new ComplexActionExample(25));
     store.dispatch(new AsyncActionExample());
     store.dispatch(new ExchangeActionExample({ value: "Something else."}))
+    store.dispatch(ActionsBundle.multiply(25, 25))
   });
 
   it("Should handle actions from other packages and modules.", () => {
@@ -99,6 +101,20 @@ describe("CBD Store behaviour.", () => {
     store.dispatch({ type: ACTION_FROM_OUTSIDE, payload: { value: SIMPLE_TEST_VALUE }});
 
     expect(store.getState().mockReducer.testString).toBe(SIMPLE_TEST_VALUE);
+  });
+
+  it("Should properly handle functional actions.", () => {
+
+    const store: Store<IStoreState, AnyAction> = testStoreManager.createStore();
+
+    const MULTIPLIER: number = 25;
+    const RESULT: number = MULTIPLIER * MULTIPLIER;
+
+    const dispatchedAction: number = ActionsBundle.multiply(MULTIPLIER, MULTIPLIER);
+
+    store.dispatch(dispatchedAction);
+
+    expect(store.getState().mockReducer.testNumber).toBe(RESULT);
   });
 
   it("Should work only with store managed decorated managers.", () => {
@@ -124,9 +140,9 @@ describe("CBD Store behaviour.", () => {
     @StoreManaged()
     class AnnotatedManager extends CBDStoreManager<{}> {
 
-      protected createStore() {
-        return createStore(() => ({}))
-      }
+    protected createStore() {
+      return createStore(() => ({}))
+    }
 
     }
 

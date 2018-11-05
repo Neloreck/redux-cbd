@@ -1,5 +1,5 @@
-import {ActionHandler, ReflectiveReducer} from "../../src/index";
-import {ACTION_FROM_OUTSIDE, AsyncActionExample, ExchangeActionExample, SIMPLE_ACTION} from "./actionMocks";
+import {ActionHandler, payloadValue, ReflectiveReducer} from "../../src";
+import {ACTION_FROM_OUTSIDE, ActionsBundle, AsyncActionExample, ExchangeActionExample, SIMPLE_ACTION} from "./actionMocks";
 
 export class MockReducerState {
 
@@ -32,7 +32,12 @@ export class MockReducer extends ReflectiveReducer<MockReducerState> {
 
   @ActionHandler(ACTION_FROM_OUTSIDE)
   public handleActionFromOutside(state: MockReducerState, action: { payload: { value: string } }): MockReducerState {
-    return { ... state, testString: action.payload.value };
+    return { ...state, testString: action.payload.value };
+  }
+
+  @ActionHandler(ActionsBundle.multiply)
+  public handleFunctionalAction(state: MockReducerState, payload: payloadValue<typeof ActionsBundle.multiply>): MockReducerState {
+    return { ...state, testNumber: payload.payload.value }
   }
 
 }

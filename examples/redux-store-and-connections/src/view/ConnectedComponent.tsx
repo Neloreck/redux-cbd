@@ -1,6 +1,7 @@
 import * as React from "react";
 import {PureComponent} from "react";
 import {Action} from "redux";
+
 import {Bind} from "@redux-cbd/utils";
 
 // Store related things.
@@ -27,16 +28,11 @@ export interface IConnectedComponentOwnProps {
   someLabelFromExternalProps: string;
 }
 
-// External props, that are injected by different decorators.
-// For example: @Connect, @withStyles (material ui), @withWrapper (provide some props with HOC by decorator usage) etc.
 export interface IConnectedComponentExternalProps extends IConnectedComponentStoreProps,
   IConnectedComponentDispatchProps {}
 
-// General props for whole component for overall picture, everything can be accessed from the inside.
-export interface IConnectedComponentProps extends IConnectedComponentOwnProps, IConnectedComponentExternalProps {}
-
 // Link global store provider with component. This props will be injected automatically and should be type safe.
-@GlobalStoreConnect<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentProps>(
+@GlobalStoreConnect<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentOwnProps>(
   (store: IGlobalStoreState) => {
     return {
       demoLoading: store.demoReducer.loading,
@@ -48,7 +44,7 @@ export interface IConnectedComponentProps extends IConnectedComponentOwnProps, I
     sendAsyncDemoAction: (num: number) => new AsyncDemoAction(num),
     sendDataExchangeDemoAction: (num) => new DataExchangeDemoAction({ storedNumber: num })
   })
-export class ConnectedComponent extends PureComponent<IConnectedComponentProps> {
+export class ConnectedComponent extends PureComponent<IConnectedComponentExternalProps & IConnectedComponentOwnProps> {
 
   public static actionsLog: Array<Action> = [];
 
@@ -91,28 +87,28 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
     );
   }
 
-  @Bind
+  @Bind()
   public clearLogMessages(): void {
     ConnectedComponent.actionsLog = [];
     this.forceUpdate();
   }
 
-  @Bind
+  @Bind()
   private sendSimpleDemoAction(): void {
     this.props.sendSimpleDemoAction(Math.random() * 999 + 1);
   }
 
-  @Bind
+  @Bind()
   private sendDataExchangeAction(): void {
     this.props.sendDataExchangeDemoAction(Math.random() * 9999 + 1000)
   }
 
-  @Bind
+  @Bind()
   private sendComplexAction(): void {
     this.props.sendComplexDemoAction(Math.random() * -9999 - 1)
   }
 
-  @Bind
+  @Bind()
   private sendAsyncAction(): void {
     this.props.sendAsyncDemoAction(Math.random() * 3000 + 1000)
   }

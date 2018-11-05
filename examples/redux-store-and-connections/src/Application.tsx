@@ -1,5 +1,6 @@
 import * as React from "react";
 import {render} from "react-dom";
+
 import {EntryPoint} from "@redux-cbd/utils";
 
 /* Store provider. Injects store for @Connect consumers. */
@@ -7,7 +8,7 @@ import {GlobalStoreProvider} from "./data";
 
 import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
 
-@EntryPoint
+@EntryPoint()
 export class Application {
 
   /*
