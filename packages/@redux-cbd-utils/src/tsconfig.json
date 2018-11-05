@@ -7,7 +7,7 @@
     "declaration": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "outDir": "../ ",
+    "outDir": "../",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "jsx": "react",
