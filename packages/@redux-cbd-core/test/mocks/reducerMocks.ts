@@ -36,8 +36,8 @@ export class MockReducer extends ReflectiveReducer<MockReducerState> {
   }
 
   @ActionHandler(ActionsBundle.multiply)
-  public handleFunctionalAction(state: MockReducerState, payload: payloadValue<typeof ActionsBundle.multiply>): MockReducerState {
-    return { ...state, testNumber: payload.payload.value }
+  public handleFunctionalAction(state: MockReducerState, action: payloadValue<typeof ActionsBundle.multiply>): MockReducerState {
+    return { ...state, testNumber: action.payload.value }
   }
 
 }
