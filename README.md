@@ -428,28 +428,28 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
     );
   }
 
-  @Bind
+  @Bind()
   public clearLogMessages(): void {
     ConnectedComponent.actionsLog = [];
     this.forceUpdate();
   }
 
-  @Bind
+  @Bind()
   private sendSimpleDemoAction(): void {
     this.props.sendSimpleDemoAction(Math.random() * 999 + 1);
   }
 
-  @Bind
+  @Bind()
   private sendDataExchangeAction(): void {
     this.props.sendDataExchangeDemoAction(Math.random() * 9999 + 1000)
   }
 
-  @Bind
+  @Bind()
   private sendComplexAction(): void {
     this.props.sendComplexDemoAction(Math.random() * -9999 - 1)
   }
 
-  @Bind
+  @Bind()
   private sendAsyncAction(): void {
     this.props.sendComplexDemoAction(Math.random() * -99999 - 10000)
   }
