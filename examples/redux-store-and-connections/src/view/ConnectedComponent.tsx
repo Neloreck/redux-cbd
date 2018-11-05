@@ -88,7 +88,7 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentExterna
   }
 
   @Bind()
-  public clearLogMessages(): void {
+  private clearLogMessages(): void {
     ConnectedComponent.actionsLog = [];
     this.forceUpdate();
   }

@@ -60,9 +60,9 @@ tsconfig.json part: <br/>
 | :------------- | :------------- | :------------- | :------------- | :------------- |
 | [@ActionHandler](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | [SimpleAction](https://github.com/Neloreck/redux-cbd/wiki/SimpleAction) | [ReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/ReflectiveReducer) | [cbdMiddleware](https://github.com/Neloreck/redux-cbd/wiki/cbdMiddleware) | [createReflectiveReducer](https://github.com/Neloreck/redux-cbd/wiki/createReflectiveReducer) |
 | [@ActionWired](https://github.com/Neloreck/redux-cbd/wiki/@ActionWired) | [DataExchangeAction](https://github.com/Neloreck/redux-cbd/wiki/DataExchangeAction) | [IReducerConfig](https://github.com/Neloreck/redux-cbd/wiki/IReducerConfig) | - | [linkReactConnectWithStore](https://github.com/Neloreck/redux-cbd/wiki/linkReactConnectWithStore) |
-| [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | [ComplexAction](https://github.com/Neloreck/redux-cbd/wiki/ComplexAction) | [CBDStoreManager](https://github.com/Neloreck/redux-cbd/wiki/CBDStoreManager) | - | - |
-| - | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | - | - | - |
-| - | - | - | - | - |
+| [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | [ComplexAction](https://github.com/Neloreck/redux-cbd/wiki/ComplexAction) | [CBDStoreManager](https://github.com/Neloreck/redux-cbd/wiki/CBDStoreManager) | - | [getActionType](https://github.com/Neloreck/redux-cbd/wiki/getActionType) |
+| - | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | - | - | [payloadValue](https://github.com/Neloreck/redux-cbd/wiki/payloadValue) |
+| - | [FunctionalAction](https://github.com/Neloreck/redux-cbd/wiki/FunctionalAction) | - | - | - |
 | - | - | - | - | - |
 | - | - | - | - | - |
 
@@ -79,7 +79,7 @@ import {EntryPoint} from "@redux-cbd/utils";
 import {GlobalStoreProvider} from "./data/redux";
 import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
 
-@EntryPoint
+@EntryPoint()
 export class Application {
 
   /*
@@ -359,11 +359,8 @@ export interface IConnectedComponentOwnProps {
 export interface IConnectedComponentExternalProps extends IConnectedComponentStoreProps,
   IConnectedComponentDispatchProps {}
 
-// General props for whole component for overall picture, everything can be accessed from the inside.
-export interface IConnectedComponentProps extends IConnectedComponentOwnProps, IConnectedComponentExternalProps {}
-
 // Link global store provider with component. This props will be injected automatically and should be type safe.
-@GlobalStoreConnect<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentProps>(
+@GlobalStoreConnect<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentOwnProps>(
   (store: IGlobalStoreState) => {
     return {
       demoLoading: store.demoReducer.loading,
@@ -375,7 +372,7 @@ export interface IConnectedComponentProps extends IConnectedComponentOwnProps, I
     sendAsyncDemoAction: (num: number) => new AsyncDemoAction(num),
     sendDataExchangeDemoAction: (num) => new DataExchangeDemoAction({ storedNumber: num })
   })
-export class ConnectedComponent extends PureComponent<IConnectedComponentProps> {
+export class ConnectedComponent extends PureComponent<IConnectedComponentOwnProps & IConnectedComponentExternalProps> {
 
   public static actionsLog: Array<Action> = [];
 
@@ -418,28 +415,28 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
     );
   }
 
-  @Bind
-  public clearLogMessages(): void {
+  @Bind()
+  private clearLogMessages(): void {
     ConnectedComponent.actionsLog = [];
     this.forceUpdate();
   }
 
-  @Bind
+  @Bind()
   private sendSimpleDemoAction(): void {
     this.props.sendSimpleDemoAction(Math.random() * 999 + 1);
   }
 
-  @Bind
+  @Bind()
   private sendDataExchangeAction(): void {
     this.props.sendDataExchangeDemoAction(Math.random() * 9999 + 1000)
   }
 
-  @Bind
+  @Bind()
   private sendComplexAction(): void {
     this.props.sendComplexDemoAction(Math.random() * -9999 - 1)
   }
 
-  @Bind
+  @Bind()
   private sendAsyncAction(): void {
     this.props.sendComplexDemoAction(Math.random() * -99999 - 10000)
   }

@@ -89,7 +89,7 @@ import {EntryPoint} from "@redux-cbd/utils";
 import {GlobalStoreProvider} from "./data/redux";
 import {ConnectedComponent, IConnectedComponentExternalProps} from "./view/ConnectedComponent";
 
-@EntryPoint
+@EntryPoint()
 export class Application {
 
   /*
@@ -369,11 +369,8 @@ export interface IConnectedComponentOwnProps {
 export interface IConnectedComponentExternalProps extends IConnectedComponentStoreProps,
   IConnectedComponentDispatchProps {}
 
-// General props for whole component for overall picture, everything can be accessed from the inside.
-export interface IConnectedComponentProps extends IConnectedComponentOwnProps, IConnectedComponentExternalProps {}
-
 // Link global store provider with component. This props will be injected automatically and should be type safe.
-@GlobalStoreConnect<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentProps>(
+@GlobalStoreConnect<IConnectedComponentStoreProps, IConnectedComponentDispatchProps, IConnectedComponentOwnProps>(
   (store: IGlobalStoreState) => {
     return {
       demoLoading: store.demoReducer.loading,
@@ -385,7 +382,7 @@ export interface IConnectedComponentProps extends IConnectedComponentOwnProps, I
     sendAsyncDemoAction: (num: number) => new AsyncDemoAction(num),
     sendDataExchangeDemoAction: (num) => new DataExchangeDemoAction({ storedNumber: num })
   })
-export class ConnectedComponent extends PureComponent<IConnectedComponentProps> {
+export class ConnectedComponent extends PureComponent<IConnectedComponentOwnProps & IConnectedComponentExternalProps> {
 
   public static actionsLog: Array<Action> = [];
 
@@ -429,7 +426,7 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentProps> 
   }
 
   @Bind()
-  public clearLogMessages(): void {
+  private clearLogMessages(): void {
     ConnectedComponent.actionsLog = [];
     this.forceUpdate();
   }
