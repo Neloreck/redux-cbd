@@ -5,6 +5,7 @@ import {ReactContextManager} from "@redux-cbd/context";
 export interface IAuthContextState {
   authActions: {
     setUser: (user: string) => void;
+    setUserAsync: () => Promise<void>;
     changeAuthenticationStatus: () => void;
   };
   authState: {
@@ -18,6 +19,7 @@ export class AuthContext extends ReactContextManager<IAuthContextState> {
   protected readonly state: IAuthContextState = {
     authActions: {
       changeAuthenticationStatus: this.changeAuthenticationStatus,
+      setUserAsync: this.setUserAsync,
       setUser: this.setUser
     },
     authState: {
@@ -39,11 +41,14 @@ export class AuthContext extends ReactContextManager<IAuthContextState> {
   }
 
   @Bind()
-  public triggerAsyncAction(): void {
-    setTimeout(() => {
-      this.state.authState = { ...this.state.authState, user: "user-" + Math.random() * 100 };
-      this.update();
-    }, 3000);
+  public setUserAsync(): Promise<void> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.state.authState = {...this.state.authState, user: "user-" + Math.floor(Math.random() * 10000)};
+        this.update();
+        resolve();
+      }, 3000)
+    });
   }
 
 }

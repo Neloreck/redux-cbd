@@ -5,40 +5,46 @@
 <br/>
 [![npm downloads](https://img.shields.io/npm/dt/redux-cbd.svg?style=flat-square)](https://www.npmjs.com/package/redux-cbd) 
 [![npm downloads](https://img.shields.io/npm/dt/@redux-cbd/core.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/core)
+[![npm downloads](https://img.shields.io/npm/dt/@redux-cbd/context.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/context)
 [![npm downloads](https://img.shields.io/npm/dt/@redux-cbd/utils.svg?style=flat-square)](https://www.npmjs.com/package/@redux-cbd/utils) <br/>
 [![HitCount](http://hits.dwyl.com/neloreck/redux-cbd.svg)](http://hits.dwyl.com/neloreck/redux-cbd)
 [![HitCount](http://hits.dwyl.com/neloreck/@redux-cbd/core.svg)](http://hits.dwyl.com/neloreck/@redux-cbd/core)
+[![HitCount](http://hits.dwyl.com/neloreck/@redux-cbd/context.svg)](http://hits.dwyl.com/neloreck/@redux-cbd/context)
 [![HitCount](http://hits.dwyl.com/neloreck/@redux-cbd/utils.svg)](http://hits.dwyl.com/neloreck/@redux-cbd/utils)
 
 <hr/>
 
-Typescript decorators\annotations, utils and abstract classes for <a href='https://github.com/facebook/react'>react</a>-<a href='https://github.com/reduxjs/redux'>redux</a> application. <br/>
+Typescript decorators\annotations, utils and abstract classes for <a href='https://github.com/facebook/react'>react</a>-<a href='https://github.com/reduxjs/redux'>redux</a> or contextAPI application. <br/>
 Adds various utility annotations such as @Single, @EntryPoint, @Connect or @Wrapped (utils package). <br/>
 Allows you to write class-based declarations of your data storage with strict and predictive typing. <br/>
 Enforces typesafety and OOP mixed with functional style (all key features and implementation of redux remains the same). <br/>
 
-Intended to be used with react-redux.
+Intended to be used with react-redux or with native react context API.
 
 <hr/>
 
 ## NPM packages
 
 <a href='https://www.npmjs.com/package/redux-cbd'> redux-cbd </a> - old bundled library package.  <br/>
-<a href='https://www.npmjs.com/package/@redux-cbd/core'> @redux-cbd/core </a> - current library core package (preferred). <br/>
+<a href='https://www.npmjs.com/package/@redux-cbd/core'> @redux-cbd/core </a> - current library redux core package. <br/>
+<a href='https://www.npmjs.com/package/@redux-cbd/context'> @redux-cbd/context </a> - current library context core package. <br/>
 <a href='https://www.npmjs.com/package/@redux-cbd/utils'> @redux-cbd/utils </a> - current library utils package (optional). <br/>
 
 ## Installation
 
 For older stable version:
-- `npm install --save redux-cbd`
+- `npm install --save redux-cbd` (includes older core and utils)
 
-For current ongoing packages (recommended):
+For current ongoing packages with redux:
 - `npm install --save @redux-cbd/core`
-- `npm install --save @redux-cbd/utils`
+- `npm install --save @redux-cbd/utils` (optional)
 
+For current ongoing packages with context:
+- `npm install --save @redux-cbd/context`
+- `npm install --save @redux-cbd/utils` (optional)
 
 <b>Important:</b>
-- Package uses proposal ES <a href='https://github.com/rbuckton/reflect-metadata'>reflect-metadata</a> api, so I would advice to get acknowledged with its usage.
+- Core package uses proposal ES <a href='https://github.com/rbuckton/reflect-metadata'>reflect-metadata</a> api, so I would advice to get acknowledged with its usage.
 - Package uses 'expirementalDecorators' features (disabled by default for TypeScript transpiler).
 
 ## Setup
@@ -64,6 +70,14 @@ tsconfig.json part: <br/>
 ```
 <hr/>
 
+## Alternative approach
+
+You can use react context instead of redux and immutable actions with middlewares. <br/>
+In this case you don't need reflect-metadata-api and complex configuration. <br/>
+Experimental decorators are still needed. <br/>
+
+Also, you can mix both approaches, if small reactive storage outside of reducers is needed for small module/components lib.
+
 ## What is inside
 
 | [Annotations](https://github.com/Neloreck/redux-cbd/wiki/Annotations) | [Actions](https://github.com/Neloreck/redux-cbd/wiki/Actions) | [Reducers](https://github.com/Neloreck/redux-cbd/wiki/Reducers) | [Middleware](https://github.com/Neloreck/redux-cbd/wiki/Middleware) | [Utils](https://github.com/Neloreck/redux-cbd/wiki/Utils)|
@@ -73,10 +87,14 @@ tsconfig.json part: <br/>
 | [@Bind](https://github.com/Neloreck/redux-cbd/wiki/@Bind) | [ComplexAction](https://github.com/Neloreck/redux-cbd/wiki/ComplexAction) | [CBDStoreManager](https://github.com/Neloreck/redux-cbd/wiki/CBDStoreManager) | - | [LazyComponentFactory](https://github.com/Neloreck/redux-cbd/wiki/LazyComponentFactory) |
 | [@Wrapped](https://github.com/Neloreck/redux-cbd/wiki/@Wrapped) | [AsyncAction](https://github.com/Neloreck/redux-cbd/wiki/AsyncAction) | - | - | [getActionType](https://github.com/Neloreck/redux-cbd/wiki/getActionType) |
 | [@StoreManaged](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | [FunctionalAction](https://github.com/Neloreck/redux-cbd/wiki/FunctionalAction)  | - | - | [payloadValue](https://github.com/Neloreck/redux-cbd/wiki/payloadValue)  |
-| [@ActionWired](https://github.com/Neloreck/redux-cbd/wiki/@ActionWired) | - | - | - | - |
+| [@ActionWired](https://github.com/Neloreck/redux-cbd/wiki/@ActionWired) | - | - | - | [ReactContextManager](https://github.com/Neloreck/redux-cbd/wiki/ReactContextManager) |
 | [@ActionHandler](https://github.com/Neloreck/redux-cbd/wiki/@StoreManaged) | - | - | - | - |
+| [@Provide](https://github.com/Neloreck/redux-cbd/wiki/@Provide) | - | - | - | - |
+| [@Consume](https://github.com/Neloreck/redux-cbd/wiki/@Consume) | - | - | - | - |
 
 ## Example (wiki contains more explanations):
+
+### Redux (@redux-cbd/core approach): 
 
 <details><summary>Application entrypoint.</summary>
 <p>
@@ -449,6 +467,252 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentOwnProp
   @Bind()
   private sendAsyncAction(): void {
     this.props.sendComplexDemoAction(Math.random() * -99999 - 10000)
+  }
+
+}
+```
+
+</p>
+</details>
+
+<details><summary>Example build config.</summary>
+<p>
+    
+```typescript jsx
+import * as webpack from "webpack";
+import * as path from "path";
+
+const HtmlWebpackPlugin =  require("html-webpack-plugin");
+
+const mode = process.env.NODE_ENV;
+const projectRoot = path.resolve(__dirname, "./");
+
+// For development purposes only.
+// Extend and rewrite it properly with webpack documentation.
+// Use proper config for production builds.
+export class WebpackConfig implements webpack.Configuration {
+
+  mode: "development" = "development";
+
+  resolve = {
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
+  };
+
+  entry = [
+    path.resolve(projectRoot, "src/Application.tsx")
+  ];
+
+  output = {
+    path: path.resolve(projectRoot, "target/"),
+    filename: "js/[name].bundle.js",
+    sourceMapFilename: "js/map/[name].bundle.map"
+  };
+
+  devtool: "source-map" = "source-map";
+
+  // Add the loader for .ts files.
+  module = {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        loader: "awesome-typescript-loader",
+        query: {
+          configFileName: path.resolve(projectRoot, "./tsconfig.json")
+        }
+      }
+    ]
+  };
+
+  plugins = [
+    new HtmlWebpackPlugin({
+      inject: true,
+      filename: "index.html",
+      template: path.resolve(projectRoot, "src/index.html")
+    })
+  ];
+
+  devServer = {
+    contentBase: "target/",
+    historyApiFallback: true,
+    compress: true,
+    port: 3000,
+    host: "0.0.0.0"
+  }
+
+}
+
+export default new WebpackConfig();
+```
+
+</p>
+</details>
+
+### Context (@redux-cbd/context approach): 
+
+<details><summary>Application entrypoint.</summary>
+<p>
+    
+```typescript jsx
+import * as React from "react";
+import {render} from "react-dom";
+
+import {EntryPoint} from "@redux-cbd/utils";
+import {MainView, IMainViewExternalProps} from "./view/MainView";
+
+@EntryPoint()
+export class Application {
+
+  /*
+   * { ...{} as IConnectedComponentExternalProps } is the trick for correct types handling.
+   * Actually, connected component is different from the one we exported with 'export class'.
+   * We should use default export with separate props cast or make such mock trick.
+   * (I prefer second style with single class declaration and DIRECTLY NAMED imports, which are better).
+   */
+  public static main(): void {
+    render(<div>
+      <MainView someLabelFromExternalProps={ "First component." } { ...{} as IMainViewExternalProps }/>
+      <MainView someLabelFromExternalProps={ "Second component." } { ...{} as IMainViewExternalProps }/>
+    </div>, document.getElementById("application-root"));
+  }
+
+}
+```
+
+</p>
+</details>
+
+<details><summary>Context store reexport and signleton creation.</summary>
+<p>
+    
+```typescript jsx
+import {AuthContext, IAuthContextState} from "./AuthContext";
+
+export const authContext: AuthContext = new AuthContext();
+
+export {AuthContext, IAuthContextState} from "./AuthContext";
+
+```
+
+</p>
+</details>
+
+<details><summary>Context and handlers declaration.</summary>
+<p>
+    
+```typescript jsx
+import {Bind} from "@redux-cbd/utils";
+
+import {ReactContextManager} from "@redux-cbd/context";
+
+export interface IAuthContextState {
+  authActions: {
+    setUser: (user: string) => void;
+    setUserAsync: () => Promise<void>;
+    changeAuthenticationStatus: () => void;
+  };
+  authState: {
+    isAuthenticated: boolean;
+    user: string;
+  };
+}
+
+export class AuthContext extends ReactContextManager<IAuthContextState> {
+
+  protected readonly state: IAuthContextState = {
+    authActions: {
+      changeAuthenticationStatus: this.changeAuthenticationStatus,
+      setUserAsync: this.setUserAsync,
+      setUser: this.setUser
+    },
+    authState: {
+      isAuthenticated: true,
+      user: "anonymous"
+    }
+  };
+
+  @Bind()
+  public changeAuthenticationStatus(): void {
+    this.state.authState = { ...this.state.authState, isAuthenticated: !this.state.authState.isAuthenticated };
+    this.update();
+  }
+
+  @Bind()
+  public setUser(user: string): void {
+    this.state.authState = { ...this.state.authState, user };
+    this.update();
+  }
+
+  @Bind()
+  public setUserAsync(): Promise<void> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.state.authState = {...this.state.authState, user: "user-" + Math.floor(Math.random() * 10000)};
+        this.update();
+        resolve();
+      }, 3000)
+    });
+  }
+
+}
+```
+
+</p>
+</details>
+
+<details><summary>Connected component.</summary>
+<p>
+  
+```typescript jsx
+import * as React from "react";
+import {PureComponent} from "react";
+
+// Store related things.
+
+import {authContext, IAuthContextState} from "../data";
+
+import {Consume, Provide} from "@redux-cbd/context";
+
+// Props typing.
+
+export interface IMainViewOwnProps { someLabelFromExternalProps: string; }
+
+export interface IMainViewExternalProps extends IAuthContextState {}
+
+export interface IMainViewProps extends IMainViewExternalProps, IMainViewOwnProps {}
+
+// Component related.
+
+@Provide(authContext)
+@Consume<IAuthContextState, IMainViewProps>(authContext)
+export class MainView extends PureComponent<IMainViewProps> {
+
+  public render(): JSX.Element {
+    const {
+      someLabelFromExternalProps,
+      authState: {user, isAuthenticated},
+      authActions: {setUser, setUserAsync, changeAuthenticationStatus}
+    } = this.props;
+
+    const paddingStyle = { padding: "10px" };
+
+    return (
+      <div style={paddingStyle}>
+
+        <div> External prop value: '{ someLabelFromExternalProps }' </div>
+
+        <div style={paddingStyle}>
+          <span>USERNAME: </span> {user} <br/>
+          <span>AUTHENTICATED: </span>  {isAuthenticated.toString()} <br/>
+        </div>
+
+        <div style={paddingStyle}>
+          <button onClick={changeAuthenticationStatus}>Change Authentication Status</button>
+          <button onClick={setUserAsync}>Randomize User Async</button>
+          <button onClick={() => setUser("user-" + Math.floor(Math.random() * 100))}>Randomize User</button>
+        </div>
+
+      </div>
+    );
   }
 
 }

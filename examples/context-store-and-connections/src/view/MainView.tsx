@@ -25,7 +25,7 @@ export class MainView extends PureComponent<IMainViewProps> {
     const {
       someLabelFromExternalProps,
       authState: {user, isAuthenticated},
-      authActions: {setUser, changeAuthenticationStatus}
+      authActions: {setUser, setUserAsync, changeAuthenticationStatus}
     } = this.props;
 
     const paddingStyle = { padding: "10px" };
@@ -42,6 +42,7 @@ export class MainView extends PureComponent<IMainViewProps> {
 
         <div style={paddingStyle}>
           <button onClick={changeAuthenticationStatus}>Change Authentication Status</button>
+          <button onClick={setUserAsync}>Randomize User Async</button>
           <button onClick={() => setUser("user-" + Math.floor(Math.random() * 100))}>Randomize User</button>
         </div>
 
