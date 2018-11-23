@@ -83,16 +83,20 @@ export const StoreManaged = (storeKey?: string): ((constructor: any) => any) => 
     Reflect.defineMetadata(EMetaData.STORE_MANAGED, true, constructor);
     Reflect.defineMetadata(EMetaData.STORE_KEY, storeKey, constructor);
 
+    // Singleton functional instead of decorator.
+
     const originalConstructor: T = constructor;
+    const newConstructor = Object.assign(function (...args: Array<any>) {
 
-    const newConstructor = function (...args: Array<any>) {
-
-      if (!originalConstructor.prototype.__INSTANCE__) {
-        originalConstructor.prototype.__INSTANCE__ = new originalConstructor(...args);
+      // @ts-ignore
+      if (!originalConstructor.__INSTANCE__) {
+        // @ts-ignore
+        originalConstructor.__INSTANCE__ = new originalConstructor(...args);
       }
 
-      return originalConstructor.prototype.__INSTANCE__;
-    };
+      // @ts-ignore
+      return originalConstructor.__INSTANCE__;
+    }, constructor);
 
     newConstructor.prototype = originalConstructor.prototype;
 

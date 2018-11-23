@@ -42,23 +42,26 @@ export enum EActionClass {
 // ================================================== | Annotations |  =================================================
 
 // @Single for singleton objects.
-export function Single<T extends Constructor<{}>>(target: T): any {
+export const Single = () => <T extends  new(...args: Array<any>) => {}>(target: T): any => {
 
   const originalConstructor: T = target;
 
-  const newConstructor = function (...args: Array<any>) {
+  const newConstructor = Object.assign(function (...args: Array<any>) {
 
-    if (!originalConstructor.prototype.__INSTANCE__) {
-      originalConstructor.prototype.__INSTANCE__ = new originalConstructor(...args);
+    // @ts-ignore
+    if (!originalConstructor.__INSTANCE__) {
+      // @ts-ignore
+      originalConstructor.__INSTANCE__ = new originalConstructor(...args);
     }
 
-    return originalConstructor.prototype.__INSTANCE__;
-  };
+    // @ts-ignore
+    return originalConstructor.__INSTANCE__;
+  }, target);
 
   newConstructor.prototype = originalConstructor.prototype;
 
   return newConstructor;
-}
+};
 
 // @EntryPoint for application entry.
 export const EntryPoint = (targetClass: { main: () => void } ): void  => {
@@ -118,7 +121,7 @@ export const StoreManaged = (storeKey?: string): ((constructor: any) => any) => 
     Reflect.defineMetadata(EMetaData.STORE_MANAGED, true, constructor);
     Reflect.defineMetadata(EMetaData.STORE_KEY, storeKey, constructor);
 
-    return Single(constructor);
+    return Single()(constructor);
   };
 };
 
