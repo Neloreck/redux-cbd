@@ -1,6 +1,6 @@
 {
   "name": "@redux-cbd/utils",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Declarative class-based annotations for redux. Utils package.",
   "main": "./index.js",
   "sideEffects": false,
@@ -37,9 +37,11 @@
     "url": "https://github.com/neloreck/redux-cbd/issues"
   },
   "homepage": "https://github.com/neloreck/redux-cbd#readme",
-  "dependencies": {
-    "autobind-decorator": "^2.3.1",
+  "peerDependencies": {
     "react": "^16.6.3"
+  },
+  "dependencies": {
+    "autobind-decorator": "^2.3.1"
   },
   "devDependencies": {
     "@types/jest": "^23.3.9",
