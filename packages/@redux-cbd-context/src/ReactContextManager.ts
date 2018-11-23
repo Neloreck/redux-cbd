@@ -3,9 +3,9 @@ import {Consumer, Context, createContext} from "react";
 
 export abstract class ReactContextManager<T extends object> {
 
-  protected readonly providedContext: Context<T>;
+  private readonly providedContext: Context<T>;
   protected observedElements: Array<any> = [];
-  protected abstract state: T;
+  protected abstract context: T;
 
   public constructor() {
     this.providedContext = createContext(this.getProvidedProps());
@@ -41,7 +41,7 @@ export abstract class ReactContextManager<T extends object> {
 
   protected getProvidedProps(): T {
     // @ts-ignore
-    return { ...this.state };
+    return { ...this.context };
   }
 
 }

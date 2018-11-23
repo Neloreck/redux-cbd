@@ -72,11 +72,10 @@ export class Application {
 <p>
     
 ```typescript jsx
-import {AuthContext, IAuthContextState} from "./AuthContext";
+import {AuthContextManager, IAuthContext} from "./AuthContextManager";
 
-export const authContext: AuthContext = new AuthContext();
-
-export {AuthContext, IAuthContextState} from "./AuthContext";
+export const authContextManager: AuthContextManager = new AuthContextManager();
+export {AuthContextManager, IAuthContext} from "./AuthContextManager";
 
 ```
 
@@ -88,10 +87,9 @@ export {AuthContext, IAuthContextState} from "./AuthContext";
     
 ```typescript jsx
 import {Bind} from "@redux-cbd/utils";
-
 import {ReactContextManager} from "@redux-cbd/context";
 
-export interface IAuthContextState {
+export interface IAuthContext {
   authActions: {
     setUser: (user: string) => void;
     setUserAsync: () => Promise<void>;
@@ -103,9 +101,9 @@ export interface IAuthContextState {
   };
 }
 
-export class AuthContext extends ReactContextManager<IAuthContextState> {
+export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
-  protected readonly state: IAuthContextState = {
+  protected readonly context: IAuthContext = {
     authActions: {
       changeAuthenticationStatus: this.changeAuthenticationStatus,
       setUserAsync: this.setUserAsync,
@@ -119,13 +117,13 @@ export class AuthContext extends ReactContextManager<IAuthContextState> {
 
   @Bind()
   public changeAuthenticationStatus(): void {
-    this.state.authState = { ...this.state.authState, isAuthenticated: !this.state.authState.isAuthenticated };
+    this.context.authState = { ...this.context.authState, isAuthenticated: !this.context.authState.isAuthenticated };
     this.update();
   }
 
   @Bind()
   public setUser(user: string): void {
-    this.state.authState = { ...this.state.authState, user };
+    this.context.authState = { ...this.context.authState, user };
     this.update();
   }
 
@@ -133,7 +131,7 @@ export class AuthContext extends ReactContextManager<IAuthContextState> {
   public setUserAsync(): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        this.state.authState = {...this.state.authState, user: "user-" + Math.floor(Math.random() * 10000)};
+        this.context.authState = {...this.context.authState, user: "user-" + Math.floor(Math.random() * 10000)};
         this.update();
         resolve();
       }, 3000)
@@ -152,25 +150,24 @@ export class AuthContext extends ReactContextManager<IAuthContextState> {
 ```typescript jsx
 import * as React from "react";
 import {PureComponent} from "react";
+import {Consume, Provide} from "@redux-cbd/context";
 
 // Store related things.
 
-import {authContext, IAuthContextState} from "../data";
-
-import {Consume, Provide} from "@redux-cbd/context";
+import {authContextManager, IAuthContext} from "../data";
 
 // Props typing.
 
 export interface IMainViewOwnProps { someLabelFromExternalProps: string; }
 
-export interface IMainViewExternalProps extends IAuthContextState {}
+export interface IMainViewExternalProps extends IAuthContext {}
 
 export interface IMainViewProps extends IMainViewExternalProps, IMainViewOwnProps {}
 
 // Component related.
 
-@Provide(authContext)
-@Consume<IAuthContextState, IMainViewProps>(authContext)
+@Provide(authContextManager)
+@Consume<IAuthContext, IMainViewProps>(authContextManager)
 export class MainView extends PureComponent<IMainViewProps> {
 
   public render(): JSX.Element {
@@ -279,6 +276,111 @@ export default new WebpackConfig();
 
 </p>
 </details>
+
+<details><summary>Pure JS example:</summary>
+<p>
+    
+```javascript jsx
+import * as React from "react";
+import {PureComponent} from "react";
+import {render} from "react-dom";
+
+import {Consume, Provide, ReactContextManager} from "@redux-cbd/context";
+
+// Data store.
+
+export class AuthContext extends ReactContextManager {
+
+  changeAuthenticationStatus = () => {
+    this.state.authState = { ...this.state.authState, isAuthenticated: !this.state.authState.isAuthenticated };
+    this.update();
+  };
+
+  setUser = (user) => {
+    this.state.authState = { ...this.state.authState, user };
+    this.update();
+  };
+
+  setUserAsync = () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.state.authState = {...this.state.authState, user: "user-" + Math.floor(Math.random() * 10000)};
+        this.update();
+        resolve();
+      }, 3000)
+    });
+  };
+
+  // Wrap your actions and state separately to avoid naming collisions.
+  context = {
+    authActions: {
+      changeAuthenticationStatus: this.changeAuthenticationStatus,
+      setUserAsync: this.setUserAsync,
+      setUser: this.setUser
+    },
+    authState: {
+      isAuthenticated: true,
+      user: "anonymous"
+    }
+  };
+
+}
+
+const authContext = new AuthContext();
+
+// View.
+
+/*
+ * Single provide-consume component.
+ * Actually, only one module component (for example, router) should provide context.
+ * All you need - inject props by consuming.
+ */
+@Provide(authContext)
+@Consume(authContext)
+export class MainView extends PureComponent {
+
+  render() {
+    const {
+      label,
+      authState: {user, isAuthenticated},
+      authActions: {setUser, setUserAsync, changeAuthenticationStatus}
+    } = this.props;
+
+    const paddingStyle = { padding: "10px" };
+
+    return (
+      <div style={paddingStyle}>
+
+        <div> External prop value: '{ label }' </div>
+
+        <div style={paddingStyle}>
+          <span>USERNAME: </span> {user} <br/>
+          <span>AUTHENTICATED: </span>  {isAuthenticated.toString()} <br/>
+        </div>
+
+        <div style={paddingStyle}>
+          <button onClick={changeAuthenticationStatus}>Change Authentication Status</button>
+          <button onClick={setUserAsync}>Randomize User Async</button>
+          <button onClick={() => setUser("user-" + Math.floor(Math.random() * 100))}>Randomize User</button>
+        </div>
+
+      </div>
+    );
+  }
+
+}
+
+// Render into DOM.
+
+render(
+  <div>
+    <MainView label={ "First component." }/> 
+    <MainView label={ "Second component." }/>
+  </div>,
+  document.getElementById("application-root")
+);
+
+```
 
 ## Documentation:
 

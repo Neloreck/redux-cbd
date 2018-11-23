@@ -1,5 +1,4 @@
 import {Bind} from "@redux-cbd/utils";
-
 import {ReactContextManager} from "@redux-cbd/context";
 
 export interface IAuthContextState {

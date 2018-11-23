@@ -585,11 +585,10 @@ export class Application {
 <p>
     
 ```typescript jsx
-import {AuthContext, IAuthContextState} from "./AuthContext";
+import {AuthContextManager, IAuthContext} from "./AuthContextManager";
 
-export const authContext: AuthContext = new AuthContext();
-
-export {AuthContext, IAuthContextState} from "./AuthContext";
+export const authContextManager: AuthContextManager = new AuthContextManager();
+export {AuthContextManager, IAuthContext} from "./AuthContextManager";
 
 ```
 
@@ -601,10 +600,9 @@ export {AuthContext, IAuthContextState} from "./AuthContext";
     
 ```typescript jsx
 import {Bind} from "@redux-cbd/utils";
-
 import {ReactContextManager} from "@redux-cbd/context";
 
-export interface IAuthContextState {
+export interface IAuthContext {
   authActions: {
     setUser: (user: string) => void;
     setUserAsync: () => Promise<void>;
@@ -616,9 +614,9 @@ export interface IAuthContextState {
   };
 }
 
-export class AuthContext extends ReactContextManager<IAuthContextState> {
+export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
-  protected readonly state: IAuthContextState = {
+  protected readonly context: IAuthContext = {
     authActions: {
       changeAuthenticationStatus: this.changeAuthenticationStatus,
       setUserAsync: this.setUserAsync,
@@ -632,13 +630,13 @@ export class AuthContext extends ReactContextManager<IAuthContextState> {
 
   @Bind()
   public changeAuthenticationStatus(): void {
-    this.state.authState = { ...this.state.authState, isAuthenticated: !this.state.authState.isAuthenticated };
+    this.context.authState = { ...this.context.authState, isAuthenticated: !this.context.authState.isAuthenticated };
     this.update();
   }
 
   @Bind()
   public setUser(user: string): void {
-    this.state.authState = { ...this.state.authState, user };
+    this.context.authState = { ...this.context.authState, user };
     this.update();
   }
 
@@ -646,7 +644,7 @@ export class AuthContext extends ReactContextManager<IAuthContextState> {
   public setUserAsync(): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        this.state.authState = {...this.state.authState, user: "user-" + Math.floor(Math.random() * 10000)};
+        this.context.authState = {...this.context.authState, user: "user-" + Math.floor(Math.random() * 10000)};
         this.update();
         resolve();
       }, 3000)
@@ -665,25 +663,24 @@ export class AuthContext extends ReactContextManager<IAuthContextState> {
 ```typescript jsx
 import * as React from "react";
 import {PureComponent} from "react";
+import {Consume, Provide} from "@redux-cbd/context";
 
 // Store related things.
 
-import {authContext, IAuthContextState} from "../data";
-
-import {Consume, Provide} from "@redux-cbd/context";
+import {authContextManager, IAuthContext} from "../data";
 
 // Props typing.
 
 export interface IMainViewOwnProps { someLabelFromExternalProps: string; }
 
-export interface IMainViewExternalProps extends IAuthContextState {}
+export interface IMainViewExternalProps extends IAuthContext {}
 
 export interface IMainViewProps extends IMainViewExternalProps, IMainViewOwnProps {}
 
 // Component related.
 
-@Provide(authContext)
-@Consume<IAuthContextState, IMainViewProps>(authContext)
+@Provide(authContextManager)
+@Consume<IAuthContext, IMainViewProps>(authContextManager)
 export class MainView extends PureComponent<IMainViewProps> {
 
   public render(): JSX.Element {
