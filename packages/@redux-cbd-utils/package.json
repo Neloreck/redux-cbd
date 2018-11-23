@@ -1,8 +1,9 @@
 {
   "name": "@redux-cbd/utils",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Declarative class-based annotations for redux. Utils package.",
   "main": "./index.js",
+  "sideEffects": false,
   "private": false,
   "scripts": {
     "test": "npx tsc -p ./test/tsconfig.json && npx jest --all --collectCoverageFrom=src/**/*.ts --config ./test/jest.config.js --detectOpenHandles && npx rimraf ./test/jest.config.js",
