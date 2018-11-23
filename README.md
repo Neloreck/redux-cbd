@@ -46,6 +46,7 @@ For current ongoing packages with context:
 <b>Important:</b>
 - Core package uses proposal ES <a href='https://github.com/rbuckton/reflect-metadata'>reflect-metadata</a> api, so I would advice to get acknowledged with its usage.
 - Package uses 'expirementalDecorators' features (disabled by default for TypeScript transpiler).
+- You can use both approaches in one app. Redux for global store, context for smaller package-level component bundles etc.
 
 ## Setup
     
@@ -72,9 +73,9 @@ tsconfig.json part: <br/>
 
 ## Alternative approach
 
-You can use react context instead of redux and immutable actions with middlewares. <br/>
-In this case you don't need reflect-metadata-api and complex configuration. <br/>
-Experimental decorators are still needed. <br/>
+You can use react context instead of redux and immutable actions\reducers approach. <br/>
+In this case you will not need reflect-metadata-api and numberous declarations, but it be harder for debugging or state sync. <br/>
+Experimental decorators are still needed for context lib. <br/>
 
 Also, you can mix both approaches, if small reactive storage outside of reducers is needed for small module/components lib.
 
@@ -627,6 +628,14 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
       user: "anonymous"
     }
   };
+  
+  /*
+   * Bind is used for methods binding.
+   * Arrow functions or method.bind(this) are also viable there.
+   *
+   * Also, do not forget to copy state objects as new ones for proper updates. 
+   * 'this.update()' is used for re-rendering, you can delay or force it manually.
+   */
 
   @Bind()
   public changeAuthenticationStatus(): void {
@@ -678,6 +687,13 @@ export interface IMainViewExternalProps extends IAuthContext {}
 export interface IMainViewProps extends IMainViewExternalProps, IMainViewOwnProps {}
 
 // Component related.
+
+/*
+ * Better place for provider is some kind of general component or router etc.
+ *
+ * Provide auth context for all consumers, then consume it. 
+ * Consume provider props and inject into component state there.
+ */
 
 @Provide(authContextManager)
 @Consume<IAuthContext, IMainViewProps>(authContextManager)
