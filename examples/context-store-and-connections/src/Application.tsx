@@ -14,10 +14,12 @@ export class Application {
    * (I prefer second style with single class declaration and DIRECTLY NAMED imports, which are better).
    */
   public static main(): void {
-    render(<div>
-      <MainView someLabelFromExternalProps={ "First component." } { ...{} as IMainViewExternalProps }/>
-      <MainView someLabelFromExternalProps={ "Second component." } { ...{} as IMainViewExternalProps }/>
-    </div>, document.getElementById("application-root"));
+    render(
+      <div>
+        <MainView someLabelFromExternalProps={ "First component." } { ...{} as IMainViewExternalProps }/>
+        <MainView someLabelFromExternalProps={ "Second component." } { ...{} as IMainViewExternalProps }/>
+      </div>,
+      document.getElementById("application-root"));
   }
 
 }

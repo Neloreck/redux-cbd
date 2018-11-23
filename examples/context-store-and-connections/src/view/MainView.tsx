@@ -3,7 +3,7 @@ import {PureComponent} from "react";
 
 // Store related things.
 
-import {authContext, IAuthContextState} from "../data";
+import {authContextManager, IAuthContext} from "../data";
 
 import {Consume, Provide} from "@redux-cbd/context";
 
@@ -11,14 +11,14 @@ import {Consume, Provide} from "@redux-cbd/context";
 
 export interface IMainViewOwnProps { someLabelFromExternalProps: string; }
 
-export interface IMainViewExternalProps extends IAuthContextState {}
+export interface IMainViewExternalProps extends IAuthContext {}
 
 export interface IMainViewProps extends IMainViewExternalProps, IMainViewOwnProps {}
 
 // Component related.
 
-@Provide(authContext)
-@Consume<IAuthContextState, IMainViewProps>(authContext)
+@Provide(authContextManager)
+@Consume<IAuthContext, IMainViewProps>(authContextManager)
 export class MainView extends PureComponent<IMainViewProps> {
 
   public render(): JSX.Element {

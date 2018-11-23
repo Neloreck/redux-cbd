@@ -1,5 +1,4 @@
-import {AuthContext, IAuthContextState} from "./AuthContext";
+import {AuthContextManager, IAuthContext} from "./AuthContextManager";
 
-export const authContext: AuthContext = new AuthContext();
-
-export {AuthContext, IAuthContextState} from "./AuthContext";
+export const authContextManager: AuthContextManager = new AuthContextManager();
+export {AuthContextManager, IAuthContext} from "./AuthContextManager";

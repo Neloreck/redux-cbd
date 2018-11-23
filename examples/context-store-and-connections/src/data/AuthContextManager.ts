@@ -1,7 +1,7 @@
 import {Bind} from "@redux-cbd/utils";
 import {ReactContextManager} from "@redux-cbd/context";
 
-export interface IAuthContextState {
+export interface IAuthContext {
   authActions: {
     setUser: (user: string) => void;
     setUserAsync: () => Promise<void>;
@@ -13,9 +13,9 @@ export interface IAuthContextState {
   };
 }
 
-export class AuthContext extends ReactContextManager<IAuthContextState> {
+export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
-  protected readonly state: IAuthContextState = {
+  protected readonly context: IAuthContext = {
     authActions: {
       changeAuthenticationStatus: this.changeAuthenticationStatus,
       setUserAsync: this.setUserAsync,
@@ -29,13 +29,13 @@ export class AuthContext extends ReactContextManager<IAuthContextState> {
 
   @Bind()
   public changeAuthenticationStatus(): void {
-    this.state.authState = { ...this.state.authState, isAuthenticated: !this.state.authState.isAuthenticated };
+    this.context.authState = { ...this.context.authState, isAuthenticated: !this.context.authState.isAuthenticated };
     this.update();
   }
 
   @Bind()
   public setUser(user: string): void {
-    this.state.authState = { ...this.state.authState, user };
+    this.context.authState = { ...this.context.authState, user };
     this.update();
   }
 
@@ -43,7 +43,7 @@ export class AuthContext extends ReactContextManager<IAuthContextState> {
   public setUserAsync(): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        this.state.authState = {...this.state.authState, user: "user-" + Math.floor(Math.random() * 10000)};
+        this.context.authState = {...this.context.authState, user: "user-" + Math.floor(Math.random() * 10000)};
         this.update();
         resolve();
       }, 3000)

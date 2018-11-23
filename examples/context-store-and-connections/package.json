@@ -35,7 +35,7 @@
     "react-dom": "^16.6.0",
     "redux": "^4.0.1",
     "react-redux": "^5.1.0",
-    "@redux-cbd/context": "^1.0.5",
+    "@redux-cbd/context": "^1.0.6",
     "@redux-cbd/utils": "^1.0.5"
   },
   "devDependencies": {
