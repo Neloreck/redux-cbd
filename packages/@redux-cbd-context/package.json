@@ -8,7 +8,7 @@
   "scripts": {
     "test": "npx tsc -p ./test/tsconfig.json && npx jest --all --collectCoverageFrom=src/**/*.ts --config ./test/jest.config.js --detectOpenHandles && npx rimraf ./test/jest.config.js",
     "build": "tsc -p ./src/tsconfig.json",
-    "prepare": "npm run test && npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -37,8 +37,10 @@
     "url": "https://github.com/neloreck/redux-cbd/issues"
   },
   "homepage": "https://github.com/neloreck/redux-cbd#readme",
-  "dependencies": {
+  "peerDependencies": {
     "react": "^16.4.16"
+  },
+  "dependencies": {
   },
   "devDependencies": {
     "@types/jest": "^23.3.2",
