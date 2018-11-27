@@ -1,7 +1,8 @@
 import * as React from "react";
 import {render} from "react-dom";
-
 import {EntryPoint} from "@redux-cbd/utils";
+
+import "reflect-metadata";
 
 /* Store provider. Injects store for @Connect consumers. */
 import {GlobalStoreProvider} from "./data";

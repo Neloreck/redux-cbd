@@ -31,12 +31,13 @@
     ]
   },
   "dependencies": {
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
     "redux": "^4.0.1",
-    "react-redux": "^5.1.0",
-    "@redux-cbd/core": "^1.0.3",
-    "@redux-cbd/utils": "^1.0.3"
+    "react-redux": "^5.1.1",
+    "@redux-cbd/core": "^1.0.5",
+    "@redux-cbd/utils": "^1.0.7",
+    "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",

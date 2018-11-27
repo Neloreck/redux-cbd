@@ -1,7 +1,6 @@
 import * as React from "react";
 import {PureComponent} from "react";
 import {Action} from "redux";
-
 import {Bind} from "@redux-cbd/utils";
 
 // Store related things.
@@ -110,7 +109,8 @@ export class ConnectedComponent extends PureComponent<IConnectedComponentExterna
 
   @Bind()
   private sendAsyncAction(): void {
-    this.props.sendAsyncDemoAction(Math.random() * 3000 + 1000)
+    this.props.sendAsyncDemoAction(Math.random() * 3000 + 1000);
+    this.forceUpdate();
   }
 
 }
