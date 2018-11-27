@@ -46,13 +46,14 @@
     "react-redux": "^5.1.1"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.9",
+    "@types/jest": "^23.3.2",
     "@types/node": "^10.12.10",
     "@types/react": "^16.7.7",
     "@types/react-redux": "^6.0.10",
     "codecov": "^3.1.0",
-    "jest": "^23.3.9",
-    "ts-jest": "^23.3.0",
+    "jest": "^23.6.0",
+    "reflect-metadata": "^0.1.12",
+    "ts-jest": "^23.1.4",
     "typescript": "^3.1.6"
   }
 }

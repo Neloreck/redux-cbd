@@ -8,7 +8,9 @@
     "sourceMap": false,
     "module": "commonjs",
     "lib": ["es5", "es6", "dom", "es2017"],
-    "types": ["node"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "outDir": "./",
     "baseUrl": "./"
   },
