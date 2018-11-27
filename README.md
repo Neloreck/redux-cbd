@@ -14,12 +14,13 @@
 
 <hr/>
 
-Typescript decorators\annotations, utils and abstract classes for <a href='https://github.com/facebook/react'>react</a>-<a href='https://github.com/reduxjs/redux'>redux</a> or contextAPI application. <br/>
-Adds various utility annotations such as @Single, @EntryPoint, @Connect or @Wrapped (utils package). <br/>
-Allows you to write class-based declarations of your data storage with strict and predictive typing. <br/>
+Typescript decorators\annotations, utils and abstract classes for <a href='https://github.com/facebook/react'>react</a>-<a href='https://github.com/reduxjs/redux'>redux</a> or/and contextAPI application. <br/>
+<br/>
+Adds various utility annotations\decorators such as @Single, @EntryPoint, @Connect or @Wrapped. <br/>
+Allows you to write class-based declarations of your data storage with strict and predictive typing and flow. <br/>
 Enforces typesafety and OOP mixed with functional style (all key features and implementation of redux remains the same). <br/>
-
-Intended to be used with react-redux or with native react context API.
+<br/>
+Intended to be used with react-redux or/and with native react context API.
 
 <hr/>
 
@@ -42,6 +43,8 @@ For current ongoing packages with redux:
 For current ongoing packages with context:
 - `npm install --save @redux-cbd/context`
 - `npm install --save @redux-cbd/utils` (optional)
+
+Requires react/redux/react-redux as peer dependencies.
 
 <b>Important:</b>
 - Core package uses proposal ES <a href='https://github.com/rbuckton/reflect-metadata'>reflect-metadata</a> api, so I would advice to get acknowledged with its usage.
