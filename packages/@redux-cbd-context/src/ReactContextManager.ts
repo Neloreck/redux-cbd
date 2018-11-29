@@ -1,6 +1,10 @@
 import * as React from "react";
 import {Consumer, Context, createContext} from "react";
 
+/*
+ * Current Issue: Static items inside of each class instance.
+ */
+
 export abstract class ReactContextManager<T extends object> {
 
   private readonly providedContext: Context<T>;
@@ -9,10 +13,6 @@ export abstract class ReactContextManager<T extends object> {
 
   public constructor() {
     this.providedContext = createContext(this.getProvidedProps());
-  }
-
-  public update(): void {
-    this.observedElements.forEach((it) => it.forceUpdate());
   }
 
   public getConsumer(): Consumer<T> {
@@ -39,7 +39,25 @@ export abstract class ReactContextManager<T extends object> {
     };
   }
 
-  protected getProvidedProps(): T {
+  public update(): void {
+    this.beforeUpdate();
+    this.updateRefs();
+    this.observedElements.forEach((it) => it.forceUpdate());
+    this.afterUpdate();
+  }
+
+  protected beforeUpdate(): void {}
+  protected afterUpdate(): void {}
+
+  protected updateRefs(): void {
+    for (const key in this.context) {
+      if (this.context.hasOwnProperty(key) && typeof this.context[key] === "object") {
+        this.context[key] = Object.assign({}, this.context[key]);
+      }
+    }
+  }
+
+  private getProvidedProps(): T {
     // @ts-ignore
     return { ...this.context };
   }

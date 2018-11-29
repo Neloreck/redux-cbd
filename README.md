@@ -642,13 +642,13 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   public changeAuthenticationStatus(): void {
-    this.context.authState = { ...this.context.authState, isAuthenticated: !this.context.authState.isAuthenticated };
+    this.context.authState.isAuthenticated = !this.context.authState.isAuthenticated;
     this.update();
   }
 
   @Bind()
   public setUser(user: string): void {
-    this.context.authState = { ...this.context.authState, user };
+    this.context.authState.user = user;
     this.update();
   }
 
@@ -656,7 +656,7 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   public setUserAsync(): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        this.context.authState = {...this.context.authState, user: "user-" + Math.floor(Math.random() * 10000)};
+        this.context.authState.user = "user-" + Math.floor(Math.random() * 10000);
         this.update();
         resolve();
       }, 3000)

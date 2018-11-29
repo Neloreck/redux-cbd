@@ -21,7 +21,7 @@ export interface IAuthContext {
  * Manager class example, single store for app data.
  * Allows to create consumers/providers components or to use decorators for injection.
  *
- * Also, you can store something inside of it (additional props, static etc...) instead of modifying state each time.
+ * Also, you can store something inside of it (additional props, static etc...) instead of modifying context state each time.
  */
 @Single()
 export class AuthContextManager extends ReactContextManager<IAuthContext> {
@@ -45,13 +45,13 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   @Bind()
   public changeAuthenticationStatus(): void {
-    this.context.authState = { ...this.context.authState, isAuthenticated: !this.context.authState.isAuthenticated };
+    this.context.authState.isAuthenticated = !this.context.authState.isAuthenticated;
     this.update();
   }
 
   @Bind()
   public setUser(user: string): void {
-    this.context.authState = { ...this.context.authState, user };
+    this.context.authState.user = user;
     this.update();
   }
 
@@ -59,8 +59,9 @@ export class AuthContextManager extends ReactContextManager<IAuthContext> {
   public setUserAsync(): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        this.context.authState = {...this.context.authState, user: "user-" + Math.floor(Math.random() * 10000)};
+        this.context.authState.user = "user-" + Math.floor(Math.random() * 10000);
         this.update();
+
         resolve();
       }, AuthContextManager.ASYNC_USER_CHANGE_DELAY)
     });
