@@ -41,7 +41,6 @@ export abstract class ReactContextManager<T extends object> {
 
   public update(): void {
     this.beforeUpdate();
-    this.updateRefs();
     this.observedElements.forEach((it) => it.forceUpdate());
     this.afterUpdate();
   }
@@ -49,13 +48,6 @@ export abstract class ReactContextManager<T extends object> {
   protected beforeUpdate(): void {}
   protected afterUpdate(): void {}
 
-  protected updateRefs(): void {
-    for (const key in this.context) {
-      if (this.context.hasOwnProperty(key) && typeof this.context[key] === "object") {
-        this.context[key] = Object.assign({}, this.context[key]);
-      }
-    }
-  }
 
   private getProvidedProps(): T {
     // @ts-ignore
