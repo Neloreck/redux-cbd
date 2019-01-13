@@ -4,8 +4,20 @@ import {ComponentType} from "react";
 import {ReactContextManager} from "./ReactContextManager";
 
 export const Consume =
-  <ContextPropsType extends object, ComponentTargetPropsType extends object>(manager: ReactContextManager<ContextPropsType>) =>
-    <ComponentTargetType extends ComponentType<ComponentTargetPropsType & ContextPropsType>> (target: ComponentTargetType) => {
-      return ((renderProps: ContextPropsType) =>
-        React.createElement(manager.getConsumer(), undefined, (props: ContextPropsType) => React.createElement(target, { ...(renderProps as any), ...(props as any) }))) as any;
+  (...managers: Array<ReactContextManager<any>>) =>
+    <ComponentTargetType> (target: ComponentTargetType) => {
+      
+      let element!: ComponentType;
+      
+      for (const manager of managers) {
+        
+        let scopedElement = element || target;
+        
+        element = ((renderProps: object) => React.createElement(
+          manager.getConsumer(),
+          undefined,
+          (contextProps: object) => React.createElement(scopedElement, { ...renderProps, ...contextProps }))) as any
+      }
+      
+      return element as any;
     };

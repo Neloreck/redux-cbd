@@ -15,8 +15,11 @@ export class Application {
    * (I prefer second style with single class declaration and DIRECTLY NAMED imports, which are better).
    */
   public static main(): void {
+
+    const rootStyle = { padding: 12 };
+
     render(
-      <div>
+      <div style={rootStyle}>
 
         <h2> Both components are connected to the same store, so they are in total sync: </h2>
 

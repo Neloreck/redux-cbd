@@ -699,7 +699,7 @@ export interface IMainViewProps extends IMainViewExternalProps, IMainViewOwnProp
  */
 
 @Provide(authContextManager)
-@Consume<IAuthContext, IMainViewProps>(authContextManager)
+@Consume(authContextManager)
 export class MainView extends PureComponent<IMainViewProps> {
 
   public render(): JSX.Element {

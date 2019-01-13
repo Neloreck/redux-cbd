@@ -1,6 +1,6 @@
 {
   "name": "@redux-cbd/context",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Declarative annotations based context for redux.",
   "main": "./index.js",
   "sideEffects": false,
@@ -40,8 +40,7 @@
   "peerDependencies": {
     "react": "^16.4.16"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^23.3.2",
     "@types/node": "^10.9.4",

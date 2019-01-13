@@ -1,5 +1,6 @@
-import {Bind, Single} from "@redux-cbd/utils";
 import {ReactContextManager} from "@redux-cbd/context";
+import {Bind} from "@redux-cbd/utils";
+
 
 /*
  * Context manager state declaration.
@@ -23,7 +24,6 @@ export interface IAuthContext {
  *
  * Also, you can store something inside of it (additional props, static etc...) instead of modifying state each time.
  */
-@Single()
 export class AuthContextManager extends ReactContextManager<IAuthContext> {
 
   private static ASYNC_USER_CHANGE_DELAY: number = 3000;
