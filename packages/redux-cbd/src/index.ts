@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 import * as React from "react";
-import {ComponentType, Component, PureComponent, ReactNode, Fragment, Ref} from "react";
+import {ComponentType, Component, PureComponent, ReactNode, Fragment} from "react";
 import {Action, Dispatch, Reducer, MiddlewareAPI, Store} from "redux";
 import {
   connect as originalConnect, ConnectOptions, createProvider, MapDispatchToPropsParam, MapStateToPropsParam,

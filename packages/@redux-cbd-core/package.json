@@ -42,7 +42,9 @@
     "react": "^16.6.3",
     "react-redux": "^5.1.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react": "^16.7.0"
+  },
   "devDependencies": {
     "@types/jest": "^23.3.2",
     "@types/node": "^10.12.10",

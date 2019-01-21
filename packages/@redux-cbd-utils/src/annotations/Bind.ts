@@ -1,5 +1,3 @@
 import BindAnnotation from "autobind-decorator";
 
-export const Bind = () => {
-  return BindAnnotation;
-};
+export const Bind = () => BindAnnotation;

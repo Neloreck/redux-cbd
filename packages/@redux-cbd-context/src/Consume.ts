@@ -11,7 +11,7 @@ export const Consume =
       
       for (const manager of managers) {
         
-        let scopedElement = element || target;
+        const scopedElement = element || target;
         
         element = ((renderProps: object) => React.createElement(
           manager.getConsumer(),

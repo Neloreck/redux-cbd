@@ -5,15 +5,15 @@ import {ReactContextManager} from "./ReactContextManager";
 
 export const Provide =
   (...managers: Array<ReactContextManager<any>>) => <ComponentTargetType extends ComponentType<any>>(target: ComponentTargetType) => {
-    
+
     let element!: ComponentType;
-    
+
     for (const manager of managers) {
-      
-      let scopedElement = element || target;
-      
+
+      const scopedElement = element || target;
+
       element = (renderProps: any) => React.createElement(manager.getProvider(), renderProps, React.createElement(scopedElement, renderProps));
     }
-    
+
     return element as any;
   };

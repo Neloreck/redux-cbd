@@ -23,7 +23,7 @@ export class TypeUtils {
   }
 
   public static isFunction(value: any): boolean {
-    return (value && Object.prototype.toString.call(value) == '[object Function]');
+    return (value && Object.prototype.toString.call(value) === '[object Function]');
   }
 
   public static isObject(value: any): boolean {
