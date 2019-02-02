@@ -26,11 +26,20 @@ export abstract class ReactContextManager<T extends object> {
     return class extends React.PureComponent {
 
       public componentWillMount(): void {
+
+        if (self.observedElements.length === 0) {
+          self.onProvisionStarted();
+        }
+
         self.observedElements.push(this);
       }
 
       public componentWillUnmount(): void {
         self.observedElements = self.observedElements.filter((it) => it !== this);
+
+        if (self.observedElements.length === 0) {
+          self.onProvisionEnded();
+        }
       }
 
       public render(): JSX.Element {
@@ -44,6 +53,9 @@ export abstract class ReactContextManager<T extends object> {
     this.observedElements.forEach((it) => it.forceUpdate());
     this.afterUpdate();
   }
+
+  public onProvisionStarted(): void {}
+  public onProvisionEnded(): void {}
 
   protected beforeUpdate(): void {}
   protected afterUpdate(): void {}
