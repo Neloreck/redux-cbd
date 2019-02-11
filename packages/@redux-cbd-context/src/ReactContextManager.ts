@@ -54,8 +54,8 @@ export abstract class ReactContextManager<T extends object> {
     this.afterUpdate();
   }
 
-  public onProvisionStarted(): void {}
-  public onProvisionEnded(): void {}
+  protected onProvisionStarted(): void {}
+  protected onProvisionEnded(): void {}
 
   protected beforeUpdate(): void {}
   protected afterUpdate(): void {}
