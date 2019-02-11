@@ -1,6 +1,6 @@
 {
   "name": "@redux-cbd/context",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Declarative annotations based context for redux.",
   "main": "./index.js",
   "sideEffects": false,
